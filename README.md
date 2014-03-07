@@ -18,6 +18,13 @@ If you have enabled any additional repositories (might I suggest geerlingguy.rep
 
 The MySQL root user account password.
 
+    mysql_packages:
+      - mysql
+      - mysql-server
+      - MySQL-python
+
+Packages to be installed. In some situations, you may need to add additional packages, like `mysql-devel`.
+
 ## Dependencies
 
 None.

@@ -6,10 +6,7 @@
 
 - name: Ensure MySQL packages are installed.
   yum: name={{ item }} state=installed enablerepo={{ mysql_enablerepo }}
-  with_items:
-    - mysql
-    - mysql-server
-    - MySQL-python
+  with_items: mysql_packages
 
 - name: Copy my.cnf global MySQL configuration.
   copy: src=my.cnf dest=/etc/my.cnf owner=root group=root mode=0644

@@ -2,3 +2,7 @@
 # Pass in a comma-separated list of repos to use (e.g. "remi,epel").
 mysql_enablerepo: ""
 mysql_root_password: root
+mysql_packages:
+  - mysql
+  - mysql-server
+  - MySQL-python
