@@ -21,4 +21,9 @@ script:
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
 
-  # TODO - check if mysql is running.
+  # Check to make sure we can connect to MySQL.
+  - >
+    mysql -u root -proot -e 'show databases;'
+    | grep -q 'performance_schema'
+    && (echo 'MySQL running normally' && exit 0)
+    || (echo 'MySQL not running' && exit 1)
