@@ -1,6 +1,6 @@
 # Ansible Role: MySQL
 
-Installs MySQL server on RedHat Enterprise Linux or CentOS 6.x servers.
+Installs MySQL server on RHEL/CentOS or Debian/Ubuntu servers.
 
 ## Requirements
 
@@ -10,9 +10,9 @@ None.
 
 Available variables are listed below, along with default values (see `vars/main.yml`):
 
-    mysql_enablerepo: ""
+    mysql_user_home: /root
 
-If you have enabled any additional repositories (might I suggest geerlingguy.repo-epel or geerlingguy.repo-remi), those repositories can be listed under this variable (e.g. `remi,epel`). This can be handy, as an example, if you want to install later versions of MySQL.
+The home directory inside which Python MySQL settings will be stored, which Ansible will use when connecting to MySQL. This should be the home directory of the user which runs this Ansible role.
 
     mysql_root_password: root
 
@@ -23,7 +23,11 @@ The MySQL root user account password.
       - mysql-server
       - MySQL-python
 
-Packages to be installed. In some situations, you may need to add additional packages, like `mysql-devel`.
+(OS-specific, RedHat/CentOS defaults listed here) Packages to be installed. In some situations, you may need to add additional packages, like `mysql-devel`.
+
+    mysql_enablerepo: ""
+
+(RedHat/CentOS only) If you have enabled any additional repositories (might I suggest geerlingguy.repo-epel or geerlingguy.repo-remi), those repositories can be listed under this variable (e.g. `remi,epel`). This can be handy, as an example, if you want to install later versions of MySQL.
 
 ## Dependencies
 

@@ -1,0 +1,5 @@
+---
+mysql_daemon: mysql
+mysql_packages:
+  - mysql-server
+  - python-mysqldb

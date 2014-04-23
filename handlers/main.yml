@@ -1,3 +1,5 @@
 ---
 - name: restart mysql
-  command: service mysqld restart
+  service: >
+    name={{ mysql_daemon }}
+    state=restarted

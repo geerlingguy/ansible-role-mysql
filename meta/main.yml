@@ -11,5 +11,11 @@ galaxy_info:
   - name: EL
     versions:
     - 6
+  - name: Ubuntu
+    versions:
+    - all
+  - name: Debian
+    versions:
+    - all
   categories:
     - database
