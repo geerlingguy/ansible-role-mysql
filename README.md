@@ -1,5 +1,7 @@
 # Ansible Role: MySQL
 
+[![Build Status](https://travis-ci.org/geerlingguy/ansible-role-mysql.svg?branch=master)](https://travis-ci.org/geerlingguy/ansible-role-mysql)
+
 Installs MySQL server on RHEL/CentOS or Debian/Ubuntu servers.
 
 ## Requirements
