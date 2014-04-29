@@ -33,6 +33,10 @@
     state=started
     enabled=yes
 
+- name: Check if .my.cnf file already exists.
+  stat: "path={{ mysql_user_home }}/.my.cnf"
+  register: mycnf_file
+
 # 'localhost' needs to be the last item for idempotency, see
 # http://ansible.cc/docs/modules.html#mysql-user
 - name: Update MySQL root password for all root accounts.
@@ -44,6 +48,7 @@
     - 127.0.0.1
     - ::1
     - localhost
+  when: mycnf_file.stat.exists == false
 
 # Has to be after the root password assignment, for idempotency.
 - name: Copy .my.cnf file with root password credentials.
