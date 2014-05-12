@@ -25,7 +25,11 @@
   when: ansible_os_family == 'Debian'
 
 - name: Copy my.cnf global MySQL configuration.
-  copy: src=my.cnf dest=/etc/my.cnf owner=root group=root mode=0644
+  template: >
+    src=my.cnf.j2
+    dest=/etc/my.cnf
+    owner=root group=root mode=644
+  notify: restart mysql
 
 - name: Ensure MySQL is started and enabled on boot.
   service: >
@@ -53,7 +57,7 @@
 # Has to be after the root password assignment, for idempotency.
 - name: Copy .my.cnf file with root password credentials.
   template: >
-    src=my.cnf.j2
+    src=python-my.cnf.j2
     dest={{ mysql_user_home }}/.my.cnf
     owner=root group=root mode=600
 

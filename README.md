@@ -31,6 +31,19 @@ The MySQL root user account password.
 
 (RedHat/CentOS only) If you have enabled any additional repositories (might I suggest geerlingguy.repo-epel or geerlingguy.repo-remi), those repositories can be listed under this variable (e.g. `remi,epel`). This can be handy, as an example, if you want to install later versions of MySQL.
 
+    mysql_port: "3306"
+    mysql_datadir: /var/lib/mysql
+    mysql_socket: /var/lib/mysql/mysql.sock
+
+Default MySQL connection configuration.
+
+    mysql_key_buffer_size: "256M"
+    mysql_max_allowed_packet: "1M"
+    mysql_table_open_cache: "256"
+    [...]
+
+The rest of the settings in `defaults/main.yml` control MySQL's memory usage. The default values are tuned for a server where MySQL can consume ~512 MB RAM, so you should consider adjusting them to suit your particular server better.
+
 ## Dependencies
 
 None.
@@ -46,10 +59,6 @@ None.
 *Inside `vars/main.yml`*:
 
     mysql_root_password: super-secure-password
-
-## TODO
-
-  - Convert my.cnf configuration to template, and allow for configurable variables.
 
 ## License
 

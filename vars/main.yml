@@ -1,7 +1,0 @@
----
-mysql_user_home: /root
-mysql_root_password: root
-
-# Pass in a comma-separated list of repos to use (e.g. "remi,epel"). Used only
-# for RedHat systems (and derivatives).
-mysql_enablerepo: ""
