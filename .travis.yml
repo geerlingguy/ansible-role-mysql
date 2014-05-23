@@ -7,7 +7,7 @@ env:
 
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get --purge remove mysql-client-5.5 mysql-common mysql-server mysql-server-5.5 -qq
+  - sudo apt-get --purge remove mysql-client-5.5 mysql-common mysql-server mysql-server-5.5
 
 install:
   # Install Ansible.
