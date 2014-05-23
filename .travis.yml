@@ -7,11 +7,13 @@ env:
 
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get remove --purge mysql*
+
+  # Remove MySQL. Completely and totally.
+  - sudo apt-get remove --purge -s 'mysql*'
   - sudo apt-get autoremove
   - sudo apt-get autoclean
-  - sudo ls -lah /var/lib
   - sudo rm -rf /var/lib/mysql
+  - sudo rm -rf /var/log/mysql
 
 install:
   # Install Ansible.
@@ -34,11 +36,11 @@ script:
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
 
+  # Some MySQL debugging (show all the logs).
   - "sudo ls -lah /var/log"
   - "sudo ls -lah /var/log/mysql"
-  - "sudo cat /var/log/mysql.err"
-  - "sudo cat /var/log/mysql.log"
   - "sudo cat /var/log/mysql/error.log"
+  - "sudo cat /var/log/mysql/slow.log"
 
   # Check to make sure we can connect to MySQL.
   - >
