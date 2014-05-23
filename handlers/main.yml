@@ -1,7 +1,5 @@
 ---
 - name: restart mysql
-  command: date
-# - name: restart mysql
-#   service: >
-#     name={{ mysql_daemon }}
-#     state=restarted
+  service: >
+    name={{ mysql_daemon }}
+    state=restarted
