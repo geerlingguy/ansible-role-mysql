@@ -7,6 +7,7 @@ env:
 
 before_install:
   - sudo apt-get update -qq
+  - sudo apt-get --purge remove mysql-client-5.5 mysql-common mysql-server mysql-server-5.5 -qq
 
 install:
   # Install Ansible.
@@ -16,9 +17,6 @@ install:
   - "printf '[defaults]\nroles_path = ../' > ansible.cfg"
 
 script:
-  - "sudo service mysql status"
-  - "sudo service mysql restart"
-
   # Check the role/playbook's syntax.
   - "ansible-playbook -i tests/inventory tests/$SITE --syntax-check"
 
