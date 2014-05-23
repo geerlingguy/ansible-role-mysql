@@ -7,7 +7,10 @@ env:
 
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get --purge remove mysql-client-5.5 mysql-common mysql-server mysql-server-5.5
+  - sudo apt-get remove --purge mysql*
+  - sudo apt-get autoremove
+  - sudo apt-get autoclean
+  - sudo service mysql stop
   - sudo ls -lah /var/lib
   - sudo rm -rf /var/lib/mysql
 
