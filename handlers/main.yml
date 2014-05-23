@@ -1,6 +1,9 @@
 ---
 - name: restart mysql
-  command: "service {{ mysql_daemon }} restart"
+  command: "{{ item }}"
+  with_items:
+    - "service {{ mysql_daemon }} status"
+    - "service {{ mysql_daemon }} restart"
 # - name: restart mysql
 #   service: >
 #     name={{ mysql_daemon }}
