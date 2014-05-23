@@ -70,5 +70,3 @@
   mysql_db: >
     name="test"
     state=absent
-
-- debug: var=mysql_daemon
