@@ -1,5 +1,7 @@
 ---
 - name: restart mysql
-  service: >
-    name={{ mysql_daemon }}
-    state=restarted
+  debug: msg="Testing..."
+# - name: restart mysql
+#   service: >
+#     name={{ mysql_daemon }}
+#     state=restarted
