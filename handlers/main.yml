@@ -1,6 +1,6 @@
 ---
 - name: restart mysql
-  debug: msg="Testing..."
+  command: date
 # - name: restart mysql
 #   service: >
 #     name={{ mysql_daemon }}
