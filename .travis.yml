@@ -8,6 +8,8 @@ env:
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get --purge remove mysql-client-5.5 mysql-common mysql-server mysql-server-5.5
+  - sudo ls -lah /var/lib
+  - sudo rm -rf /var/lib/mysql
 
 install:
   # Install Ansible.
@@ -30,8 +32,8 @@ script:
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
 
-  - "ls -lah /var/log"
-  - "ls -lah /var/log/mysql"
+  - "sudo ls -lah /var/log"
+  - "sudo ls -lah /var/log/mysql"
   - "sudo cat /var/log/mysql.err"
   - "sudo cat /var/log/mysql.log"
   - "sudo cat /var/log/mysql/error.log"
