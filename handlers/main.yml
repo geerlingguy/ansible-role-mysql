@@ -1,11 +1,5 @@
 ---
-# For some reason, 'service mysql restart' doesn't work sometimes.
 - name: restart mysql
-  command: "{{ item }}"
-  with_items:
-    - "service {{ mysql_daemon }} stop"
-    - "service {{ mysql_daemon }} start"
-# - name: restart mysql
-#   service: >
-#     name={{ mysql_daemon }}
-#     state=restarted
+  service: >
+    name={{ mysql_daemon }}
+    state=restarted
