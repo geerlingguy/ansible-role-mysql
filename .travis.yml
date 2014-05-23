@@ -14,7 +14,6 @@ before_install:
   - sudo apt-get autoclean
   - sudo rm -rf /var/lib/mysql
   - sudo truncate -s 0 /var/log/mysql/error.log
-  - sudo truncate -s 0 /var/log/mysql/slow.log
 
 install:
   # Install Ansible.
@@ -40,7 +39,6 @@ script:
   # Some MySQL debugging (show all the logs).
   - "sudo ls -lah /var/log"
   - "sudo cat /var/log/mysql/error.log"
-  - "sudo cat /var/log/mysql/slow.log"
 
   # Check to make sure we can connect to MySQL.
   - >
