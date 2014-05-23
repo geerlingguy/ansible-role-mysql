@@ -31,8 +31,10 @@ script:
     || (echo 'Idempotence test: fail' && exit 1)
 
   - "ls -lah /var/log"
-  - "cat /var/log/mysql.err"
-  - "cat /var/log/mysql.log"
+  - "ls -lah /var/log/mysql"
+  - "sudo cat /var/log/mysql.err"
+  - "sudo cat /var/log/mysql.log"
+  - "sudo cat /var/log/mysql/error.log"
 
   # Check to make sure we can connect to MySQL.
   - >
