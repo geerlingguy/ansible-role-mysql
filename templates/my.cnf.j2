@@ -31,6 +31,10 @@ myisam_sort_buffer_size = {{ mysql_myisam_sort_buffer_size }}
 thread_cache_size = {{ mysql_thread_cache_size }}
 query_cache_size = {{ mysql_query_cache_size }}
 
+# Other settings.
+wait_timeout = {{ mysql_wait_timeout }}
+max_allowed_packet = {{ mysql_max_allowed_packet }}
+
 # Try number of CPU's * 2 for thread_concurrency.
 thread_concurrency = {{ mysql_thread_concurrency }}
 

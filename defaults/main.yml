@@ -22,6 +22,10 @@ mysql_myisam_sort_buffer_size: "64M"
 mysql_thread_cache_size: "8"
 mysql_query_cache_size: "16M"
 
+# Other settings.
+mysql_wait_timeout: 28800
+mysql_max_allowed_packet: "64M"
+
 # Try number of CPU's * 2 for thread_concurrency.
 mysql_thread_concurrency: 2
 
