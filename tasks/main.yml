@@ -70,3 +70,20 @@
   mysql_db: >
     name="test"
     state=absent
+
+- name: Ensure MySQL databases are present.
+  mysql_db: >
+    name="{{ item.name }}"
+    collation="{{ item.collation | default('utf8_general_ci') }}"
+    encoding="{{ item.encoding | default('utf8') }}"
+    state=present
+  with_items: mysql_databases
+
+- name: Ensure MySQL users are present.
+  mysql_user: >
+    name="{{ item.name }}"
+    host="{{ item.host | default('localhost') }}"
+    password="{{ item.password }}"
+    priv="{{ item.priv | default('*.*:USAGE') }}"
+    state=present
+  with_items: mysql_users
