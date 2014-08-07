@@ -1,7 +1,7 @@
 [client]
 #password = your_password
-port = 3306
-socket = /var/lib/mysql/mysql.sock
+port = {{ mysql_port }}
+socket = {{ mysql_socket }}
 
 [mysqld]
 port = {{ mysql_port }}
@@ -52,5 +52,11 @@ quick
 max_allowed_packet = {{ mysql_mysqldump_max_allowed_packet }}
 
 [mysqld_safe]
-log-error = /var/log/mysqld.log
+{% if mysql_log_error == 'syslog' %}
+syslog
+syslog-tag = {{ mysql_syslog_tag }}
+{% else %}
+skip-syslog
+log-error = {{ mysql_log_error }}
+{% endif %}
 pid-file = /var/run/mysqld/mysqld.pid
