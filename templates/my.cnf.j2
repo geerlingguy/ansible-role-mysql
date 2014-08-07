@@ -1,7 +1,7 @@
 [client]
 #password = your_password
-port = 3306
-socket = /var/lib/mysql/mysql.sock
+port = {{ mysql_port }}
+socket = {{ mysql_socket }}
 
 [mysqld]
 port = {{ mysql_port }}
