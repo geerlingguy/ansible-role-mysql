@@ -1,5 +1,6 @@
 ---
 mysql_user_home: /root
+mysql_root_username: root
 mysql_root_password: root
 
 # Pass in a comma-separated list of repos to use (e.g. "remi,epel"). Used only
@@ -42,3 +43,11 @@ mysql_innodb_lock_wait_timeout: 50
 
 # mysqldump settings
 mysql_mysqldump_max_allowed_packet: "64M"
+
+# mysqld_safe setting
+mysql_log_error: /var/log/mysqld.log
+mysql_syslog_tag: mysqld
+
+# databases and users settings
+mysql_databases: []
+mysql_users: []
