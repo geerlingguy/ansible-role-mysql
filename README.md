@@ -45,6 +45,11 @@ The MySQL users and their privileges. A user has the values `name`, `host` (defa
 
 Default MySQL connection configuration.
 
+    mysql_log_error: /var/log/mysqld.log
+    mysql_syslog_tag: mysqld
+
+MySQL logging configuration. Setting `mysql_log_error` to `syslog` will make MySQL log to syslog using the `mysql_syslog_tag`.
+
     mysql_key_buffer_size: "256M"
     mysql_max_allowed_packet: "1M"
     mysql_table_open_cache: "256"
