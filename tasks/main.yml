@@ -9,19 +9,10 @@
     enablerepo={{ mysql_enablerepo }}
   when: mysql_enablerepo != ""
 
-- name: Ensure MySQL packages are installed (RedHat).
-  yum: >
-    name={{ item }}
-    state=installed
-    enablerepo={{ mysql_enablerepo }}
-  with_items: mysql_packages
+- include: setup-RedHat.yml
   when: ansible_os_family == 'RedHat'
 
-- name: Ensure MySQL packages are installed (Debian).
-  apt: >
-    name={{ item }}
-    state=installed
-  with_items: mysql_packages
+- include: setup-Debian.yml
   when: ansible_os_family == 'Debian'
 
 - name: Copy my.cnf global MySQL configuration.
