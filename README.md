@@ -51,7 +51,7 @@ Default MySQL connection configuration.
 MySQL logging configuration. Setting `mysql_log_error` to `syslog` will make MySQL log to syslog using the `mysql_syslog_tag`.
 
     mysql_key_buffer_size: "256M"
-    mysql_max_allowed_packet: "1M"
+    mysql_max_allowed_packet: "64M"
     mysql_table_open_cache: "256"
     [...]
 

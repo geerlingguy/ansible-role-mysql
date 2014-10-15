@@ -14,7 +14,7 @@ mysql_socket: /var/lib/mysql/mysql.sock
 
 # Memory settings (default values optimized ~512MB RAM).
 mysql_key_buffer_size: "256M"
-mysql_max_allowed_packet: "1M"
+mysql_max_allowed_packet: "64M"
 mysql_table_open_cache: "256"
 mysql_sort_buffer_size: "1M"
 mysql_read_buffer_size: "1M"
@@ -25,7 +25,6 @@ mysql_query_cache_size: "16M"
 
 # Other settings.
 mysql_wait_timeout: 28800
-mysql_max_allowed_packet: "64M"
 
 # Try number of CPU's * 2 for thread_concurrency.
 mysql_thread_concurrency: 2
