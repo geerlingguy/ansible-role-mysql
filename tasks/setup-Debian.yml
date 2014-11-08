@@ -8,7 +8,5 @@
   when: mysql_installed.stat.exists == false
 
 - name: Ensure MySQL packages are installed.
-  apt: >
-    name={{ item }}
-    state=installed
+  apt: "name={{ item }} state=installed"
   with_items: mysql_packages

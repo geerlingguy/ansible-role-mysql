@@ -2,79 +2,12 @@
 - name: Include OS-specific variables.
   include_vars: "{{ ansible_os_family }}.yml"
 
-- name: Update postfix to the latest version (if extra repositories enabled).
-  yum: >
-    name=postfix
-    state=latest
-    enablerepo={{ mysql_enablerepo }}
-  when: mysql_enablerepo != ""
-
 - include: setup-RedHat.yml
   when: ansible_os_family == 'RedHat'
 
 - include: setup-Debian.yml
   when: ansible_os_family == 'Debian'
 
-- name: Copy my.cnf global MySQL configuration.
-  template: >
-    src=my.cnf.j2
-    dest=/etc/my.cnf
-    owner=root group=root mode=644
-  notify: restart mysql
-
-- name: Ensure MySQL is started and enabled on boot.
-  service: >
-    name={{ mysql_daemon }}
-    state=started
-    enabled=yes
-
-- name: Check if .my.cnf file already exists.
-  stat: "path={{ mysql_user_home }}/.my.cnf"
-  register: mycnf_file
-
-# 'localhost' needs to be the last item for idempotency, see
-# http://ansible.cc/docs/modules.html#mysql-user
-- name: Update MySQL root password for all root accounts.
-  mysql_user: >
-    name=root
-    host={{ item }}
-    password={{ mysql_root_password }}
-  with_items:
-    - 127.0.0.1
-    - ::1
-    - localhost
-  when: mycnf_file.stat.exists == false
-
-# Has to be after the root password assignment, for idempotency.
-- name: Copy .my.cnf file with root password credentials.
-  template: >
-    src=python-my.cnf.j2
-    dest={{ mysql_user_home }}/.my.cnf
-    owner=root group=root mode=600
-
-- name: Delete anonymous MySQL user for localhost.
-  mysql_user: >
-    name=""
-    state=absent
-
-- name: Remove the MySQL test database.
-  mysql_db: >
-    name="test"
-    state=absent
-
-- name: Ensure MySQL databases are present.
-  mysql_db: >
-    name="{{ item.name }}"
-    collation="{{ item.collation | default('utf8_general_ci') }}"
-    encoding="{{ item.encoding | default('utf8') }}"
-    state=present
-  with_items: mysql_databases
-
-- name: Ensure MySQL users are present.
-  mysql_user: >
-    name="{{ item.name }}"
-    host="{{ item.host | default('localhost') }}"
-    password="{{ item.password }}"
-    priv="{{ item.priv | default('*.*:USAGE') }}"
-    state=present
-  with_items: mysql_users
+- include: configure.yml
+- include: secure-installation.yml
+- include: databases-users.yml
