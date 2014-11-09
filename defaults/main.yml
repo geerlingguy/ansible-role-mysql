@@ -40,13 +40,29 @@ mysql_innodb_log_buffer_size: "8M"
 mysql_innodb_flush_log_at_trx_commit: "1"
 mysql_innodb_lock_wait_timeout: 50
 
-# mysqldump settings
+# mysqldump settings.
 mysql_mysqldump_max_allowed_packet: "64M"
 
-# mysqld_safe setting
+# Logging settings.
 mysql_log_error: /var/log/mysqld.log
 mysql_syslog_tag: mysqld
 
-# databases and users settings
+# Databases.
 mysql_databases: []
+# Full example:
+# mysql_databases:
+#   - { name: example, collation: utf8_general_ci, encoding: utf8, replicate: 1 }
+
+# Users
 mysql_users: []
+# Full Example:
+# mysql_users:
+#   - { name: example, host: 127.0.0.1, password: secret, priv: *.*:USAGE }
+
+# Replication settings (replication is only enabled if master/user have values).
+mysql_server_id: "1"
+mysql_max_binlog_size: "100M"
+mysql_replication_role: master
+mysql_replication_master: ''
+# Same keys as `mysql_users` above.
+mysql_replication_user: []
