@@ -22,7 +22,7 @@ The MySQL root user account password.
 
     mysql_databases: []
 
-The MySQL databases to create. A database has the values `name`, `encoding` (defaults to `utf8`) and `collation` (defaults to `utf8_general_ci`). The formats of these are the same as in the `mysql_db` module.
+The MySQL databases to create. A database has the values `name`, `encoding` (defaults to `utf8`), `collation` (defaults to `utf8_general_ci`) and `replicate` (defaults to `1`, only used if replication is configured). The formats of these are the same as in the `mysql_db` module.
 
     mysql_users: []
 
@@ -56,6 +56,14 @@ MySQL logging configuration. Setting `mysql_log_error` to `syslog` will make MyS
     [...]
 
 The rest of the settings in `defaults/main.yml` control MySQL's memory usage. The default values are tuned for a server where MySQL can consume ~512 MB RAM, so you should consider adjusting them to suit your particular server better.
+
+    mysql_server_id: "1"
+    mysql_max_binlog_size: "100M"
+    mysql_replication_role: master
+    mysql_replication_master: ''
+    mysql_replication_user: []
+
+Replication settings. Set `mysql_server_id` and `mysql_replication_role` by server (e.g. the master would be ID `1`, with the `mysql_replication_role` of `master`, and the slave would be ID `2`, with the `mysql_replication_role` of `slave`). The `mysql_replication_user` uses the same keys as `mysql_users`, and is created on master servers, and used to replicate on all the slaves.
 
 ## Dependencies
 
