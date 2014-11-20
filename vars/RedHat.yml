@@ -4,3 +4,4 @@ mysql_packages:
   - mysql
   - mysql-server
   - MySQL-python
+  - libselinux-python 
