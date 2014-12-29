@@ -6,6 +6,7 @@
     password: "{{ mysql_replication_user.password }}"
     priv: "{{ mysql_replication_user.priv | default('*.*:REPLICATION SLAVE') }}"
     state: present
+  sudo: no
   when: >
     (mysql_replication_role == 'master')
     and mysql_replication_user
@@ -13,6 +14,7 @@
 
 - name: Check slave replication status.
   mysql_replication: mode=getslave
+  sudo: no
   ignore_errors: true
   register: slave
   when: >
@@ -21,6 +23,7 @@
 
 - name: Check master replication status.
   mysql_replication: mode=getmaster
+  sudo: no
   delegate_to: "{{ mysql_replication_master }}"
   register: master
   when: >
@@ -36,6 +39,7 @@
     master_password: "{{ mysql_replication_user.password }}"
     master_log_file: "{{ master.File }}"
     master_log_pos: "{{ master.Position }}"
+  sudo: no
   ignore_errors: True
   when: >
     slave|failed
@@ -45,6 +49,7 @@
 
 - name: Start replication.
   mysql_replication: mode=startslave
+  sudo: no
   when: >
     slave|failed
     and (mysql_replication_role == 'slave')

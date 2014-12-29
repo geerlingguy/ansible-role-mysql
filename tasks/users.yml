@@ -6,4 +6,5 @@
     password: "{{ item.password }}"
     priv: "{{ item.priv | default('*.*:USAGE') }}"
     state: present
+  sudo: no
   with_items: mysql_users
