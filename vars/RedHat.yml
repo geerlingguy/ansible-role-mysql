@@ -4,3 +4,5 @@ mysql_packages:
   - mysql
   - mysql-server
   - MySQL-python
+mysql_config_file_path: /etc/my.cnf
+mysql_socket: /var/lib/mysql/mysql.sock
