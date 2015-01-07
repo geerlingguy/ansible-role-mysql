@@ -3,7 +3,6 @@ mysql_user_home: /root
 mysql_root_username: root
 mysql_root_password: root
 
-mysql_state: started
 mysql_enabled_on_startup: yes
 
 # Pass in a comma-separated list of repos to use (e.g. "remi,epel"). Used only

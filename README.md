@@ -20,10 +20,9 @@ The home directory inside which Python MySQL settings will be stored, which Ansi
 
 The MySQL root user account password.
 
-    mysql_state: started
     mysql_enabled_on_startup: yes
 
-MySQL's state (`started`, `stopped`, `restarted`, `reloaded`), and whether to enable MySQL on startup.
+Whether MySQL should be enabled on startup.
 
     mysql_databases: []
 
