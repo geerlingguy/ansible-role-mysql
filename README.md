@@ -20,6 +20,11 @@ The home directory inside which Python MySQL settings will be stored, which Ansi
 
 The MySQL root user account password.
 
+    mysql_state: started
+    mysql_enabled_on_startup: yes
+
+MySQL's state (`started`, `stopped`, `restarted`, `reloaded`), and whether to enable MySQL on startup.
+
     mysql_databases: []
 
 The MySQL databases to create. A database has the values `name`, `encoding` (defaults to `utf8`), `collation` (defaults to `utf8_general_ci`) and `replicate` (defaults to `1`, only used if replication is configured). The formats of these are the same as in the `mysql_db` module.
