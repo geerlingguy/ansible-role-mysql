@@ -9,6 +9,7 @@ bind-address = {{ mysql_bind_address }}
 datadir = {{ mysql_datadir }}
 socket = {{ mysql_socket }}
 
+{% if mysql_replication_master %}
 # Replication
 server-id = {{ mysql_server_id }}
 
@@ -31,6 +32,7 @@ binlog_ignore_db = {{ db.name }}
 read_only
 relay-log = relay-bin
 relay-log-index = relay-bin.index
+{% endif %}
 {% endif %}
 
 # Disabling symbolic-links is recommended to prevent assorted security risks
