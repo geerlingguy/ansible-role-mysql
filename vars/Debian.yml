@@ -3,3 +3,5 @@ mysql_daemon: mysql
 mysql_packages:
   - mysql-server
   - python-mysqldb
+mysql_config_file_path: /etc/mysql/conf.d/ansible-overrides.cnf
+mysql_socket: /var/run/mysqld/mysqld.sock
