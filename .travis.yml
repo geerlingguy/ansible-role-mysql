@@ -42,7 +42,7 @@ script:
 
   # Check to make sure we can connect to MySQL.
   - >
-    mysql -u root -proot -e 'show databases;'
+    mysql -u root -proot -h 127.0.0.1 -e 'show databases;'
     | grep -q 'performance_schema'
     && (echo 'MySQL running normally' && exit 0)
     || (echo 'MySQL not running' && exit 1)
