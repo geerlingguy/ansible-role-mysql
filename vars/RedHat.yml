@@ -1,5 +1,6 @@
 ---
 mysql_daemon: mysqld
+mysql_config_file: /etc/my.cnf
 mysql_packages:
   - mysql
   - mysql-server
