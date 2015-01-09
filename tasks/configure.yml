@@ -10,3 +10,12 @@
 
 - name: Ensure MySQL is started and enabled on boot.
   service: "name={{ mysql_daemon }} state=started enabled={{ mysql_enabled_on_startup }}"
+
+- name: Ensure MySQL socket file has correct permissions.
+  file:
+    path: "{{ item }}"
+    mode: 0755
+  notify: restart mysql
+  with_items:
+    - "{{ mysql_datadir }}"
+    - "{{ mysql_socket }}"

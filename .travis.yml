@@ -40,7 +40,14 @@ script:
   - "sudo ls -lah /var/log"
   - "sudo cat /var/log/mysql/error.log"
 
-  # Check to make sure we can connect to MySQL.
+  # Check to make sure we can connect to MySQL via Unix socket.
+  - >
+    mysql -u root -proot -e 'show databases;'
+    | grep -q 'performance_schema'
+    && (echo 'MySQL running normally' && exit 0)
+    || (echo 'MySQL not running' && exit 1)
+
+  # Check to make sure we can connect to MySQL via TCP.
   - >
     mysql -u root -proot -h 127.0.0.1 -e 'show databases;'
     | grep -q 'performance_schema'
