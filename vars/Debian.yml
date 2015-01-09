@@ -5,3 +5,4 @@ mysql_packages:
   - mysql-common
   - mysql-server
   - python-mysqldb
+mysql_socket: /var/run/mysqld/mysqld.sock
