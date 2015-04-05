@@ -83,4 +83,5 @@ syslog-tag = {{ mysql_syslog_tag }}
 skip-syslog
 log-error = {{ mysql_log_error }}
 {% endif %}
-pid-file = /var/run/mysqld/mysqld.pid
+pid-file = {{ mysql_pid_file }}
+

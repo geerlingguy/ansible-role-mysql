@@ -20,6 +20,8 @@ mysql_enablerepo: ""
 mysql_port: "3306"
 mysql_bind_address: '0.0.0.0'
 mysql_datadir: /var/lib/mysql
+mysql_daemon: mysqld
+mysql_pid_file: /var/run/mysqld/mysqld.pid
 
 # Memory settings (default values optimized ~512MB RAM).
 mysql_key_buffer_size: "256M"
