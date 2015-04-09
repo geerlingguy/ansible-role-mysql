@@ -8,10 +8,6 @@ mysql_enabled_on_startup: yes
 # update my.cnf. each time role is run? yes | no
 overwrite_global_mycnf: yes
 
-# Pass in a comma-separated list of repos to use (e.g. "remi,epel"). Used only
-# for RedHat systems (and derivatives).
-mysql_enablerepo: ""
-
 # Define a custom list of packages to install; if none provided, the default
 # package list from vars/[OS-family].yml will be used.
 # mysql_packages:
@@ -19,14 +15,35 @@ mysql_enablerepo: ""
 #   - mysql-server
 #   - MySQL-python
 
+# Pass in a comma-separated list of repos to use (e.g. "remi,epel"). Used only
+# for RedHat systems (and derivatives).
+mysql_enablerepo: ""
+
 # Define a custom list of incompatible packages to uninstall before installing mysql;
 # mysql_incompatible_packages:
 #   - package-name
+
+# Databases.
+mysql_databases: []
+# Full example:
+# mysql_databases:
+#   - { name: example, collation: utf8_general_ci, encoding: utf8, replicate: 1 }
+
+# Users
+mysql_users: []
+# Full Example:
+#mysql_users:
+#   - { name: example, host: 127.0.0.1, password: secret, update_password: allways,  priv: "*.*:USAGE" }
+#   - { name: example2, host: 127.0.0.1, password: secret, update_password: on_create,  priv: "*.*:USAGE" }
 
 # MySQL connection settings.
 mysql_port: "3306"
 mysql_bind_address: '0.0.0.0'
 mysql_datadir: /var/lib/mysql
+
+# Logging settings.
+mysql_log_error: /var/log/mysqld.log
+mysql_syslog_tag: mysqld
 
 mysqld_performance_settings:
   # Memory settings (default values optimized ~512MB RAM).
@@ -60,23 +77,6 @@ mysqld_performance_settings:
 # mysqldump settings.
 mysql_dump_settings:
   - { name: mysql_mysqldump_max_allowed_packet, value: "64M" }
-
-# Logging settings.
-mysql_log_error: /var/log/mysqld.log
-mysql_syslog_tag: mysqld
-
-# Databases.
-mysql_databases: []
-# Full example:
-# mysql_databases:
-#   - { name: example, collation: utf8_general_ci, encoding: utf8, replicate: 1 }
-
-# Users
-mysql_users: []
-# Full Example:
-#mysql_users:
-#   - { name: example, host: 127.0.0.1, password: secret, update_password: allways,  priv: "*.*:USAGE" }
-#   - { name: example2, host: 127.0.0.1, password: secret, update_password: on_create,  priv: "*.*:USAGE" }
 
 # Replication settings (replication is only enabled if master/user have values).
 mysql_server_id: "1"
