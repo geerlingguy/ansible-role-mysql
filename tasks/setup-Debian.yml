@@ -7,6 +7,10 @@
   apt: update_cache=yes
   when: mysql_installed.stat.exists == false
 
+- name: Uninstall incompatible packages
+  apt: "name={{ item }} state=absent"
+  with_items: mysql_incompatible_packages
+
 - name: Ensure MySQL packages are installed.
   apt: "name={{ item }} state=installed"
   with_items: mysql_packages

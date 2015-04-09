@@ -16,6 +16,9 @@ mysql_enablerepo: ""
 #   - mysql-server
 #   - MySQL-python
 
+# Define a custom list of incompatible packages to uninstall;
+# mysql_incompatible_packages
+
 # MySQL connection settings.
 mysql_port: "3306"
 mysql_bind_address: '0.0.0.0'
