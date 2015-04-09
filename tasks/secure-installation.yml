@@ -5,6 +5,7 @@
     name: "root"
     host: "{{ item }}"
     password: "{{ mysql_root_password }}"
+  sudo: no
   with_items:
     - "{{ ansible_hostname }}"
     - 127.0.0.1
@@ -16,12 +17,14 @@
   template:
     src: "python-my.cnf.j2"
     dest: "{{ mysql_user_home }}/.my.cnf"
-    owner: root
-    group: root
+    owner: "{{ ansible_ssh_user }}"
     mode: 0600
+  sudo: no
 
 - name: Remove anonymous MySQL user.
   mysql_user: "name='' state=absent"
+  sudo: no
 
 - name: Remove MySQL test database.
   mysql_db: "name='test' state=absent"
+  sudo: no
