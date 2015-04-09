@@ -24,13 +24,9 @@ The MySQL root user account password.
 
 Whether MySQL should be enabled on startup.
 
-    mysql_databases: []
+    overwrite_global_mycnf: yes
 
-The MySQL databases to create. A database has the values `name`, `encoding` (defaults to `utf8`), `collation` (defaults to `utf8_general_ci`) and `replicate` (defaults to `1`, only used if replication is configured). The formats of these are the same as in the `mysql_db` module.
-
-    mysql_users: []
-
-The MySQL users and their privileges. A user has the values `name`, `host` (defaults to `localhost`), `password` and `priv` (defaults to `*.*:USAGE`). The formats of these are the same as in the `mysql_user` module.
+Whether the global my.cnf should be overwritten each time ansible runs.  "no" will only create the file if it doesn't exist.
 
     mysql_packages:
       - mysql
@@ -43,6 +39,19 @@ The MySQL users and their privileges. A user has the values `name`, `host` (defa
 
 (RedHat/CentOS only) If you have enabled any additional repositories (might I suggest geerlingguy.repo-epel or geerlingguy.repo-remi), those repositories can be listed under this variable (e.g. `remi,epel`). This can be handy, as an example, if you want to install later versions of MySQL.
 
+    mysql_incompatible_packages:
+      - package-name
+
+(OS-specific) Packages to be uninstalled. In some situations, you may need to remove packages before installing mysql_packages.
+
+    mysql_databases: []
+
+The MySQL databases to create. A database has the values `name`, `encoding` (defaults to `utf8`), `collation` (defaults to `utf8_general_ci`) and `replicate` (defaults to `1`, only used if replication is configured). The formats of these are the same as in the `mysql_db` module.
+
+    mysql_users: []
+
+The MySQL users and their privileges. A user has the values `name`, `host` (defaults to `localhost`), `password` and `priv` (defaults to `*.*:USAGE`). The formats of these are the same as in the `mysql_user` module.
+
     mysql_port: "3306"
     mysql_bind_address: '0.0.0.0'
     mysql_datadir: /var/lib/mysql
@@ -54,11 +63,9 @@ Default MySQL connection configuration.
 
 MySQL logging configuration. Setting `mysql_log_error` to `syslog` will make MySQL log to syslog using the `mysql_syslog_tag`.
 
-    mysql_key_buffer_size: "256M"
-    mysql_max_allowed_packet: "64M"
-    mysql_table_open_cache: "256"
-    [...]
-
+    mysqld_performance_settings: []
+    mysql_dump_settings: []
+    
 The rest of the settings in `defaults/main.yml` control MySQL's memory usage. The default values are tuned for a server where MySQL can consume ~512 MB RAM, so you should consider adjusting them to suit your particular server better.
 
     mysql_server_id: "1"
