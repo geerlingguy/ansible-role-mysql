@@ -44,36 +44,15 @@ user = mysql
 # http://dev.mysql.com/doc/refman/5.5/en/performance-schema.html
 ;performance_schema
 
-# Memory settings.
-key_buffer_size = {{ mysql_key_buffer_size }}
-max_allowed_packet = {{ mysql_max_allowed_packet }}
-table_open_cache = {{ mysql_table_open_cache }}
-sort_buffer_size = {{ mysql_sort_buffer_size }}
-read_buffer_size = {{ mysql_read_buffer_size }}
-read_rnd_buffer_size = {{ mysql_read_rnd_buffer_size }}
-myisam_sort_buffer_size = {{ mysql_myisam_sort_buffer_size }}
-thread_cache_size = {{ mysql_thread_cache_size }}
-query_cache_size = {{ mysql_query_cache_size }}
-
-# Other settings.
-wait_timeout = {{ mysql_wait_timeout }}
-max_allowed_packet = {{ mysql_max_allowed_packet }}
-
-# Try number of CPU's * 2 for thread_concurrency.
-thread_concurrency = {{ mysql_thread_concurrency }}
-
-# InnoDB settings.
-innodb_file_per_table = {{ mysql_innodb_file_per_table }}
-innodb_buffer_pool_size = {{ mysql_innodb_buffer_pool_size }}
-innodb_additional_mem_pool_size = {{ mysql_innodb_additional_mem_pool_size }}
-innodb_log_file_size = {{ mysql_innodb_log_file_size }}
-innodb_log_buffer_size = {{ mysql_innodb_log_buffer_size }}
-innodb_flush_log_at_trx_commit = {{ mysql_innodb_flush_log_at_trx_commit }}
-innodb_lock_wait_timeout = {{ mysql_innodb_lock_wait_timeout }}
+{% for setting in mysqld_performance_settings %}
+{{ setting.name }} = {{ setting.value }}
+{% endfor %}
 
 [mysqldump]
 quick
-max_allowed_packet = {{ mysql_mysqldump_max_allowed_packet }}
+{% for setting in mysql_dump_settings %}
+{{ setting.name }} = {{ setting.value }}
+{% endfor %}
 
 [mysqld_safe]
 {% if mysql_log_error == 'syslog' %}
