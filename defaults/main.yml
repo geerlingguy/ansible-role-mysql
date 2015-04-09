@@ -20,6 +20,9 @@ mysql_enablerepo: ""
 # mysql_incompatible_packages:
 #   - package-name
 
+# update my.cnf.  yes | no
+overwrite_global_mycnf: no
+
 # MySQL connection settings.
 mysql_port: "3306"
 mysql_bind_address: '0.0.0.0'
