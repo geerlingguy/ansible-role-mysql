@@ -14,7 +14,7 @@
 # Has to be after the root password assignment, for idempotency.
 - name: Copy .my.cnf file with root password credentials.
   template:
-    src: "python-my.cnf.j2"
+    src: "user-my.cnf.j2"
     dest: "{{ mysql_user_home }}/.my.cnf"
     owner: root
     group: root
