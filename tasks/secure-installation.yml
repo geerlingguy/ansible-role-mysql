@@ -20,8 +20,17 @@
     group: root
     mode: 0600
 
+- name: Get list of hosts for anonymous user
+  command: mysql -NBe 'SELECT Host from mysql.user WHERE User = ""'
+  register: mysql_anonymous_hosts
+  changed_when: false
+
 - name: Remove anonymous MySQL user.
-  mysql_user: "name='' state=absent"
+  mysql_user:
+     name: ""
+     host: "{{ item }}"
+     state: absent
+  with_items: mysql_anonymous_hosts.stdout_lines
 
 - name: Remove MySQL test database.
   mysql_db: "name='test' state=absent"
