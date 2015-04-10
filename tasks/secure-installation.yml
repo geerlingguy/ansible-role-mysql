@@ -1,15 +1,16 @@
 ---
+- name: Get list of hosts for root user
+  command: mysql -NBe 'SELECT Host from mysql.user WHERE User = "root" order by (Host="localhost") ASC'
+  register: mysql_root_hosts
+  changed_when: false
+
 # 'localhost' needs to be last for idempotency.
 - name: Update MySQL root password for localhost root account.
   mysql_user:
     name: "root"
     host: "{{ item }}"
     password: "{{ mysql_root_password }}"
-  with_items:
-    - "{{ ansible_hostname }}"
-    - 127.0.0.1
-    - ::1
-    - localhost
+  with_items: mysql_root_hosts.stdout_lines
 
 # Has to be after the root password assignment, for idempotency.
 - name: Copy .my.cnf file with root password credentials.
