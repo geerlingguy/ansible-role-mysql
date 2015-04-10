@@ -66,7 +66,8 @@ mysql_databases: []
 mysql_users: []
 # Full Example:
 # mysql_users:
-#   - { name: example, host: 127.0.0.1, password: secret, priv: *.*:USAGE }
+#   - { name: example, host: 127.0.0.1, password: secret, update_password: allways,  priv: "*.*:USAGE" }
+#   - { name: example2, host: 127.0.0.1, password: secret, update_password: on_create,  priv: "*.*:USAGE" }
 
 # Replication settings (replication is only enabled if master/user have values).
 mysql_server_id: "1"
