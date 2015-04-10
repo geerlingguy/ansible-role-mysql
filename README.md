@@ -24,6 +24,10 @@ The MySQL root user account password.
 
 Whether MySQL should be enabled on startup.
 
+    overwrite_global_mycnf: yes
+
+Whether the global my.cnf should be overwritten each time ansible runs.  "no" will only create the file if it doesn't exist.
+
     mysql_databases: []
 
 The MySQL databases to create. A database has the values `name`, `encoding` (defaults to `utf8`), `collation` (defaults to `utf8_general_ci`) and `replicate` (defaults to `1`, only used if replication is configured). The formats of these are the same as in the `mysql_db` module.
