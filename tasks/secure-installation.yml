@@ -1,6 +1,6 @@
 ---
-- name: Get list of hosts for root user
-  command: mysql -NBe 'SELECT Host from mysql.user WHERE User = "root" order by (Host="localhost") ASC'
+- name: Get list of hosts for the root user.
+  command: mysql -NBe 'SELECT Host FROM mysql.user WHERE User = "root" ORDER BY (Host="localhost") ASC'
   register: mysql_root_hosts
   changed_when: false
 
