@@ -21,12 +21,12 @@
     group: root
     mode: 0600
 
-- name: Get list of hosts for anonymous user
-  command: mysql -NBe 'SELECT Host from mysql.user WHERE User = ""'
+- name: Get list of hosts for the anonymous user.
+  command: mysql -NBe 'SELECT Host FROM mysql.user WHERE User = ""'
   register: mysql_anonymous_hosts
   changed_when: false
 
-- name: Remove anonymous MySQL user.
+- name: Remove anonymous MySQL users.
   mysql_user:
      name: ""
      host: "{{ item }}"
