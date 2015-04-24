@@ -53,10 +53,17 @@ The MySQL users and their privileges. A user has the values `name`, `host` (defa
 
 Default MySQL connection configuration.
 
+    mysql_log: ""
     mysql_log_error: /var/log/mysqld.log
     mysql_syslog_tag: mysqld
 
-MySQL logging configuration. Setting `mysql_log_error` to `syslog` will make MySQL log to syslog using the `mysql_syslog_tag`.
+MySQL logging configuration. Setting `mysql_log` (the general query log) or `mysql_log_error` to `syslog` will make MySQL log to syslog using the `mysql_syslog_tag`.
+
+    mysql_slow_query_log_enabled: no
+    mysql_slow_query_log_file: /var/log/mysql-slow.log
+    mysql_slow_query_time: 2
+
+Slow query log settings. Note that the log file will be created by this role, but if you're running on a server with SELinux or AppArmor, you may need to add this path to the allowed paths for MySQL, or disable the mysql profile. For example, on Debian/Ubuntu, you can run `sudo ln -s /etc/apparmor.d/usr.sbin.mysqld /etc/apparmor.d/disable/usr.sbin.mysqld && sudo service apparmor restart`.
 
     mysql_key_buffer_size: "256M"
     mysql_max_allowed_packet: "64M"
