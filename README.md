@@ -109,6 +109,8 @@ None.
 
 ## Mariadb usage
 
+For CentOS 7:
+
     mysql_packages:
       - mariadb
       - mariadb-server
@@ -120,6 +122,13 @@ None.
     mysql_log_error: /var/log/mariadb/mariadb.log
     mysql_syslog_tag: mariadb
     mysql_pid_file: /var/run/mariadb/mariadb.pid
+
+For Ubuntu 14.04 :
+  
+    mysql_packages:
+      - mariadb-client
+      - mariadb-server
+	  - python-mysqldb
 
 ## License
 
