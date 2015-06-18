@@ -123,12 +123,12 @@ For CentOS 7:
     mysql_syslog_tag: mariadb
     mysql_pid_file: /var/run/mariadb/mariadb.pid
 
-For Ubuntu 14.04 :
+For Ubuntu 14.04:
   
     mysql_packages:
       - mariadb-client
       - mariadb-server
-	  - python-mysqldb
+      - python-mysqldb
 
 ## License
 
