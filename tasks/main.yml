@@ -8,6 +8,11 @@
     mysql_packages: "{{ __mysql_packages | list }}"
   when: mysql_packages is not defined
 
+- name: Define mysql_daemon.
+  set_fact:
+    mysql_daemon: "{{ __mysql_daemon }} "
+  when: mysql_daemon is not defined
+
 # Setup/install tasks.
 - include: setup-RedHat.yml
   when: ansible_os_family == 'RedHat'

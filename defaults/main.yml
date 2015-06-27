@@ -23,6 +23,7 @@ mysql_enablerepo: ""
 mysql_port: "3306"
 mysql_bind_address: '0.0.0.0'
 mysql_datadir: /var/lib/mysql
+mysql_pid_file: /var/run/mysqld/mysqld.pid
 
 # Slow query log settings.
 mysql_slow_query_log_enabled: no
