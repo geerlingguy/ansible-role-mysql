@@ -3,6 +3,8 @@ mysql_user_home: /root
 mysql_root_username: root
 mysql_root_password: root
 
+mysql_disallow_remote_root: false
+
 mysql_enabled_on_startup: yes
 
 # update my.cnf. each time role is run? yes | no
