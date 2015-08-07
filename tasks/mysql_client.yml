@@ -2,4 +2,9 @@
 - name: Ensure MySQL Client package is installed.
   yum: "name={{ item }} state=installed enablerepo={{ mysql_enablerepo }}"
   with_items: mysql_client_packages
+  when: ansible_os_family == 'RedHat'
 
+- name: Ensure MySQL Client package is installed.
+  apt: "name={{ item }} state=installed enablerepo={{ mysql_enablerepo }}"
+  with_items: mysql_client_packages
+  when: ansible_os_family == 'Debian'
