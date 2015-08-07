@@ -13,6 +13,11 @@
     mysql_daemon: "{{ __mysql_daemon }} "
   when: mysql_daemon is not defined
 
+- name: Define mysql_client_pacakges
+  set_fact:
+    mysql_client_packages: "{{ __mysql_client_packages | list }} "
+  when: mysql_client_packages is not defined
+
 # Setup/install tasks.
 - include: setup-RedHat.yml
   when: ansible_os_family == 'RedHat'
@@ -21,8 +26,9 @@
   when: ansible_os_family == 'Debian'
 
 # Configure MySQL.
-- include: configure.yml
-- include: secure-installation.yml
-- include: databases.yml
-- include: users.yml
-- include: replication.yml
+- include: mysql_client.yml 
+- { include: configure.yml, when: not mysql_install_client_only }
+- { include: secure-installation.yml, when: not mysql_install_client_only }
+- { include: databases.yml, when: not mysql_install_client_only }
+- { include: users.yml, when: not mysql_install_client_only }
+- { include: replication.yml, when: not mysql_install_client_only }
