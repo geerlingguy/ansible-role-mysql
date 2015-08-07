@@ -6,6 +6,6 @@ __mysql_packages:
   - MySQL-python
 __mysql_client_packages:
   - mysql
-  - php-mysql
+  - MySQL-python
 mysql_config_file: /etc/my.cnf
 mysql_socket: /var/lib/mysql/mysql.sock

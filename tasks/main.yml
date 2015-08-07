@@ -13,7 +13,7 @@
     mysql_daemon: "{{ __mysql_daemon }} "
   when: mysql_daemon is not defined
 
-- name: Define mysql_client_pacakges
+- name: Define mysql_client_packages
   set_fact:
     mysql_client_packages: "{{ __mysql_client_packages | list }} "
   when: mysql_client_packages is not defined
