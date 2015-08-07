@@ -1,4 +1,5 @@
 ---
+mysql_install_client_only: false
 mysql_user_home: /root
 mysql_root_username: root
 mysql_root_password: root

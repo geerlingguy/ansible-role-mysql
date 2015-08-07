@@ -36,6 +36,10 @@ The MySQL databases to create. A database has the values `name`, `encoding` (def
 
 The MySQL users and their privileges. A user has the values `name`, `host` (defaults to `localhost`), `password` and `priv` (defaults to `*.*:USAGE`). The formats of these are the same as in the `mysql_user` module.
 
+    mysql_client_install_only: false
+
+Installs the MySQL client only if set to `true`, which means that the MySQL server and its dependents are not installed or managed.
+
     mysql_packages:
       - mysql
       - mysql-server

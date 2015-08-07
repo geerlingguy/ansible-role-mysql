@@ -4,5 +4,8 @@ __mysql_packages:
   - mysql-common
   - mysql-server
   - python-mysqldb
+__mysql_client_packages:
+  - mysql-client-core
+  - python-mysqldb
 mysql_config_file: /etc/mysql/my.cnf
 mysql_socket: /var/run/mysqld/mysqld.sock
