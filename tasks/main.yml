@@ -10,7 +10,7 @@
 
 - name: Define mysql_daemon.
   set_fact:
-    mysql_daemon: "{{ __mysql_daemon }} "
+    mysql_daemon: "{{ __mysql_daemon }}"
   when: mysql_daemon is not defined
 
 # Setup/install tasks.
