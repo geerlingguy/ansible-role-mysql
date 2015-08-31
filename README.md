@@ -39,7 +39,6 @@ The MySQL users and their privileges. A user has the values `name`, `host` (defa
     mysql_packages:
       - mysql
       - mysql-server
-      - MySQL-python
 
 (OS-specific, RedHat/CentOS defaults listed here) Packages to be installed. In some situations, you may need to add additional packages, like `mysql-devel`.
 
