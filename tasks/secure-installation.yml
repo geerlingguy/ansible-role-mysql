@@ -1,4 +1,10 @@
 ---
+- name: disallow remote mysql root connections
+  when: mysql_disallow_remote_root == True
+  mysql_user: name=root host={{ item }} state=absent
+  with_items:
+    - "{{ ansible_fqdn }}"
+
 - name: Get list of hosts for the root user.
   command: mysql -NBe 'SELECT Host FROM mysql.user WHERE User = "root" ORDER BY (Host="localhost") ASC'
   register: mysql_root_hosts
