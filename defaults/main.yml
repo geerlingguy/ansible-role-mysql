@@ -1,4 +1,5 @@
 ---
+mysql_user_provisioning: root
 mysql_user_home: /root
 mysql_root_username: root
 mysql_root_password: root

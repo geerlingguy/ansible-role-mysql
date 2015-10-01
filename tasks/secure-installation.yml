@@ -3,6 +3,8 @@
   command: mysql -NBe 'SELECT Host FROM mysql.user WHERE User = "root" ORDER BY (Host="localhost") ASC'
   register: mysql_root_hosts
   changed_when: false
+  sudo: yes
+  sudo_user: "{{ mysql_user_provisioning }}"
 
 # 'localhost' needs to be last for idempotency.
 - name: Update MySQL root password for localhost root account.
