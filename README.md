@@ -12,10 +12,9 @@ None.
 
 Available variables are listed below, along with default values (see `vars/main.yml`):
 
-    mysql_user_provisioning: root
     mysql_user_home: /root
 
-The user this role will use, along with the home directory inside which Python MySQL settings will be stored, when Ansible connects to MySQL for administrative purposes.
+The home directory inside which Python MySQL settings will be stored, which Ansible will use when connecting to MySQL. This should be the home directory of the user which runs this Ansible role.
 
     mysql_root_password: root
 
