@@ -4,21 +4,14 @@
   register: mysql_root_hosts
   changed_when: false
 
-# TODO: This is currently not idempotent.
+# Note: We do not use mysql_user for this operation, as it doesn't always update
+# the root password correctly. See: https://goo.gl/MSOejW
 - name: Update MySQL root password for localhost root account.
   shell: >
     mysql -u root -NBe
     'SET PASSWORD FOR "{{ mysql_root_username }}"@"{{ item }}" = PASSWORD("{{ mysql_root_password }}");'
   with_items: mysql_root_hosts.stdout_lines
-
-# The below task doesn't work in some instances for some users, at least with
-# certain versions of Ansible.
-# - name: Update MySQL root password for localhost root account.
-#   mysql_user:
-#     name: "{{ mysql_root_username }}"
-#     host: "{{ item }}"
-#     password: "{{ mysql_root_password }}"
-#   with_items: mysql_root_hosts.stdout_lines
+  when: mysql_service_configuration.changed or mysql_root_password_update
 
 # Has to be after the root password assignment, for idempotency.
 - name: Copy .my.cnf file with root password credentials.
