@@ -3,8 +3,8 @@ mysql_user_home: /root
 mysql_root_username: root
 mysql_root_password: root
 
-# Set this to true to forcibly update the root password.
-mysql_root_password_update: false
+# Set this to `yes` to forcibly update the root password.
+mysql_root_password_update: no
 
 mysql_enabled_on_startup: yes
 

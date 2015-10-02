@@ -20,6 +20,10 @@ The home directory inside which Python MySQL settings will be stored, which Ansi
 
 The MySQL root user account password.
 
+    mysql_root_password_update: no
+
+Whether to force update the MySQL root user's password. By default, this role will only change the root user's password when MySQL is first configured. You can force an update by setting this to `yes`.
+
     mysql_enabled_on_startup: yes
 
 Whether MySQL should be enabled on startup.
