@@ -25,6 +25,10 @@
 - include: setup-Debian.yml
   when: ansible_os_family == 'Debian'
 
+- name: Check if MySQL packages were installed.
+  set_fact:
+    mysql_install_packages: "{{ rh_mysql_install_packages.changed or deb_mysql_install_packages.changed }}"
+
 # Configure MySQL.
 - include: configure.yml
 - include: secure-installation.yml
