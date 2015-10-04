@@ -11,7 +11,7 @@
     mysql -u root -NBe
     'SET PASSWORD FOR "{{ mysql_root_username }}"@"{{ item }}" = PASSWORD("{{ mysql_root_password }}");'
   with_items: mysql_root_hosts.stdout_lines
-  when: mysql_install_packages or mysql_root_password_update
+  when: mysql_install_packages | bool or mysql_root_password_update
 
 # Has to be after the root password assignment, for idempotency.
 - name: Copy .my.cnf file with root password credentials.
