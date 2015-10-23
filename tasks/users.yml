@@ -6,5 +6,5 @@
     password: "{{ item.password }}"
     priv: "{{ item.priv | default('*.*:USAGE') }}"
     state: present
-    append_priv: "{{ item.append_priv | default('no') }}"
+    append_privs: "{{ item.append_privs | default('no') }}"
   with_items: mysql_users
