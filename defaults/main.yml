@@ -28,6 +28,8 @@ mysql_bind_address: '0.0.0.0'
 mysql_datadir: /var/lib/mysql
 mysql_pid_file: /var/run/mysqld/mysqld.pid
 
+mysqld_performance_settings: []
+
 # Slow query log settings.
 mysql_slow_query_log_enabled: no
 mysql_slow_query_log_file: /var/log/mysql-slow.log
@@ -64,6 +66,8 @@ mysql_innodb_lock_wait_timeout: 50
 
 # mysqldump settings.
 mysql_mysqldump_max_allowed_packet: "64M"
+
+mysql_dump_settings: []
 
 # Logging settings.
 mysql_log: ""
