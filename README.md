@@ -32,6 +32,10 @@ Whether MySQL should be enabled on startup.
 
 Whether the global my.cnf should be overwritten each time this role is run. Setting this to `no` tells Ansible to only create the `my.cnf` file if it doesn't exist. This should be left at its default value (`yes`) if you'd like to use this role's variables to configure MySQL.
 
+    mysql_config_include_files: []
+
+A list of files that should override the default global my.cnf.   Each item in the array requires a "src" parameter which is a path to a file.  An optional "force" parameter can force the file to be updated each time ansible runs.
+
     mysql_databases: []
 
 The MySQL databases to create. A database has the values `name`, `encoding` (defaults to `utf8`), `collation` (defaults to `utf8_general_ci`) and `replicate` (defaults to `1`, only used if replication is configured). The formats of these are the same as in the `mysql_db` module.
@@ -74,13 +78,6 @@ Slow query log settings. Note that the log file will be created by this role, bu
     [...]
 
 The rest of the settings in `defaults/main.yml` control MySQL's memory usage. The default values are tuned for a server where MySQL can consume ~512 MB RAM, so you should consider adjusting them to suit your particular server better.
-
-    mysqld_performance_settings: 
-     - { name: key_buffer_size, value: "256M" }
-    mysql_dump_settings: []
-     - { name: mysqldump_max_allowed_packet, value: "64M" }
-
-Any additional performance settings you would like to add beyond the defaults.
 
     mysql_server_id: "1"
     mysql_max_binlog_size: "100M"
