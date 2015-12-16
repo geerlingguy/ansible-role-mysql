@@ -38,7 +38,7 @@ The MySQL databases to create. A database has the values `name`, `encoding` (def
 
     mysql_users: []
 
-The MySQL users and their privileges. A user has the values `name`, `host` (defaults to `localhost`), `password` and `priv` (defaults to `*.*:USAGE`). The formats of these are the same as in the `mysql_user` module.
+The MySQL users and their privileges. A user has the values `name`, `host` (defaults to `localhost`), `password`, `priv` (defaults to `*.*:USAGE`), and `append_privs` (defaults to `no`). The formats of these are the same as in the `mysql_user` module.
 
     mysql_packages:
       - mysql
