@@ -71,10 +71,8 @@ mysql_log_error: /var/log/mysql.err
 mysql_syslog_tag: mysql
 
 mysql_config_include_files: []
-# Full example:
-# mysql_config_include_files:
-#   - src: path/relative/to/playbook/file.cnf
-#   - { src: path/relative/to/playbook/anotherfile.cnf, force: yes }
+#  - src: path/relative/to/playbook/file.cnf
+#  - { src: path/relative/to/playbook/anotherfile.cnf, force: yes }
 
 
 # Databases.

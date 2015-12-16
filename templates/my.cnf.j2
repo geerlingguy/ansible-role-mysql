@@ -97,9 +97,10 @@ max_allowed_packet = {{ mysql_mysqldump_max_allowed_packet }}
 [mysqld_safe]
 pid-file = {{ mysql_pid_file }}
 
-{% if mysql_config_include_files|length %}
+{% if mysql_config_include_files | length %}
 # * IMPORTANT: Additional settings that can override those from this file!
 #   The files must end with '.cnf', otherwise they'll be ignored.
 #
 !includedir {{ mysql_config_include_dir }}
 {% endif %}
+
