@@ -30,7 +30,7 @@
   notify: restart mysql
 
 - name: Create slow query log file (if configured).
-  shell: "touch {{ mysql_slow_query_log_file }} creates={{ mysql_slow_query_log_file }}"
+  file: "path={{ mysql_slow_query_log_file }} state=touch"
   when: mysql_slow_query_log_enabled
 
 - name: Set ownership on slow query log file (if configured).
