@@ -1,5 +1,4 @@
 ---
-- hosts: localhost
-  remote_user: root
+- hosts: all
   roles:
-    - ansible-role-mysql
+    - role_under_test
