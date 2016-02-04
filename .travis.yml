@@ -58,14 +58,14 @@ script:
   # Check to make sure we can connect to MySQL via Unix socket.
   - >
     sudo docker exec "$(cat ${container_id})" mysql -u root -proot -e 'show databases;'
-    | grep -q 'performance_schema'
+    | grep -q 'information_schema'
     && (echo 'MySQL running normally' && exit 0)
     || (echo 'MySQL not running' && exit 1)
 
   # Check to make sure we can connect to MySQL via TCP.
   - >
     sudo docker exec "$(cat ${container_id})" mysql -u root -proot -h 127.0.0.1 -e 'show databases;'
-    | grep -q 'performance_schema'
+    | grep -q 'information_schema'
     && (echo 'MySQL running normally' && exit 0)
     || (echo 'MySQL not running' && exit 1)
 
