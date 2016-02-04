@@ -17,11 +17,11 @@ env:
     init: /sbin/init
     run_opts: ""
     playbook: test.yml
-  - distribution: ubuntu
-    version: 12.04
-    init: /sbin/init
-    run_opts: ""
-    playbook: test.yml
+  # - distribution: ubuntu
+  #   version: 12.04
+  #   init: /sbin/init
+  #   run_opts: ""
+  #   playbook: test.yml
 
 services:
   - docker
@@ -70,4 +70,4 @@ script:
     || (echo 'MySQL not running' && exit 1)
 
   # Clean up
-  - 'sudo docker stop "$(cat ${container_id})"'
+  - sudo docker stop "$(cat ${container_id})"
