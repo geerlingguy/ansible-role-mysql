@@ -18,11 +18,11 @@ The home directory inside which Python MySQL settings will be stored, which Ansi
 
     mysql_root_password: root
 
-The MySQL root user account password.
+The MySQL root user account password. Notice that if you change `mysql_root_password` after initial setup and `mysql_root_password_update=no` then you will lock root account.
 
     mysql_root_password_update: no
 
-Whether to force update the MySQL root user's password. By default, this role will only change the root user's password when MySQL is first configured. You can force an update by setting this to `yes`.
+Whether to force update the MySQL root user's password with every run (increases "changed" count). By default, this role will only change the root user's password when MySQL is first configured. You can force an update by setting this to `yes`.
 
     mysql_enabled_on_startup: yes
 
