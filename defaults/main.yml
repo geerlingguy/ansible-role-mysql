@@ -15,6 +15,10 @@ overwrite_global_mycnf: yes
 # for RedHat systems (and derivatives).
 mysql_enablerepo: ""
 
+# Should ansible change service states on configuration modification or
+# ensure service running
+mysql_service_manage: true
+
 # Define a custom list of packages to install; if none provided, the default
 # package list from vars/[OS-family].yml will be used.
 # mysql_packages:
