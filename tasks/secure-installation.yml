@@ -16,7 +16,7 @@
   shell: >
     mysql -u root -NBe
     'SET PASSWORD FOR "{{ mysql_root_username }}"@"{{ item }}" = PASSWORD("{{ mysql_root_password }}");'
-  with_items: mysql_root_hosts.stdout_lines
+  with_items: "{{ mysql_root_hosts.stdout_lines }}"
   when: mysql_install_packages | bool or mysql_root_password_update
 
 # Has to be after the root password assignment, for idempotency.
@@ -38,7 +38,7 @@
      name: ""
      host: "{{ item }}"
      state: absent
-  with_items: mysql_anonymous_hosts.stdout_lines
+  with_items: "{{ mysql_anonymous_hosts.stdout_lines }}"
 
 - name: Remove MySQL test database.
   mysql_db: "name='test' state=absent"

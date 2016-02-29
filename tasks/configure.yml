@@ -26,7 +26,7 @@
     group: root
     mode: 0644
     force: "{{ item.force | default(False) }}"
-  with_items: mysql_config_include_files
+  with_items: "{{ mysql_config_include_files }}"
   notify: restart mysql
 
 - name: Create slow query log file (if configured).
