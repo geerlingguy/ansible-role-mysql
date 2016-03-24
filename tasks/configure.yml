@@ -1,4 +1,12 @@
 ---
+- name: get mysqld version
+  shell: |
+    /usr/sbin/{{__mysql_daemon}} --version | awk '{print $3}'| grep -oE '^[0-9]+\.[0-9]+'
+  register: reg_mysqldv
+
+- set_fact: 
+    mysqldv: "{{reg_mysqldv.stdout}}"
+
 - name: Copy my.cnf global MySQL configuration.
   template:
     src: my.cnf.j2

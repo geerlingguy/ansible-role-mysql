@@ -1,0 +1,6 @@
+---
+- hosts: all
+  vars:
+    mysql_enablerepo: "epel"
+  roles:
+    - role_under_test

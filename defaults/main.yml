@@ -47,6 +47,7 @@ mysql_max_connections: 151
 
 # Other settings.
 mysql_wait_timeout: 28800
+explicit_defaults_for_timestamp: 1
 
 # Try number of CPU's * 2 for thread_concurrency.
 mysql_thread_concurrency: 2
@@ -96,3 +97,6 @@ mysql_replication_role: ''
 mysql_replication_master: ''
 # Same keys as `mysql_users` above.
 mysql_replication_user: []
+
+mysql_set_global_validate_password_verylow: "set GLOBAL validate_password_policy=LOW;    set GLOBAL validate_password_length=0; set GLOBAL validate_password_mixed_case_count=0; set GLOBAL validate_password_number_count=0; set GLOBAL validate_password_special_char_count=0;"
+mysql_set_global_validate_password_deafult: "set GLOBAL validate_password_policy=MEDIUM; set GLOBAL validate_password_length=8; set GLOBAL validate_password_mixed_case_count=1; set GLOBAL validate_password_number_count=1; set GLOBAL validate_password_special_char_count=1;"

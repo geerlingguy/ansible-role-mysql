@@ -1,4 +1,42 @@
 ---
+- name: Get temporary root password
+  shell: | 
+    awk '/.* [0-9]+ .Note. A temporary password is generated for root@localhost: .*/ {print $11}' /var/log/mysql.err | tail -n1
+  register: reg_roottmppw
+  when: mysqldv >= 5.7
+
+- set_fact: 
+    roottmppw: "{{reg_roottmppw.stdout}}"
+  when: mysqldv >= 5.7
+
+- name: Copy .my.cnf file with root temporary-password credentials.
+  template:
+    src: "user-my.cnf.j2"
+    dest: "{{ mysql_user_home }}/.my.cnf"
+    owner: root
+    group: root
+    mode: 0600
+  no_log: true
+  with_items: "{{roottmppw}}"
+
+- name: Update MySQL root password for localhost root account on mysqld >= 5.7
+  shell: |
+    mysql -u root -NBe '{{mysql_set_global_validate_password_verylow}} ALTER USER "root"@"localhost" IDENTIFIED BY "{{mysql_root_password}}"; FLUSH PRIVILEGES;'
+    mysql -u root -p"{{mysql_root_password}}" -NBe '{{mysql_set_global_validate_password_deafult}} FLUSH PRIVILEGES;'
+  no_log: true
+  when: mysqldv >= 5.7
+
+- name: Copy .my.cnf file with root password credentials.
+  template:
+    src: "user-my.cnf.j2"
+    dest: "{{ mysql_user_home }}/.my.cnf"
+    owner: root
+    group: root
+    mode: 0600
+  no_log: true
+  with_items: "{{mysql_root_password}}"
+
+
 - name: Disallow root login remotely
   command: 'mysql -NBe "{{ item }}"'
   with_items:
@@ -10,23 +48,23 @@
   register: mysql_root_hosts
   changed_when: false
 
+
 # Note: We do not use mysql_user for this operation, as it doesn't always update
 # the root password correctly. See: https://goo.gl/MSOejW
-- name: Update MySQL root password for localhost root account.
+- name: Update MySQL root password for localhost root account on mysqld < 5.7
   shell: >
     mysql -u root -NBe
     'SET PASSWORD FOR "{{ mysql_root_username }}"@"{{ item }}" = PASSWORD("{{ mysql_root_password }}");'
   with_items: "{{ mysql_root_hosts.stdout_lines }}"
-  when: mysql_install_packages | bool or mysql_root_password_update
+  no_log: true
+  when: (mysql_install_packages | bool or mysql_root_password_update) and mysqldv < 5.7
 
-# Has to be after the root password assignment, for idempotency.
-- name: Copy .my.cnf file with root password credentials.
-  template:
-    src: "user-my.cnf.j2"
-    dest: "{{ mysql_user_home }}/.my.cnf"
-    owner: root
-    group: root
-    mode: 0600
+- name: Update MySQL root password for localhost root account on mysqld >= 5.7
+  shell: mysql --connect-expired-password  -NBe '{{mysql_set_global_validate_password_verylow}} ALTER USER "{{mysql_root_username}}"@"{{item}}" IDENTIFIED BY "{{mysql_root_password}}"; FLUSH PRIVILEGES; {{mysql_set_global_validate_password_deafult}} FLUSH PRIVILEGES;'
+  with_items: "{{ mysql_root_hosts.stdout_lines }}"
+  no_log: true
+  when: (mysql_install_packages | bool or mysql_root_password_update) and mysqldv >= 5.7
+
 
 - name: Get list of hosts for the anonymous user.
   command: mysql -NBe 'SELECT Host FROM mysql.user WHERE User = ""'
