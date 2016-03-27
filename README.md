@@ -6,7 +6,12 @@ Installs and configures MySQL or MariaDB server on RHEL/CentOS or Debian/Ubuntu 
 
 ## Requirements
 
-None.
+No special requirements; note that this role requires root access, so either run it in a playbook with a global `become: yes`, or invoke the role in your playbook like:
+
+    - hosts: database
+      roles:
+        - role: geerlingguy.mysql
+          become: yes
 
 ## Role Variables
 
@@ -23,6 +28,8 @@ The MySQL root user account password.
     mysql_root_password_update: no
 
 Whether to force update the MySQL root user's password. By default, this role will only change the root user's password when MySQL is first configured. You can force an update by setting this to `yes`.
+
+> Note: If you get an error like `ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)` after a failed or interrupted playbook run, this usually means the root password wasn't originally updated to begin with. Try either removing  the `.my.cnf` file inside the configured `mysql_user_home` or updating it and setting `password=''` (the insecure default password). Run the playbook again, with `mysql_root_password_update` set to `yes`, and the setup should complete.
 
     mysql_enabled_on_startup: yes
 
@@ -123,6 +130,7 @@ None.
 ## Example Playbook
 
     - hosts: db-servers
+      become: yes
       vars_files:
         - vars/main.yml
       roles:
