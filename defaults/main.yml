@@ -1,5 +1,5 @@
 ---
-mysql_user_home: /root
+mysql_user: root
 mysql_root_username: root
 mysql_root_password: root
 

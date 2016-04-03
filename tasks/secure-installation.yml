@@ -23,15 +23,15 @@
 - name: Copy .my.cnf file with root password credentials.
   template:
     src: "user-my.cnf.j2"
-    dest: "{{ mysql_user_home }}/.my.cnf"
-    owner: root
-    group: root
+    dest: ~/.my.cnf
+    user: "{{ mysql_user }}"
     mode: 0600
 
 - name: Get list of hosts for the anonymous user.
   command: mysql -NBe 'SELECT Host FROM mysql.user WHERE User = ""'
   register: mysql_anonymous_hosts
   changed_when: false
+  become: "{{ mysql_user }}"
 
 - name: Remove anonymous MySQL users.
   mysql_user:
@@ -39,6 +39,8 @@
      host: "{{ item }}"
      state: absent
   with_items: "{{ mysql_anonymous_hosts.stdout_lines }}"
+  become: "{{ mysql_user }}"
 
 - name: Remove MySQL test database.
   mysql_db: "name='test' state=absent"
+  become: "{{ mysql_user }}"
