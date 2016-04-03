@@ -30,7 +30,7 @@
   notify: restart mysql
 
 - name: Create slow query log file (if configured).
-  file: "path={{ mysql_slow_query_log_file }} state=touch"
+  copy: "content='' dest={{ mysql_slow_query_log_file }} force=no"
   when: mysql_slow_query_log_enabled
 
 - name: Set ownership on slow query log file (if configured).

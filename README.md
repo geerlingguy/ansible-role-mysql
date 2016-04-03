@@ -23,11 +23,11 @@ The home directory inside which Python MySQL settings will be stored, which Ansi
 
     mysql_root_password: root
 
-The MySQL root user account password.
+The MySQL root user account password. Notice that if you change `mysql_root_password` after initial setup and `mysql_root_password_update=no` then you will lock root account.
 
     mysql_root_password_update: no
 
-Whether to force update the MySQL root user's password. By default, this role will only change the root user's password when MySQL is first configured. You can force an update by setting this to `yes`.
+Whether to force update the MySQL root user's password with every run (increases "changed" count). By default, this role will only change the root user's password when MySQL is first configured. You can force an update by setting this to `yes`.
 
 > Note: If you get an error like `ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)` after a failed or interrupted playbook run, this usually means the root password wasn't originally updated to begin with. Try either removing  the `.my.cnf` file inside the configured `mysql_user_home` or updating it and setting `password=''` (the insecure default password). Run the playbook again, with `mysql_root_password_update` set to `yes`, and the setup should complete.
 
