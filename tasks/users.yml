@@ -8,3 +8,4 @@
     state: present
     append_privs: "{{ item.append_privs | default('no') }}"
   with_items: "{{ mysql_users }}"
+  no_log: true
