@@ -2,7 +2,7 @@
 - name: Ensure MySQL databases are present.
   mysql_db:
     name: "{{ item.name }}"
-    collation: "{{ item.collation | default('utf8_general_ci') }}"
-    encoding: "{{ item.encoding | default('utf8') }}"
+    collation: "{{ item.collation | default(omit) }}"
+    encoding: "{{ item.encoding | default(omit) }}"
     state: present
   with_items: "{{ mysql_databases }}"
