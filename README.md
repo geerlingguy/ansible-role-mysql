@@ -97,24 +97,12 @@ Replication settings. Set `mysql_server_id` and `mysql_replication_role` by serv
 
 ### MariaDB usage
 
-This role works with either MySQL or a compatible version of MariaDB. On RHEL/CentOS 7+, the mariadb database engine was substituted as the default MySQL replacement package, so you should override the `mysql_packages` variable with the below configuration to make sure MariaDB is installed correctly.
+This role works with either MySQL or a compatible version of MariaDB. On RHEL/CentOS 7+, the mariadb database engine was substituted as the default MySQL replacement package. No modifications are necessary though all of the variables still reference 'mysql' instead of mariadb.
 
-#### RHEL/CentOS 7 MariaDB configuration
-
-Set the following variables (at a minimum):
-
-    mysql_packages:
-      - mariadb
-      - mariadb-server
-      - mariadb-libs
-      - MySQL-python
-      - perl-DBD-MySQL
-    mysql_daemon: mariadb
-    mysql_log_error: /var/log/mariadb/mariadb.log
-    mysql_syslog_tag: mariadb
-    mysql_pid_file: /var/run/mariadb/mariadb.pid
 
 #### Ubuntu 14.04 MariaDB configuration
+
+On Ubuntu, the package names are named differently, so the `mysql_package` variabl needs to be altered
 
 Set the following variables (at a minimum):
 
