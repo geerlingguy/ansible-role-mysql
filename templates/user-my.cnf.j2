@@ -1,3 +1,6 @@
 [client]
 user={{ mysql_root_username }}
-password={{ mysql_root_password }}
+password="{{ item }}"
+{% if mysqldv >= 5.7 %}
+connect-expired-password=1
+{% endif %}
