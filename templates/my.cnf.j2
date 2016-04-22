@@ -78,13 +78,9 @@ max_connections = {{ mysql_max_connections }}
 # Other settings.
 wait_timeout = {{ mysql_wait_timeout }}
 
-# Try number of CPU's * 2 for thread_concurrency.
-thread_concurrency = {{ mysql_thread_concurrency }}
-
 # InnoDB settings.
 innodb_file_per_table = {{ mysql_innodb_file_per_table }}
 innodb_buffer_pool_size = {{ mysql_innodb_buffer_pool_size }}
-innodb_additional_mem_pool_size = {{ mysql_innodb_additional_mem_pool_size }}
 innodb_log_file_size = {{ mysql_innodb_log_file_size }}
 innodb_log_buffer_size = {{ mysql_innodb_log_buffer_size }}
 innodb_flush_log_at_trx_commit = {{ mysql_innodb_flush_log_at_trx_commit }}
