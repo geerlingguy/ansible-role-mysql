@@ -48,14 +48,10 @@ mysql_max_connections: 151
 # Other settings.
 mysql_wait_timeout: 28800
 
-# Try number of CPU's * 2 for thread_concurrency.
-mysql_thread_concurrency: 2
-
 # InnoDB settings.
 # Set .._buffer_pool_size up to 80% of RAM but beware of setting too high.
 mysql_innodb_file_per_table: "1"
 mysql_innodb_buffer_pool_size: "256M"
-mysql_innodb_additional_mem_pool_size: "20M"
 # Set .._log_file_size to 25% of buffer pool size.
 mysql_innodb_log_file_size: "64M"
 mysql_innodb_log_buffer_size: "8M"

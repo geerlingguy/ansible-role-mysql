@@ -42,6 +42,19 @@
     mode: 0644
   when: mysql_slow_query_log_enabled
 
+- name: Create error log file (if configured).
+  shell: "touch {{ mysql_log_error }} creates={{ mysql_log_error }}"
+  when: mysql_log == "" and mysql_log_error != ""
+
+- name: Set ownership on error log file (if configured).
+  file:
+    path: "{{ mysql_log_error }}"
+    state: file
+    owner: mysql
+    group: mysql
+    mode: 0644
+  when: mysql_slow_query_log_enabled
+
 - name: Ensure MySQL is started and enabled on boot.
   service: "name={{ mysql_daemon }} state=started enabled={{ mysql_enabled_on_startup }}"
   register: mysql_service_configuration
