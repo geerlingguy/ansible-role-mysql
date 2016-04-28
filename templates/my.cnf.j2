@@ -77,6 +77,7 @@ max_connections = {{ mysql_max_connections }}
 
 # Other settings.
 wait_timeout = {{ mysql_wait_timeout }}
+query_cache_type = {{ mysql_query_cache_type }}
 
 # InnoDB settings.
 innodb_file_per_table = {{ mysql_innodb_file_per_table }}
@@ -85,6 +86,10 @@ innodb_log_file_size = {{ mysql_innodb_log_file_size }}
 innodb_log_buffer_size = {{ mysql_innodb_log_buffer_size }}
 innodb_flush_log_at_trx_commit = {{ mysql_innodb_flush_log_at_trx_commit }}
 innodb_lock_wait_timeout = {{ mysql_innodb_lock_wait_timeout }}
+innodb_read_io_threads = {{ mysql_innodb_read_io_threads }}
+innodb_write_io_threads = {{ mysql_innodb_write_io_threads }}
+innodb_thread_concurrency = {{ mysql_innodb_thread_concurrency }}
+innodb_buffer_pool_instances = {{ mysql_innodb_buffer_pool_instances }}
 
 [mysqldump]
 quick
