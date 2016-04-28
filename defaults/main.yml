@@ -47,6 +47,7 @@ mysql_max_connections: 151
 
 # Other settings.
 mysql_wait_timeout: 28800
+mysql_query_cache_type: 0
 
 # InnoDB settings.
 # Set .._buffer_pool_size up to 80% of RAM but beware of setting too high.
