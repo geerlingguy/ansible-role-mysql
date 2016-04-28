@@ -53,7 +53,7 @@
     owner: mysql
     group: mysql
     mode: 0644
-  when: mysql_slow_query_log_enabled
+  when: mysql_log == "" and mysql_log_error != ""
 
 - name: Ensure MySQL is started and enabled on boot.
   service: "name={{ mysql_daemon }} state=started enabled={{ mysql_enabled_on_startup }}"
