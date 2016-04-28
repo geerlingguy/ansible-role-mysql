@@ -39,7 +39,7 @@
     state: file
     owner: mysql
     group: mysql
-    mode: 0644
+    mode: 0640
   when: mysql_slow_query_log_enabled
 
 - name: Create error log file (if configured).
@@ -52,7 +52,7 @@
     state: file
     owner: mysql
     group: mysql
-    mode: 0644
+    mode: 0640
   when: mysql_log == "" and mysql_log_error != ""
 
 - name: Ensure MySQL is started and enabled on boot.
