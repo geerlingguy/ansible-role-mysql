@@ -2,6 +2,17 @@
 # Include variables and define needed variables.
 - name: Include OS-specific variables.
   include_vars: "{{ ansible_os_family }}.yml"
+  when: ansible_os_family  != "RedHat"
+
+# Include RedHat 6 variables (mysql)
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}-{{ ansible_lsb.major_release }}.yml"
+  when: ansible_lsb.major_release < "7"
+
+# Include RedHat 7 variables (mariadb)
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}-{{ ansible_lsb.major_release }}.yml"
+  when:  ansible_os_family >= "7"
 
 - name: Define mysql_packages.
   set_fact:
