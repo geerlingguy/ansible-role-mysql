@@ -99,12 +99,9 @@ Replication settings. Set `mysql_server_id` and `mysql_replication_role` by serv
 
 This role works with either MySQL or a compatible version of MariaDB. On RHEL/CentOS 7+, the mariadb database engine was substituted as the default MySQL replacement package. No modifications are necessary though all of the variables still reference 'mysql' instead of mariadb.
 
+#### Ubuntu 14.04 and 16.04 MariaDB configuration
 
-#### Ubuntu 14.04 MariaDB configuration
-
-On Ubuntu, the package names are named differently, so the `mysql_package` variabl needs to be altered
-
-Set the following variables (at a minimum):
+On Ubuntu, the package names are named differently, so the `mysql_package` variable needs to be altered. Set the following variables (at a minimum):
 
     mysql_packages:
       - mariadb-client

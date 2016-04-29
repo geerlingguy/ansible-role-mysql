@@ -40,10 +40,6 @@
     owner: mysql
     group: mysql
     mode:  0755
-  
-- name: Set selinux context on datadir
-  file:
-    path: "{{ mysql_datadir }}"
     setype: mysqld_db_t
 
 - name: Set ownership on slow query log file (if configured).
