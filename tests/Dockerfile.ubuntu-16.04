@@ -2,7 +2,7 @@ FROM ubuntu:16.04
 RUN apt-get update
 
 # Install Ansible
-RUN apt -y install python-setuptools python-dev python-pip
+RUN apt -y install libffi-dev python-setuptools python-dev python-pip
 RUN pip install ansible
 
 # TODO: Switch to official apt repo after the following issue is resolved:
