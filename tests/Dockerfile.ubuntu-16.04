@@ -4,6 +4,7 @@ RUN apt-get update
 # Install Ansible
 RUN apt -y install libffi-dev libssl-dev python-setuptools python-dev python-pip
 RUN pip install ansible
+RUN mkdir -p /etc/ansible
 
 # TODO: Switch to official apt repo after the following issue is resolved:
 # https://github.com/ansible/ansible/issues/15524
