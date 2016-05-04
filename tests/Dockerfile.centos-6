@@ -1,7 +1,5 @@
 FROM centos:6
 
-RUN yum -y install redhat-lsb-core
-
 # Install Ansible
 RUN yum -y update; yum clean all;
 RUN yum -y install epel-release
