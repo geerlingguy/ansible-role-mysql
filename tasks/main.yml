@@ -5,7 +5,7 @@
   when: ansible_os_family != "RedHat"
 
 - name: Include OS-specific variables (RedHat).
-  include_vars: "{{ ansible_os_family }}-{{ ansible_lsb.major_release }}.yml"
+  include_vars: "{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
   when: ansible_os_family == "RedHat"
 
 - name: Define mysql_packages.
