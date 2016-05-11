@@ -64,6 +64,7 @@ The MySQL users and their privileges. A user has the values `name`, `host` (defa
     mysql_port: "3306"
     mysql_bind_address: '0.0.0.0'
     mysql_datadir: /var/lib/mysql
+    mysql_tmpdir: /tmp
 
 Default MySQL connection configuration.
 
