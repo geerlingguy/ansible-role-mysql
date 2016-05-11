@@ -4,10 +4,14 @@ port = {{ mysql_port }}
 socket = {{ mysql_socket }}
 
 [mysqld]
+{% if mysql_skip_networking %}
+skip-networking
+{% else %}
 port = {{ mysql_port }}
 bind-address = {{ mysql_bind_address }}
-datadir = {{ mysql_datadir }}
+{% endif %}
 socket = {{ mysql_socket }}
+datadir = {{ mysql_datadir }}
 pid-file = {{ mysql_pid_file }}
 
 # Logging configuration.

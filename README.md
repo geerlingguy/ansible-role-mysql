@@ -67,6 +67,10 @@ The MySQL users and their privileges. A user has the values `name`, `host` (defa
 
 Default MySQL connection configuration.
 
+    mysql_skip_networking: no
+
+When set to `yes`, the MySQL connection will be setup using the `skip-networking` flag.
+
     mysql_log: ""
     mysql_log_error: /var/log/mysqld.log
     mysql_syslog_tag: mysqld
