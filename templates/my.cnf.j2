@@ -40,6 +40,7 @@ log_bin = mysql-bin
 log-bin-index = mysql-bin.index
 expire_logs_days = {{ mysql_expire_logs_days }}
 max_binlog_size = {{ mysql_max_binlog_size }}
+binlog_format = {{binlog_format}}
 
 {% for db in mysql_databases %}
 {% if db.replicate|default(1) %}
