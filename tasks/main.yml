@@ -23,21 +23,6 @@
     mysql_slow_query_log_file: "{{ __mysql_slow_query_log_file }}"
   when: mysql_slow_query_log_file is not defined
 
-- name: Define mysql_log_error.
-  set_fact:
-    mysql_log_error: "{{ __mysql_log_error }}"
-  when: mysql_log_error is not defined
-
-- name: Define mysql_syslog_tag.
-  set_fact:
-    mysql_syslog_tag: "{{ __mysql_syslog_tag }}"
-  when: mysql_syslog_tag is not defined
-
-- name: Define mysql_pid_file.
-  set_fact:
-    mysql_pid_file: "{{ __mysql_pid_file }}"
-  when: mysql_pid_file is not defined
-
 # Setup/install tasks.
 - include: setup-RedHat.yml
   when: ansible_os_family == 'RedHat'
