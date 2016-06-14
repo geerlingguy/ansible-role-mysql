@@ -22,5 +22,8 @@
   when: mysql_installed.stat.exists == false
 
 - name: Delete innodb log files created by apt package after initial install.
-  shell: "rm -f {{ mysql_datadir }}/ib_logfile[01]"
+  file: path={{ mysql_datadir }}/{{item}} state=absent
+  with_items:
+          - "ib_logfile0"
+          - "ib_logfile1"
   when: mysql_installed.stat.exists == false
