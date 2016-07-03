@@ -45,7 +45,7 @@ A list of files that should override the default global my.cnf. Each item in the
 
     mysql_databases: []
 
-The MySQL databases to create. A database has the values `name`, `encoding` (defaults to `utf8`), `collation` (defaults to `utf8_general_ci`) and `replicate` (defaults to `1`, only used if replication is configured). The formats of these are the same as in the `mysql_db` module.
+The MySQL databases to create. A database has the values `name`, `encoding` (defaults to `utf8`), `collation` (defaults to `utf8_general_ci`) and `replicate` (defaults to `1`, only used if replication is configured and if `mysql_replicate_all_databases` is set to `False`). The formats of these are the same as in the `mysql_db` module.
 
     mysql_users: []
 
@@ -91,9 +91,10 @@ The rest of the settings in `defaults/main.yml` control MySQL's memory usage. Th
     mysql_expire_logs_days: "10"
     mysql_replication_role: ''
     mysql_replication_master: ''
+    mysql_replicate_all_databases: False
     mysql_replication_user: []
 
-Replication settings. Set `mysql_server_id` and `mysql_replication_role` by server (e.g. the master would be ID `1`, with the `mysql_replication_role` of `master`, and the slave would be ID `2`, with the `mysql_replication_role` of `slave`). The `mysql_replication_user` uses the same keys as `mysql_users`, and is created on master servers, and used to replicate on all the slaves.
+Replication settings. Set `mysql_server_id` and `mysql_replication_role` by server (e.g. the master would be ID `1`, with the `mysql_replication_role` of `master`, and the slave would be ID `2`, with the `mysql_replication_role` of `slave`). The `mysql_replication_user` uses the same keys as `mysql_users`, and is created on master servers, and used to replicate on all the slaves. If `mysql_replicate_all_databases` is set to `true`, the database `replicate` option in `mysql_databases` is not used anymore.
 
 ### MariaDB usage
 
