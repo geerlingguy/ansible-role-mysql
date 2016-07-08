@@ -82,6 +82,8 @@ max_connections = {{ mysql_max_connections }}
 wait_timeout = {{ mysql_wait_timeout }}
 
 # InnoDB settings.
+innodb_large_prefix = {{ mysql_innodb_large_prefix }}
+innodb_file_format = {{ mysql_innodb_file_format }}
 innodb_file_per_table = {{ mysql_innodb_file_per_table }}
 innodb_buffer_pool_size = {{ mysql_innodb_buffer_pool_size }}
 innodb_log_file_size = {{ mysql_innodb_log_file_size }}
