@@ -84,6 +84,10 @@ wait_timeout = {{ mysql_wait_timeout }}
 lower_case_table_names = {{ mysql_lower_case_table_names }}
 
 # InnoDB settings.
+{% if mysql_supports_innodb_large_prefix %}
+innodb_large_prefix = {{ mysql_innodb_large_prefix }}
+innodb_file_format = {{ mysql_innodb_file_format }}
+{% endif %}
 innodb_file_per_table = {{ mysql_innodb_file_per_table }}
 innodb_buffer_pool_size = {{ mysql_innodb_buffer_pool_size }}
 innodb_log_file_size = {{ mysql_innodb_log_file_size }}

@@ -51,14 +51,18 @@ mysql_lower_case_table_names: "0"
 mysql_wait_timeout: "28800"
 
 # InnoDB settings.
-# Set .._buffer_pool_size up to 80% of RAM but beware of setting too high.
 mysql_innodb_file_per_table: "1"
+# Set .._buffer_pool_size up to 80% of RAM but beware of setting too high.
 mysql_innodb_buffer_pool_size: "256M"
 # Set .._log_file_size to 25% of buffer pool size.
 mysql_innodb_log_file_size: "64M"
 mysql_innodb_log_buffer_size: "8M"
 mysql_innodb_flush_log_at_trx_commit: "1"
 mysql_innodb_lock_wait_timeout: "50"
+
+# These settings require MySQL > 5.5.
+mysql_innodb_large_prefix: "1"
+mysql_innodb_file_format: "barracuda"
 
 # mysqldump settings.
 mysql_mysqldump_max_allowed_packet: "64M"
