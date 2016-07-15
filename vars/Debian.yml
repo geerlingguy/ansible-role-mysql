@@ -7,4 +7,7 @@ __mysql_slow_query_log_file: /var/log/mysql/mysql-slow.log
 mysql_config_file: /etc/mysql/my.cnf
 mysql_config_include_dir: /etc/mysql/conf.d
 mysql_socket: /var/run/mysqld/mysqld.sock
-mysql_supports_innodb_large_prefix: false
+mysql_supports_innodb_large_prefix: true
+mysql_default-character-set: utf8mb4
+mysql_character-set-client-handshake: "FALSE"
+mysql_collation-server: utf8mb4_unicode_ci

@@ -2,11 +2,19 @@
 #password = your_password
 port = {{ mysql_port }}
 socket = {{ mysql_socket }}
+{% if ansible_os_family == 'Debian' %}
+default-character-set = {{ mysql_default-character-set }}
+{% endif %}
+datadir = {{ mysql_datadir }}
 
 [mysqld]
 port = {{ mysql_port }}
 bind-address = {{ mysql_bind_address }}
-datadir = {{ mysql_datadir }}
+{% if ansible_os_family == 'Debian' %}
+character-set-client-handshake = {{ mysql_character-set-client-handshake }}
+character-set-server = {{ mysql_default-character-set }}
+collation-server = {{ mysql_collation-server }}
+{% endif %}
 socket = {{ mysql_socket }}
 pid-file = {{ mysql_pid_file }}
 {% if mysql_skip_name_resolve %}
