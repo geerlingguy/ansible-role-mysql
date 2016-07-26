@@ -2,6 +2,9 @@
 #password = your_password
 port = {{ mysql_port }}
 socket = {{ mysql_socket }}
+{% if mysql_default_charset|default(None) %}
+default-character-set = {{ mysql_default_charset }}
+{% endif %}
 
 [mysqld]
 port = {{ mysql_port }}
@@ -11,6 +14,9 @@ socket = {{ mysql_socket }}
 pid-file = {{ mysql_pid_file }}
 {% if mysql_skip_name_resolve %}
 skip-name-resolve
+{% endif %}
+{% if mysql_default_charset|default(None) %}
+character-set-server = {{ mysql_default_charset }}
 {% endif %}
 
 # Logging configuration.

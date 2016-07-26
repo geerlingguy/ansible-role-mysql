@@ -96,6 +96,10 @@ The rest of the settings in `defaults/main.yml` control MySQL's memory usage and
 
 Replication settings. Set `mysql_server_id` and `mysql_replication_role` by server (e.g. the master would be ID `1`, with the `mysql_replication_role` of `master`, and the slave would be ID `2`, with the `mysql_replication_role` of `slave`). The `mysql_replication_user` uses the same keys as `mysql_users`, and is created on master servers, and used to replicate on all the slaves.
 
+    mysql_default_charset: "utf8"
+
+MySQL character-set configuration. Defaults are not using this, if you want to configure a global character-set you have to provide a accepted value according to the mysql documentation.
+
 ### MariaDB usage
 
 This role works with either MySQL or a compatible version of MariaDB. On RHEL/CentOS 7+, the mariadb database engine was substituted as the default MySQL replacement package. No modifications are necessary though all of the variables still reference 'mysql' instead of mariadb.
