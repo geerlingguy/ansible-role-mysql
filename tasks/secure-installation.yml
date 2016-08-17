@@ -4,16 +4,6 @@
   register: mysql_cli_version
   changed_when: false
 
-# Note: This has to be here before the first attempt to connect to mysql shell or it fails on first run
-- name: Create /root/.my.cnf file from template if and only if it doesn't exist already
-  template:
-    src: "first-run-temp-my.cnf.j2"
-    dest: "{{ mysql_user_home }}/.my.cnf"
-    owner: root
-    group: root
-    mode: 0600
-    force: no
-
 - name: Disallow root login remotely
   command: 'mysql -NBe "{{ item }}"'
   with_items:
