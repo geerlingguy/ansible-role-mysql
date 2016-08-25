@@ -74,5 +74,11 @@ script:
   # Clean up
   - sudo docker stop "$(cat ${container_id})"
 
+after_failure:
+  # Check MySQL settings.
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm cat /var/log/mysql/error.log'
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm cat /var/log/mysql.err'
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm cat /var/log/mysql.log'
+
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
