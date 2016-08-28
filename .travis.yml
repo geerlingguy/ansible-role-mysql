@@ -22,11 +22,19 @@ env:
   #   init: /sbin/init
   #   run_opts: ""
   #   playbook: test.yml
+  global:
+    # https://github.com/travis-ci/travis-ci/issues/6461#issuecomment-239577306
+    - DOCKER_VERSION="1.9.1-0~trusty"
 
 services:
   - docker
 
 before_install:
+  # Downgrade to older version of Docker engine.
+  - sudo apt-get update
+  - sudo apt-get remove docker-engine -yq
+  - sudo apt-get install docker-engine=$DOCKER_VERSION -yq --no-install-suggests --no-install-recommends --force-yes -o Dpkg::Options::="--force-confnew"
+
   # Pull container
   - 'sudo docker pull ${distribution}:${version}'
   # Customize container
