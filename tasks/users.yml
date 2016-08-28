@@ -8,4 +8,17 @@
     state: "{{ item.state | default('present') }}"
     append_privs: "{{ item.append_privs | default('no') }}"
   with_items: "{{ mysql_users }}"
+  when: mysql_users.0 is defined
+  no_log: true
+
+- name: Ensure MySQL users are present.
+  mysql_user:
+    name: "{{ item.key }}"
+    host: "{{ item.value.host | default('localhost') }}"
+    password: "{{ item.value.password }}"
+    priv: "{{ item.value.priv | default('*.*:USAGE') }}"
+    state: "{{ item.value.state | default('present') }}"
+    append_privs: "{{ item.value.append_privs | default('no') }}"
+  with_dict: "{{ mysql_users }}"
+  when: mysql_users.0 is not defined
   no_log: true
