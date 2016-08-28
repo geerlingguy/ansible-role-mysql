@@ -13,7 +13,7 @@
 
 - name: Ensure MySQL users are present.
   mysql_user:
-    name: "{{ item.key }}"
+    name: "{{ item.value.name | default(item.key) }}"
     host: "{{ item.value.host | default('localhost') }}"
     password: "{{ item.value.password }}"
     priv: "{{ item.value.priv | default('*.*:USAGE') }}"
