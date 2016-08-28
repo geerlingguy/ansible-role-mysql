@@ -19,6 +19,7 @@ env:
     init: /lib/systemd/systemd
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
     playbook: test.yml
+    DOCKER_VERSION: "1.9.1-0~trusty"
   - distribution: ubuntu
     version: 14.04
     init: /sbin/init
