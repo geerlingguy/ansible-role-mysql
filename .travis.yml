@@ -7,24 +7,25 @@ env:
     init: /sbin/init
     run_opts: ""
     playbook: test.yml
+    DOCKER_VERSION: "1.9.1-0~trusty"
   - distribution: centos
     version: 7
     init: /usr/lib/systemd/systemd
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
     playbook: centos-7-test.yml
+    DOCKER_VERSION: "1.9.1-0~trusty"
   - distribution: ubuntu
     version: 14.04
     init: /sbin/init
     run_opts: ""
     playbook: test.yml
+    DOCKER_VERSION: "1.9.1-0~trusty"
   # - distribution: ubuntu
   #   version: 12.04
   #   init: /sbin/init
   #   run_opts: ""
   #   playbook: test.yml
-  global:
-    # https://github.com/travis-ci/travis-ci/issues/6461#issuecomment-239577306
-    - DOCKER_VERSION="1.9.1-0~trusty"
+  #   DOCKER_VERSION: "1.9.1-0~trusty"
 
 services:
   - docker
