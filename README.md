@@ -135,6 +135,14 @@ None.
         password: similarly-secure-password
         priv: "example_db.*:ALL"
 
+MySQL users may also be defined as dictionary
+
+    mysql_users:
+      example_user:
+        host: "%"
+        password: similarly-secure-password
+        priv: "example_db.*:ALL"
+
 ## License
 
 MIT / BSD
