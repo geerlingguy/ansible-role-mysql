@@ -2,36 +2,35 @@
 sudo: required
 
 env:
-  - repository: geerlingguy/docker-centos6-ansible
-    version: latest
-    init: /sbin/init
-    run_opts: ""
-    playbook: test.yml
+  global:
+    # https://github.com/travis-ci/travis-ci/issues/6461#issuecomment-239577306
     DOCKER_VERSION: "1.9.1-0~trusty"
-  - repository: geerlingguy/docker-centos7-ansible
-    version: latest
-    init: /usr/lib/systemd/systemd
-    run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
-    playbook: centos-7-test.yml
-    DOCKER_VERSION: "1.9.1-0~trusty"
-  - repository: geerlingguy/docker-ubuntu1604-ansible
-    version: latest
-    init: /lib/systemd/systemd
-    run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
-    playbook: test.yml
-    DOCKER_VERSION: "1.9.1-0~trusty"
-  - repository: geerlingguy/docker-ubuntu1404-ansible
-    version: latest
-    init: /sbin/init
-    run_opts: ""
-    playbook: test.yml
-    DOCKER_VERSION: "1.9.1-0~trusty"
-  # - repository: geerlingguy/docker-ubuntu1204-ansible
-  #   version: latest
-  #   init: /sbin/init
-  #   run_opts: ""
-  #   playbook: test.yml
-  #   DOCKER_VERSION: "1.9.1-0~trusty"
+  matrix:
+    - repository: geerlingguy/docker-centos6-ansible
+      version: latest
+      init: /sbin/init
+      run_opts: ""
+      playbook: test.yml
+    - repository: geerlingguy/docker-centos7-ansible
+      version: latest
+      init: /usr/lib/systemd/systemd
+      run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
+      playbook: centos-7-test.yml
+    - repository: geerlingguy/docker-ubuntu1604-ansible
+      version: latest
+      init: /lib/systemd/systemd
+      run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
+      playbook: test.yml
+    - repository: geerlingguy/docker-ubuntu1404-ansible
+      version: latest
+      init: /sbin/init
+      run_opts: ""
+      playbook: test.yml
+    # - repository: geerlingguy/docker-ubuntu1204-ansible
+    #   version: latest
+    #   init: /sbin/init
+    #   run_opts: ""
+    #   playbook: test.yml
 
 services:
   - docker
