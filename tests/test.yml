@@ -2,16 +2,14 @@
 - hosts: all
 
   pre_tasks:
-    # Override initctl on Ubuntu 14.04.
-    - block:
-      - name: Remove existing initctl.
-        file: path=/sbin/initctl state=absent
-      - name: Copy initctl_faker into place for Ubuntu 14.04.
-        copy:
-          src: initctl_faker
-          dest: /sbin/initctl
-          mode: 0755
-      when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '14.04'
+    - name: Copy initctl_faker into place for Ubuntu 14.04.
+      copy:
+        src: initctl_faker
+        dest: /sbin/initctl
+        mode: 0755
+        force: yes
+      when: ansible_distribution == 'Ubuntu' and ansible_distribution_version|version_compare(16.04, '<')
+      changed_when: false
 
   roles:
     - role_under_test
