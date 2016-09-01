@@ -6,27 +6,23 @@ env:
     # https://github.com/travis-ci/travis-ci/issues/6461#issuecomment-239577306
     DOCKER_VERSION: "1.9.1-0~trusty"
   matrix:
-    - repository: geerlingguy/docker-centos6-ansible
-      version: latest
+    - distro: centos6
       init: /sbin/init
       run_opts: ""
       playbook: test.yml
-    - repository: geerlingguy/docker-centos7-ansible
-      version: latest
+    - distro: centos7
       init: /usr/lib/systemd/systemd
       run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
       playbook: centos-7-test.yml
-    - repository: geerlingguy/docker-ubuntu1604-ansible
-      version: latest
+    - distro: ubuntu1604
       init: /lib/systemd/systemd
       run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
       playbook: test.yml
-    - repository: geerlingguy/docker-ubuntu1404-ansible
-      version: latest
+    - distro: ubuntu1404
       init: /sbin/init
       run_opts: ""
       playbook: test.yml
-    # - repository: geerlingguy/docker-ubuntu1204-ansible
+    # - distro: ubuntu1204
     #   version: latest
     #   init: /sbin/init
     #   run_opts: ""
@@ -42,12 +38,12 @@ before_install:
   - sudo apt-get install docker-engine=$DOCKER_VERSION -yq --no-install-suggests --no-install-recommends --force-yes -o Dpkg::Options::="--force-confnew"
 
   # Pull container
-  - 'sudo docker pull ${repository}:${version}'
+  - 'sudo docker pull geerlingguy/docker-${distro}-ansible:latest'
 
 script:
   - container_id=$(mktemp)
     # Run container in detached state
-  - 'sudo docker run --detach --volume="${PWD}":/etc/ansible/roles/role_under_test:ro ${run_opts} ${repository}:${version} "${init}" > "${container_id}"'
+  - 'sudo docker run --detach --volume="${PWD}":/etc/ansible/roles/role_under_test:ro ${run_opts} geerlingguy/docker-${distro}-ansible:latest "${init}" > "${container_id}"'
 
   # Ansible syntax check.
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/${playbook} --syntax-check'
