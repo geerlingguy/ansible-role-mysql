@@ -8,7 +8,7 @@
         dest: /sbin/initctl
         mode: 0755
         force: yes
-      when: ansible_distribution == 'Ubuntu' and ansible_distribution_version|version_compare(16.04, '<')
+      when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '14.04'
       changed_when: false
 
   roles:

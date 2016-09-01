@@ -22,10 +22,6 @@ env:
       init: /sbin/init
       run_opts: ""
       playbook: test.yml
-    - distro: ubuntu1204
-      init: /sbin/init
-      run_opts: ""
-      playbook: test.yml
 
 services:
   - docker
