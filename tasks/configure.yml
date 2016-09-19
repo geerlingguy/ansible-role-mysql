@@ -42,6 +42,15 @@
     mode:  0755
     setype: mysqld_db_t
 
+- name: Create tmpdir if it does not exist
+  file:
+    path: "{{ mysql_tmpdir }}"
+    state: directory
+    owner: mysql
+    group: mysql
+    mode: 0755
+  when: mysql_tmpdir != "/tmp"
+
 - name: Set ownership on slow query log file (if configured).
   file:
     path: "{{ mysql_slow_query_log_file }}"

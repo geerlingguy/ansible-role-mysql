@@ -12,6 +12,7 @@ pid-file = {{ mysql_pid_file }}
 {% if mysql_skip_name_resolve %}
 skip-name-resolve
 {% endif %}
+tmpdir = {{ mysql_tmpdir }}
 
 # Logging configuration.
 {% if mysql_log_error == 'syslog' or mysql_log == 'syslog' %}
