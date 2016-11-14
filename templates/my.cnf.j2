@@ -40,6 +40,7 @@ log_bin = mysql-bin
 log-bin-index = mysql-bin.index
 expire_logs_days = {{ mysql_expire_logs_days }}
 max_binlog_size = {{ mysql_max_binlog_size }}
+binlog_format = {{mysql_binlog_format}}
 
 {% for db in mysql_databases %}
 {% if db.replicate|default(1) %}
@@ -76,12 +77,20 @@ read_rnd_buffer_size = {{ mysql_read_rnd_buffer_size }}
 myisam_sort_buffer_size = {{ mysql_myisam_sort_buffer_size }}
 thread_cache_size = {{ mysql_thread_cache_size }}
 query_cache_size = {{ mysql_query_cache_size }}
+query_cache_limit = {{ mysql_query_cache_limit }}
 max_connections = {{ mysql_max_connections }}
+tmp_table_size = {{ mysql_tmp_table_size }}
+max_heap_table_size = {{ mysql_max_heap_table_size }}
 
 # Other settings.
 wait_timeout = {{ mysql_wait_timeout }}
+lower_case_table_names = {{ mysql_lower_case_table_names }}
 
 # InnoDB settings.
+{% if mysql_supports_innodb_large_prefix %}
+innodb_large_prefix = {{ mysql_innodb_large_prefix }}
+innodb_file_format = {{ mysql_innodb_file_format }}
+{% endif %}
 innodb_file_per_table = {{ mysql_innodb_file_per_table }}
 innodb_buffer_pool_size = {{ mysql_innodb_buffer_pool_size }}
 innodb_log_file_size = {{ mysql_innodb_log_file_size }}
@@ -102,4 +111,3 @@ pid-file = {{ mysql_pid_file }}
 #
 !includedir {{ mysql_config_include_dir }}
 {% endif %}
-
