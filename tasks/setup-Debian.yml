@@ -4,14 +4,16 @@
   register: mysql_installed
 
 - name: Ensure apt key is present.
-  apt_key: keyserver='pgp.mit.edu' id='5072E1F5' state=present
+  apt_key: keyserver='hkp://pgp.mit.edu:80' id='5072E1F5' state=present
   when: mysql_version is defined
 
 - name: Ensure apt sources list is present.
   lineinfile:
     dest: '/etc/apt/sources.list.d/mysql.list'
     regexp: '^deb'
-    line: "deb http://repo.mysql.com/apt/{{ ansible_lsb.id }}/ {{ ansible_lsb.codename }} mysql-{{ mysql_version }}"
+    line: "deb http://repo.mysql.com/apt/{{ ansible_distribution | lower }}/ {{ ansible_distribution_release | lower }} mysql-{{ mysql_version }}"
+    create: yes
+    state: present
   when: mysql_version is defined
 
 - name: Update apt cache if MySQL is not yet installed.

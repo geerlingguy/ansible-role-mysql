@@ -13,12 +13,12 @@ env:
   - distro: ubuntu1404
     playbook: test.yml
   - distro: debian8
-    init: /sbin/init
-    run_opts: ""
+    init: /lib/systemd/systemd
+    run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
     playbook: test.yml
   - distro: debian8
-    init: /sbin/init
-    run_opts: ""
+    init: /lib/systemd/systemd
+    run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
     playbook: debian-mysql5.6-test.yml
 
 script:
