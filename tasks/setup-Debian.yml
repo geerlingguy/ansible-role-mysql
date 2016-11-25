@@ -3,6 +3,17 @@
   stat: path=/etc/init.d/mysql
   register: mysql_installed
 
+- name: Ensure apt key is present.
+  apt_key: keyserver='pgp.mit.edu' id='5072E1F5' state=present
+  when: mysql_version is defined
+
+- name:
+  lineinfile:
+    dest: '/etc/apt/sources.list.d/mysql.list'
+    regexp: '^deb'
+    line: "deb http://repo.mysql.com/apt/{{ ansible_lsb.id }}/ {{ ansible_lsb.codename }} mysql-{{ mysql_version }}"
+  when: mysql_version is defined
+
 - name: Update apt cache if MySQL is not yet installed.
   apt: update_cache=yes
   when: mysql_installed.stat.exists == false

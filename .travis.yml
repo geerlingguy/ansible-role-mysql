@@ -12,6 +12,14 @@ env:
     playbook: test.yml
   - distro: ubuntu1404
     playbook: test.yml
+  - distro: debian8
+    init: /sbin/init
+    run_opts: ""
+    playbook: test.yml
+  - distro: debian8
+    init: /sbin/init
+    run_opts: ""
+    playbook: debian-mysql5.6-test.yml
 
 script:
   # Configure test script so we can run extra tests after playbook is run.

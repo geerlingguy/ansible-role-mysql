@@ -132,6 +132,12 @@ If you want to install MySQL from the official repository instead of installing 
       when: ansible_os_family == "RedHat"
 ```
 
+### Mysql 5.6 or 5.7 on Debian
+
+On Debian, the MySQL default version is 5.5. You can specify another version by setting the following variable (for example):
+
+      mysql_version: '5.6'
+
 ### MariaDB usage
 
 This role works with either MySQL or a compatible version of MariaDB. On RHEL/CentOS 7+, the mariadb database engine was substituted as the default MySQL replacement package. No modifications are necessary though all of the variables still reference 'mysql' instead of mariadb.
