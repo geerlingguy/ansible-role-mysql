@@ -23,13 +23,13 @@
   when: mysql_user_name != mysql_root_username and (mysql_install_packages | bool or mysql_user_password_update)
 
 - name: Disallow root login remotely
-  command: 'mysql -NBe "{{ item }}"'
+  command: 'mysql -u {{ mysql_root_username }} -p{{ mysql_user_password }} -NBe "{{ item }}"'
   with_items:
     - DELETE FROM mysql.user WHERE User='{{ mysql_root_username }}' AND Host NOT IN ('localhost', '127.0.0.1', '::1')
   changed_when: false
 
 - name: Get list of hosts for the root user.
-  command: mysql -NBe "SELECT Host FROM mysql.user WHERE User = '{{ mysql_root_username }}' ORDER BY (Host='localhost') ASC"
+  command: mysql -u {{ mysql_root_username }} -p{{ mysql_user_password }} -NBe "SELECT Host FROM mysql.user WHERE User = '{{ mysql_root_username }}' ORDER BY (Host='localhost') ASC"
   register: mysql_root_hosts
   changed_when: false
   always_run: true
@@ -40,7 +40,7 @@
 # Set root password for MySQL >= 5.7.x.
 - name: Update MySQL root password for localhost root account (5.7.x).
   shell: >
-    mysql -u root -NBe
+    mysql -u {{ mysql_root_username }} -p{{ mysql_user_password }} -NBe
     'ALTER USER "{{ mysql_root_username }}"@"{{ item }}" IDENTIFIED WITH mysql_native_password BY "{{ mysql_root_password }}";'
   with_items: "{{ mysql_root_hosts.stdout_lines|default([]) }}"
   when: ((mysql_install_packages | bool) or mysql_root_password_update) and ('5.7.' in mysql_cli_version.stdout)
@@ -48,7 +48,7 @@
 # Set root password for MySQL < 5.7.x.
 - name: Update MySQL root password for localhost root account (< 5.7.x).
   shell: >
-    mysql -NBe
+    mysql -u {{ mysql_root_username }} -p{{ mysql_user_password }} -NBe
     'SET PASSWORD FOR "{{ mysql_root_username }}"@"{{ item }}" = PASSWORD("{{ mysql_root_password }}");'
   with_items: "{{ mysql_root_hosts.stdout_lines|default([]) }}"
   when: ((mysql_install_packages | bool) or mysql_root_password_update) and ('5.7.' not in mysql_cli_version.stdout)
@@ -64,7 +64,7 @@
   when: mysql_install_packages | bool or mysql_root_password_update
 
 - name: Get list of hosts for the anonymous user.
-  command: mysql -NBe 'SELECT Host FROM mysql.user WHERE User = ""'
+  command: mysql -u {{ mysql_root_username }} -p{{ mysql_user_password }} -NBe 'SELECT Host FROM mysql.user WHERE User = ""'
   register: mysql_anonymous_hosts
   changed_when: false
   always_run: true
@@ -77,4 +77,4 @@
   with_items: "{{ mysql_anonymous_hosts.stdout_lines|default([]) }}"
 
 - name: Remove MySQL test database.
-  mysql_db: "name='test' state=absent"
+  mysql_db: "name='test' login_user={{ mysql_root_username }} login_password={{ mysql_user_password }} state=absent"
