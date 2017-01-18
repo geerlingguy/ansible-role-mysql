@@ -18,12 +18,16 @@ No special requirements; note that this role requires root access, so either run
 Available variables are listed below, along with default values (see `defaults/main.yml`):
 
     mysql_user_home: /root
+    mysql_user_name: root
+    mysql_user_password: root
 
-The home directory inside which Python MySQL settings will be stored, which Ansible will use when connecting to MySQL. This should be the home directory of the user which runs this Ansible role.
+The home directory inside which Python MySQL settings will be stored, which Ansible will use when connecting to MySQL. This should be the home directory of the user which runs this Ansible role. The `mysql_user_name` and `mysql_user_password` can be set if you are running this role under a non-root user account and want to set a non-root user.
 
+    mysql_root_home: /root
+    mysql_root_username: root
     mysql_root_password: root
 
-The MySQL root user account password.
+The MySQL root user account details.
 
     mysql_root_password_update: no
 
@@ -34,6 +38,11 @@ Whether to force update the MySQL root user's password. By default, this role wi
     mysql_enabled_on_startup: yes
 
 Whether MySQL should be enabled on startup.
+
+    mysql_config_file: *default value depends on OS*
+    mysql_config_include_dir: *default value depends on OS*
+    
+The main my.cnf configuration file and include directory.
 
     overwrite_global_mycnf: yes
 
@@ -64,17 +73,19 @@ The MySQL users and their privileges. A user has the values `name`, `host` (defa
     mysql_port: "3306"
     mysql_bind_address: '0.0.0.0'
     mysql_datadir: /var/lib/mysql
+    mysql_socket: *default value depends on OS*
+    mysql_pid_file: *default value depends on OS*
 
 Default MySQL connection configuration.
 
     mysql_log: ""
-    mysql_log_error: /var/log/mysqld.log
-    mysql_syslog_tag: mysqld
+    mysql_log_error: *default value depends on OS*
+    mysql_syslog_tag: *default value depends on OS*
 
 MySQL logging configuration. Setting `mysql_log` (the general query log) or `mysql_log_error` to `syslog` will make MySQL log to syslog using the `mysql_syslog_tag`.
 
     mysql_slow_query_log_enabled: no
-    mysql_slow_query_log_file: /var/log/mysql-slow.log
+    mysql_slow_query_log_file: *default value depends on OS*
     mysql_slow_query_time: 2
 
 Slow query log settings. Note that the log file will be created by this role, but if you're running on a server with SELinux or AppArmor, you may need to add this path to the allowed paths for MySQL, or disable the mysql profile. For example, on Debian/Ubuntu, you can run `sudo ln -s /etc/apparmor.d/usr.sbin.mysqld /etc/apparmor.d/disable/usr.sbin.mysqld && sudo service apparmor restart`.
