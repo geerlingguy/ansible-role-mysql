@@ -5,6 +5,7 @@
 
 - name: Ensure apt key is present.
   apt_key: keyserver='hkp://pgp.mit.edu:80' id='5072E1F5' state=present
+  register: mysql_apt_key
   when: mysql_version is defined
 
 - name: Ensure apt sources list is present.
@@ -14,11 +15,12 @@
     line: "deb http://repo.mysql.com/apt/{{ ansible_distribution | lower }}/ {{ ansible_distribution_release | lower }} mysql-{{ mysql_version }}"
     create: yes
     state: present
+  register: mysql_sources_list
   when: mysql_version is defined
 
 - name: Update apt cache if MySQL is not yet installed.
   apt: update_cache=yes
-  when: mysql_installed.stat.exists == false
+  when: mysql_installed.stat.exists == false or mysql_apt_key.changed or mysql_sources_list.changed
 
 - name: Ensure MySQL Python libraries are installed.
   apt: "name=python-mysqldb state=installed"
