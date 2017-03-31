@@ -64,8 +64,8 @@ mysql_query_cache_limit: "1M"
 mysql_max_connections: "151"
 mysql_tmp_table_size: "16M"
 mysql_max_heap_table_size: "16M"
-group_concat_max_len: 1024
-join_buffer_size: 262144
+mysql_group_concat_max_len: 1024
+mysql_join_buffer_size: 262144
 
 # Other settings.
 mysql_lower_case_table_names: "0"
