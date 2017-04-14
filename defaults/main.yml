@@ -70,6 +70,7 @@ mysql_join_buffer_size: "262144"
 # Other settings.
 mysql_lower_case_table_names: "0"
 mysql_wait_timeout: "28800"
+mysql_event_scheduler_state: "OFF"
 
 # InnoDB settings.
 mysql_innodb_file_per_table: "1"

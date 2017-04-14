@@ -90,6 +90,7 @@ join_buffer_size = {{ mysql_join_buffer_size }}
 # Other settings.
 wait_timeout = {{ mysql_wait_timeout }}
 lower_case_table_names = {{ mysql_lower_case_table_names }}
+event_scheduler = {{ mysql_event_scheduler_state }}
 
 # InnoDB settings.
 {% if mysql_supports_innodb_large_prefix %}
