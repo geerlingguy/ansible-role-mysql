@@ -1,0 +1,11 @@
+---
+- name: Ensure MySQL users are present.
+  mysql_user:
+    name: "{{ item.value.name | default(item.key) }}"
+    host: "{{ item.value.host | default('localhost') }}"
+    password: "{{ item.value.password }}"
+    priv: "{{ item.value.priv | default('*.*:USAGE') }}"
+    state: "{{ item.value.state | default('present') }}"
+    append_privs: "{{ item.value.append_privs | default('no') }}"
+  with_dict: "{{ mysql_users }}"
+  no_log: true
