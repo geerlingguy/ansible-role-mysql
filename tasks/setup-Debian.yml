@@ -27,3 +27,14 @@
           - "ib_logfile0"
           - "ib_logfile1"
   when: mysql_installed.stat.exists == false
+
+  
+# Note: This has to be here before the first attempt to connect to mysql shell or it fails on first run
+- name: Create /root/.my.cnf file from template if and only if it doesn't exist already
+  template:
+    src: "first-run-temp-my.cnf.j2"
+    dest: "{{ mysql_user_home }}/.my.cnf"
+    owner: root
+    group: root
+    mode: 0600
+    force: no
