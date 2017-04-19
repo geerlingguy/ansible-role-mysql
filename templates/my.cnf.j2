@@ -2,10 +2,14 @@
 #password = your_password
 port = {{ mysql_port }}
 socket = {{ mysql_socket }}
+default-character-set = {{ mysql_default-character-set }}
 
 [mysqld]
 port = {{ mysql_port }}
 bind-address = {{ mysql_bind_address }}
+character-set-client-handshake = {{ mysql_character-set-client-handshake }}
+character-set-server = {{ mysql_default-character-set }}
+collation-server = {{ mysql_collation-server }}
 datadir = {{ mysql_datadir }}
 socket = {{ mysql_socket }}
 pid-file = {{ mysql_pid_file }}
