@@ -21,13 +21,16 @@
 - name: Copy my.cnf override files into include directory.
   template:
     src: "{{ item.src }}"
-    dest: "{{ mysql_config_include_dir }}/{{ item.src | basename }}"
+    dest: "/root/.my.cnf"
     owner: root
     group: root
     mode: 0644
     force: "{{ item.force | default(False) }}"
   with_items: "{{ mysql_config_include_files }}"
   notify: restart mysql
+
+- name: mysql-restart
+  service: name=mysql state=restarted
 
 - name: Create slow query log file (if configured).
   command: "touch {{ mysql_slow_query_log_file }}"

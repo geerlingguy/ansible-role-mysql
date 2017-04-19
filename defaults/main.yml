@@ -96,7 +96,8 @@ mysql_log: ""
 # mysql_log_error: /var/log/mysql/mysql.err
 # mysql_syslog_tag: mysql
 
-mysql_config_include_files: []
+mysql_config_include_files:
+- {src: user-my.cnf.j2, force: true}
 #  - src: path/relative/to/playbook/file.cnf
 #  - { src: path/relative/to/playbook/anotherfile.cnf, force: yes }
 
