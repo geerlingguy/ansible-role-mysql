@@ -23,13 +23,10 @@ overwrite_global_mycnf: yes
 # mysql_config_file: /etc/my.cnf
 # mysql_config_include_dir: /etc/my.cnf.d
 
-# Use repo.mysql.com to install mysql packages. Used only for Debian based systems
-mysql_apt_repo_enable: false
+# Define this to use repo.mysql.com to install mysql packages. Used only for Debian based systems.
+# mysql_apt_repo_version: 5.7
 # Override this if you want to install older versions of mysql on newer OS releases
 mysql_apt_repo_release: "{{ansible_distribution_release}}"
-# A list of sources to add to _/etc/apt/sources.list.d/_
-# Go to http://repo.mysql.com/apt/ubuntu/dists/trusty/ to see some examples
-mysql_apt_repo_sources: [mysql-5.7]
 
 # Pass in a comma-separated list of repos to use (e.g. "remi,epel"). Used only
 # for RedHat systems (and derivatives).

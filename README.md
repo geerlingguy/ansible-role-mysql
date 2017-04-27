@@ -70,7 +70,7 @@ The MySQL users and their privileges. A user has the values `name`, `host` (defa
 
     mysql_apt_repo_version: 5.7
 
-Use repo.mysql.com to install mysql packages. Used only for Debian based systems. Disabled by default.
+Define this variable to use repo.mysql.com to install mysql packages. Used only for Debian based systems. Disabled by default.
 
     mysql_apt_repo_release: "{{ansible_distribution_release}}"
 
