@@ -1,0 +1,6 @@
+---
+- hosts: all
+  vars:
+    mysql_apt_repo_version: 5.7
+  roles:
+    - role_under_test
