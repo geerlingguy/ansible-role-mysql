@@ -62,6 +62,18 @@ The MySQL users and their privileges. A user has the values `name`, `host` (defa
 
 (OS-specific, RedHat/CentOS defaults listed here) Packages to be installed. In some situations, you may need to add additional packages, like `mysql-devel`.
 
+    mysql_apt_repo_enable: false
+
+Use repo.mysql.com to install mysql packages. Used only for Debian based systems. Disabled by default.
+
+    mysql_apt_repo_release: "{{ansible_distribution_release}}"
+
+Override this if you want to install older versions of mysql on newer OS releases.
+
+    mysql_apt_repo_sources: [mysql-5.7]
+
+A list of sources to add to _/etc/apt/sources.list.d/_. Go to http://repo.mysql.com/apt/ubuntu/dists/trusty/ to see some examples.
+
     mysql_enablerepo: ""
 
 (RedHat/CentOS only) If you have enabled any additional repositories (might I suggest geerlingguy.repo-epel or geerlingguy.repo-remi), those repositories can be listed under this variable (e.g. `remi,epel`). This can be handy, as an example, if you want to install later versions of MySQL.

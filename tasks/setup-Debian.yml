@@ -10,7 +10,7 @@
 - name: Add repo.mysql.com apt repo
   apt_repository:
     repo: "deb http://repo.mysql.com/apt/{{ansible_distribution|lower}}/ {{mysql_apt_repo_release}} {{item}}"
-  with_items: "{{mysql_apt_repo_entries}}"
+  with_items: "{{mysql_apt_repo_sources}}"
   when: mysql_apt_repo_enable
 
 - name: Update apt to prefer repo.mysql.com packages
