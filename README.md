@@ -99,6 +99,13 @@ Slow query log settings. Note that the log file will be created by this role, bu
 
 The rest of the settings in `defaults/main.yml` control MySQL's memory usage and some other common settings. The default values are tuned for a server where MySQL can consume ~512 MB RAM, so you should consider adjusting them to suit your particular server better.
 
+    mysqld_performance_settings: 
+     - { name: key_buffer_size, value: "256M" }
+    mysql_dump_settings: []
+     - { name: mysqldump_max_allowed_packet, value: "64M" }
+
+Any additional performance settings you would like to add beyond the defaults.
+
     mysql_server_id: "1"
     mysql_max_binlog_size: "100M"
     mysql_binlog_format: "ROW"
