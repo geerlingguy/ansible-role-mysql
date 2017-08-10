@@ -4,5 +4,23 @@
   with_items: "{{ mysql_packages }}"
   register: rh_mysql_install_packages
 
+- name: Ensure MySQL paths exist
+  file:
+    path: "{{ mysql_pid_file | dirname }}"
+    owner: mysql
+    group: mysql
+    state: directory
+    mode: 0755
+
+- name: Ensure MySQL /var/run path exists across reboots
+  copy:
+    dest: "/usr/lib/tmpfiles.d/mariadb.conf"
+    owner: root
+    group: root
+    mode: 0644
+    # capital D means to create or empty the directory
+    content: "D {{ mysql_pid_file | dirname }} 0755 mysql mysql -"
+  when: mysql_pid_file | search("/var/run")
+
 - name: Ensure MySQL Python libraries are installed.
   yum: "name=MySQL-python state=installed enablerepo={{ mysql_enablerepo }}"
