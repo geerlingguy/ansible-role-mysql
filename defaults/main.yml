@@ -26,6 +26,7 @@ overwrite_global_mycnf: yes
 # Pass in a comma-separated list of repos to use (e.g. "remi,epel"). Used only
 # for RedHat systems (and derivatives).
 mysql_enablerepo: ""
+mysql_disablerepo: ""
 
 # Define a custom list of packages to install; if none provided, the default
 # package list from vars/[OS-family].yml will be used.
