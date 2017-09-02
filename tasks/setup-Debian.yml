@@ -7,8 +7,17 @@
   apt: update_cache=yes
   when: mysql_installed.stat.exists == false
 
-- name: Ensure MySQL Python libraries are installed.
+- name: Fetch Python version
+  shell: python -V 2>&1 | awk '{print $2}'
+  register: python_version
+
+- name: Ensure MySQL Python2 libraries are installed.
   apt: "name=python-mysqldb state=installed"
+  when: python_version.stdout | version_compare('3.0', '<')
+
+- name: Ensure MySQL Python3 libraries are installed.
+  apt: "name=python-mysqldb state=installed"
+  when: python_version.stdout | version_compare('3.0', '>=')
 
 - name: Ensure MySQL packages are installed.
   apt: "name={{ item }} state=installed"
