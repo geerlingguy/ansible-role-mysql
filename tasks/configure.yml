@@ -70,6 +70,19 @@
     mode: 0640
   when: mysql_log == "" and mysql_log_error != ""
 
+- name: Install policycoreutils-python
+  package:
+    name: policycoreutils-python
+    state: latest
+  when: selinux == "yes"
+
+- name: Set context mapping definition
+  sefcontext:
+    target: '/opt/mysql(/.*)?'
+    setype: mysqld_db_t
+    state: present
+  when: selinux == "yes"
+
 - name: Ensure MySQL is started and enabled on boot.
   service: "name={{ mysql_daemon }} state=started enabled={{ mysql_enabled_on_startup }}"
   register: mysql_service_configuration
