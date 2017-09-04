@@ -74,14 +74,14 @@
   package:
     name: policycoreutils-python
     state: latest
-  when: selinux == "yes"
+  when: ansible_selinux.status == "enabled"
 
 - name: Set context mapping definition
   sefcontext:
     target: '/opt/mysql(/.*)?'
     setype: mysqld_db_t
     state: present
-  when: selinux == "yes"
+  when: ansible_selinux.status == "enabled"
 
 - name: Ensure MySQL is started and enabled on boot.
   service: "name={{ mysql_daemon }} state=started enabled={{ mysql_enabled_on_startup }}"
