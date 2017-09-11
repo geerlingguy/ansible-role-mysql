@@ -120,6 +120,9 @@ mysql_max_binlog_size: "100M"
 mysql_binlog_format: "ROW"
 mysql_expire_logs_days: "10"
 mysql_replication_role: ''
+# the mysql master address reachable from the slave.
 mysql_replication_master: ''
+# the mysql master server address/hostname reachable via ssh with ansible, almost always the ansible inventory hostname.
+mysql_master_hostname: "{{ mysql_replication_master }}"
 # Same keys as `mysql_users` above.
 mysql_replication_user: []
