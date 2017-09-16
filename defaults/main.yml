@@ -85,6 +85,10 @@ mysql_innodb_log_buffer_size: "8M"
 mysql_innodb_flush_log_at_trx_commit: "1"
 mysql_innodb_lock_wait_timeout: "50"
 
+# These settings require MySQL > 5.6.
+#mysql_innodb_ft_min_token_size: "3"
+#mysql_innodb_ft_max_token_size: "84"
+
 # These settings require MySQL > 5.5.
 mysql_innodb_large_prefix: "1"
 mysql_innodb_file_format: "barracuda"
