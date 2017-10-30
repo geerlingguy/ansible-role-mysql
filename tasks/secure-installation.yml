@@ -1,9 +1,4 @@
 ---
-- name: Get MySQL version.
-  command: 'mysql --version'
-  register: mysql_cli_version
-  changed_when: false
-
 - name: Ensure default user is present.
   mysql_user:
     name: "{{ mysql_user_name }}"

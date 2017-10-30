@@ -23,6 +23,7 @@
 
 # Configure MySQL.
 - include: configure.yml
+- include: temporary-password.yml
 - include: secure-installation.yml
 - include: databases.yml
 - include: users.yml
