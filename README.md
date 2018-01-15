@@ -43,7 +43,7 @@ Whether MySQL should be enabled on startup.
 
     mysql_config_file: *default value depends on OS*
     mysql_config_include_dir: *default value depends on OS*
-    
+
 The main my.cnf configuration file and include directory.
 
     overwrite_global_mycnf: yes
@@ -79,6 +79,14 @@ The formats of these are the same as in the `mysql_user` module.
       - mysql-server
 
 (OS-specific, RedHat/CentOS defaults listed here) Packages to be installed. In some situations, you may need to add additional packages, like `mysql-devel`.
+
+    mysql_apt_repo_version: 5.7
+
+Define this variable to use repo.mysql.com to install mysql packages. Used only for Debian based systems. Disabled by default.
+
+    mysql_apt_repo_release: "{{ansible_distribution_release}}"
+
+Override this if you want to install older versions of mysql on newer OS releases.
 
     mysql_enablerepo: ""
 

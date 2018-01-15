@@ -10,6 +10,8 @@ env:
     playbook: test.yml
   - distro: ubuntu1604
     playbook: test.yml
+  - distro: ubuntu1604
+    playbook: xenial-mysql-repo-test.yml
   - distro: ubuntu1404
     playbook: test.yml
 
