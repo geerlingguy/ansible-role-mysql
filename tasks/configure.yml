@@ -43,6 +43,7 @@
     owner: mysql
     group: mysql
     mode:  0755
+    follow: yes
     setype: mysqld_db_t
 
 - name: Set ownership on slow query log file (if configured).
