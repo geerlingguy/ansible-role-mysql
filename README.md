@@ -182,6 +182,27 @@ None.
         host: "%"
         password: similarly-secure-password
         priv: "example_db.*:ALL"
+        
+## Replication sample
+```yaml
+  - hosts: master
+    roles:
+      - role: ansible-role-mysql
+    vars:
+      mysql_server_id: 1
+      mysql_replication_role: master
+      mysql_replication_master: master.test
+      mysql_replication_user: {name: repl, host: "%", password: replica, priv: "*.*:REPLICATION SLAVE,REPLICATION CLIENT"}
+
+  - hosts: slave
+    roles:
+      - role: ansible-role-mysql
+    vars:
+      mysql_server_id: 2
+      mysql_replication_role: slave
+      mysql_replication_master: master.test
+      mysql_replication_user: {name: repl, host: master.test, password: replica}
+```
 
 ## License
 
