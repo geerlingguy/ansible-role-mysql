@@ -24,3 +24,42 @@
 - include_tasks: databases.yml
 - include_tasks: users.yml
 - include_tasks: replication.yml
+
+# Enable GTID and reconfigure
+- set_fact:
+    mysql_replication_gtid: true
+- name: Copy my.cnf global MySQL configuration.
+  template:
+    src: my.cnf.j2
+    dest: "{{ mysql_config_file }}"
+    owner: root
+    group: root
+    mode: 0644
+    force: "{{ overwrite_global_mycnf }}"
+
+- name: Restart mysql to load config.
+  service:
+    name: mysql
+    state: restarted
+
+- name: Stopslave.
+  mysql_replication:
+    mode: stopslave
+  when: >
+    ((slave.Is_Slave is defined and not slave.Is_Slave) or (slave.Is_Slave is not defined and slave|failed))
+    and (mysql_replication_role == 'slave')
+    and (mysql_replication_master != '')
+    and mysql_replication_user
+
+- name: Changemaster to support GTID replication on the slave.
+  mysql_replication:
+    mode: changemaster
+    master_host: "{{ mysql_replication_master }}"
+    master_user: "{{ mysql_replication_user.name }}"
+    master_password: "{{ mysql_replication_user.password }}"
+    master_auto_position: "1"
+  when: >
+    ((slave.Is_Slave is defined and not slave.Is_Slave) or (slave.Is_Slave is not defined and slave|failed))
+    and (mysql_replication_role == 'slave')
+    and (mysql_replication_master != '')
+    and mysql_replication_user

@@ -66,7 +66,19 @@ binlog_ignore_db = {{ db.name }}
 read_only
 relay-log = relay-bin
 relay-log-index = relay-bin.index
+{% if mysql_replication_gtid | bool %}
+log_bin = mysql-bin
+log-bin-index = mysql-bin.index
+binlog_format = {{mysql_binlog_format}}
 {% endif %}
+{% endif %}
+
+{% if mysql_replication_gtid | bool %}
+gtid_mode=ON
+enforce_gtid_consistency=ON
+log-slave-updates
+{% endif %}
+
 {% endif %}
 
 # Disabling symbolic-links is recommended to prevent assorted security risks
