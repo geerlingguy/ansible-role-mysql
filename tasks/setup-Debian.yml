@@ -25,9 +25,10 @@
   service: "name={{ mysql_daemon }} state=stopped"
   when: mysql_installed.stat.exists == false
 
-- name: Delete innodb log files created by apt package after initial install.
+- name: Delete innodb data and log files created by apt package after initial install.
   file: path={{ mysql_datadir }}/{{item}} state=absent
   with_items:
+          - "ibdata1"
           - "ib_logfile0"
           - "ib_logfile1"
   when: mysql_installed.stat.exists == false
