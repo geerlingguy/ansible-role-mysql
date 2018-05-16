@@ -3,6 +3,7 @@
 # or sudo access
 mysql_user_home: /root
 mysql_user_name: root
+mysql_user_host: localhost
 mysql_user_password: root
 
 # The default root user installed by mysql - almost always root

@@ -7,7 +7,7 @@
 - name: Ensure default user is present.
   mysql_user:
     name: "{{ mysql_user_name }}"
-    host: 'localhost'
+    host: "{{ mysql_user_host }}"
     password: "{{ mysql_user_password }}"
     priv: '*.*:ALL,GRANT'
     state: present
