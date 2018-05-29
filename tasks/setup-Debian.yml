@@ -4,7 +4,10 @@
   register: mysql_installed
 
 - name: Ensure apt key is present.
-  apt_key: keyserver='hkp://pgp.mit.edu:80' id='5072E1F5' state=present
+  apt_key:
+    keyserver: 'hkp://pgp.mit.edu:80'
+    id: 'A4A9406876FCBD3C456770C88C718D3B5072E1F5'
+    state: present
   register: mysql_apt_key
   when: mysql_version is defined
 
