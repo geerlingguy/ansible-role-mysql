@@ -44,6 +44,11 @@
     group: mysql
     mode:  0755
     setype: mysqld_db_t
+  register: need_initialize
+
+- name: Install system tables if necessary
+  command: mysql_install_db
+  when: need_initialize.changed == true
 
 - name: Set ownership on slow query log file (if configured).
   file:
