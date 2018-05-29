@@ -46,10 +46,6 @@
     setype: mysqld_db_t
   register: need_initialize
 
-- name: debug
-  debug:
-    var: need_initialize
-
 - name: Install system tables if necessary
   command: mysql_install_db
   when: need_initialize.changed == true
