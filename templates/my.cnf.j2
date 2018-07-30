@@ -36,6 +36,12 @@ slow_query_log_file = {{ mysql_slow_query_log_file }}
 long_query_time = {{ mysql_slow_query_time }}
 {% endif %}
 
+{% if mysql_general_query_log_enabled %}
+# General query log configuration
+general_log = 1
+general_log_file = {{ mysql_general_query_log_file }}
+{% endif %}
+
 {% if mysql_replication_master %}
 # Replication
 server-id = {{ mysql_server_id }}
