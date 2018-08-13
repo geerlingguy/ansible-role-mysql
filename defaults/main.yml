@@ -90,6 +90,9 @@ mysql_innodb_lock_wait_timeout: "50"
 mysql_innodb_large_prefix: "1"
 mysql_innodb_file_format: "barracuda"
 
+# This setting requires MySQL > 5.7.9
+mysql_innodb_default_row_format: "dynamic"
+
 # mysqldump settings.
 mysql_mysqldump_max_allowed_packet: "64M"
 

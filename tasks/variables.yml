@@ -61,3 +61,8 @@
   set_fact:
     mysql_supports_innodb_large_prefix: "{{ __mysql_supports_innodb_large_prefix }}"
   when: mysql_supports_innodb_large_prefix is not defined
+
+- name: Define mysql_supports_innodb_default_row_format.
+  set_fact:
+    mysql_supports_innodb_default_row_format: "{{ __mysql_supports_innodb_default_row_format }}"
+  when: mysql_supports_innodb_default_row_format is not defined

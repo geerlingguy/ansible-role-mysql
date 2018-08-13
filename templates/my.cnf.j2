@@ -100,6 +100,9 @@ event_scheduler = {{ mysql_event_scheduler_state }}
 innodb_large_prefix = {{ mysql_innodb_large_prefix }}
 innodb_file_format = {{ mysql_innodb_file_format }}
 {% endif %}
+{% if mysql_supports_innodb_default_row_format %}
+innodb_default_row_format = {{mysql_innodb_default_row_format }}
+{% endif %}
 innodb_file_per_table = {{ mysql_innodb_file_per_table }}
 innodb_buffer_pool_size = {{ mysql_innodb_buffer_pool_size }}
 innodb_log_file_size = {{ mysql_innodb_log_file_size }}
