@@ -1,0 +1,23 @@
+---
+- hosts: all
+  vars:
+    mysql_packages:
+      - mariadb
+      - mariadb-server
+      - mariadb-libs
+      - MySQL-python
+      - perl-DBD-MySQL
+    mysql_log_error: /var/log/mariadb.log
+    mysql_supports_innodb_large_prefix: false
+    mysql_pid_file: 
+  pre_tasks:
+    - name: Configure MariaDB Repository
+      yum_repository:
+        name: mariadb
+        description: MariaDB
+        baseurl: http://yum.mariadb.org/10.3/centos7-amd64
+        gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+        gpgcheck: true
+        state: present
+  roles:
+    - role_under_test

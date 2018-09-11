@@ -10,7 +10,9 @@ port = {{ mysql_port }}
 bind-address = {{ mysql_bind_address }}
 datadir = {{ mysql_datadir }}
 socket = {{ mysql_socket }}
+{% if mysql_pid_file %}
 pid-file = {{ mysql_pid_file }}
+{% endif %}
 {% if mysql_skip_name_resolve %}
 skip-name-resolve
 {% endif %}
@@ -114,7 +116,9 @@ quick
 max_allowed_packet = {{ mysql_mysqldump_max_allowed_packet }}
 
 [mysqld_safe]
+{% if mysql_pid_file %}
 pid-file = {{ mysql_pid_file }}
+{% endif %}
 
 {% if mysql_config_include_files | length %}
 # * IMPORTANT: Additional settings that can override those from this file!
