@@ -12,6 +12,8 @@ env:
     playbook: test.yml
   - distro: ubuntu1404
     playbook: test.yml
+  - distro: centos7
+    playbok: centos-7-mariadb-10-test.yml
 
 script:
   # Configure test script so we can run extra tests after playbook is run.

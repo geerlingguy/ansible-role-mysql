@@ -9,7 +9,7 @@
       - perl-DBD-MySQL
     mysql_log_error: /var/log/mariadb.log
     mysql_supports_innodb_large_prefix: false
-    mysql_pid_file: 
+    mysql_pid_file: ''
   pre_tasks:
     - name: Configure MariaDB Repository
       yum_repository:

@@ -92,7 +92,7 @@ The formats of these are the same as in the `mysql_user` module.
 
 For some recent versions of MariaDB you might not want to specify `pid-file`. For such situations, set a blank value.
 
-    mysql_pid_file: 
+    mysql_pid_file: ''
 
 Default MySQL connection configuration.
 
