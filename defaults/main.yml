@@ -103,6 +103,10 @@ mysql_config_include_files: []
 #  - src: path/relative/to/playbook/file.cnf
 #  - { src: path/relative/to/playbook/anotherfile.cnf, force: yes }
 
+# Set the location/name of the binlog
+mysql_log_bin: "mysql-bin"
+mysql_log_bin_index: "mysql-bin.index"
+
 # Databases.
 mysql_databases: []
 #   - name: example
