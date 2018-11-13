@@ -24,3 +24,6 @@
 - include_tasks: databases.yml
 - include_tasks: users.yml
 - include_tasks: replication.yml
+
+- name: "Force all notified handlers to run"
+  meta: flush_handlers
