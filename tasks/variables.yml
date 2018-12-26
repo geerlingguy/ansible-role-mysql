@@ -10,7 +10,15 @@
 
 - name: Include OS-specific variables (RedHat).
   include_vars: "{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
-  when: ansible_os_family == "RedHat"
+  when: ansible_os_family == "RedHat" and ansible_distribution_major_version == 6
+
+- name: Include OS-specific variables (RedHat).
+  include_vars: "{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
+  when: ansible_os_family == "RedHat" and ansible_distribution_major_version > 6 and (mysql_packages is not defined or "Percona" not in mysql_packages)
+
+- name: Include OS-specific variables (RedHat) for a Percona Install.  # use the mysql variables from RH6 for a percona install on RH7
+  include_vars: "{{ ansible_os_family }}-6.yml"
+  when: ansible_os_family == "RedHat" and ansible_distribution_major_version > 6 and (mysql_packages is defined and "Percona" in mysql_packages)
 
 - name: Define mysql_packages.
   set_fact:

@@ -1,0 +1,24 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  pre_tasks:
+  - name: "Setup percona repo"
+    yum:
+      name: http://www.percona.com/downloads/percona-release/redhat/0.1-6/percona-release-0.1-6.noarch.rpm
+      state: present
+  - name: set fact for percona binary
+    set_fact:
+      mysql_packages: Percona-Server-server-57
+      mysql_root_password: Root123$  # the role's default password is not accepted by mysql
+  roles:
+    - role: ansible-role-mysql
+
+  post_tasks:
+    - name: Make sure we can connect to MySQL via Unix socket.
+      command: "mysql -u root -p{{mysql_root_password}} -e 'show databases;'"
+      changed_when: false
+
+    - name: Make sure we can connect to MySQL via TCP.
+      command: "mysql -u root -p{{mysql_root_password}} -h 127.0.0.1 -e 'show databases;'"
+      changed_when: false
