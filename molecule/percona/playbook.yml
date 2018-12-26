@@ -12,7 +12,7 @@
       mysql_packages: Percona-Server-server-57
       mysql_root_password: Root123$  # the role's default password is not accepted by mysql
   roles:
-    - role: ansible-role-mysql
+    - role: geerlingguy.mysql
 
   post_tasks:
     - name: Make sure we can connect to MySQL via Unix socket.
