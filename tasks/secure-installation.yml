@@ -1,7 +1,7 @@
 ---
 
 - name: Get Mysql version
-  shell: mysqladmin --version | grep -o -P '(?<=Distrib).*(?=,)'
+  shell: mysqladmin --version | grep -o -P '(?<=Distrib ).*(?=,)'
   register: mysql_version
   changed_when: false
 
@@ -48,7 +48,14 @@
       name: root
       password: "{{mysql_root_password}}"
     when: mysql_root_password_update
-  when: is_mariadb!=true and mysql_version is version('5.6','>') and (ansible_os_family == 'RedHat' and  ansible_distribution_major_version >= 7)
+  when: >
+   is_mariadb != true and
+   ( mysql_version.stdout is version('5.6','>')) and
+   (ansible_os_family == 'RedHat' and  ansible_distribution_major_version is version('7','>='))
+- debug:
+    var: ansible_os_family
+- debug:
+    var: ansible_distribution_major_version
 - block:
     - name: Get list of hosts for the root user.
       command: mysql -NBe
@@ -82,7 +89,7 @@
       when: >
         ((mysql_install_packages | bool) or mysql_root_password_update)
         and ('5.7.' not in mysql_cli_version.stdout and '8.0.' not in mysql_cli_version.stdout)
-  when: is_mariadb==true or (ansible_os_family != 'RedHat' or( ansible_os_family == 'RedHat' and ansible_distribution_major_version <= 6))
+  when: ( ansible_os_family == 'RedHat' and (ansible_distribution_major_version is version('6','<=') or is_mariadb == true )) or ansible_os_family != 'RedHat'
 
 # Has to be after the root password assignment, for idempotency.
 - name: Copy .my.cnf file with root password credentials.
