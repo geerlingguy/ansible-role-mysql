@@ -50,7 +50,7 @@
     when: mysql_root_password_update
   when: >
    is_mariadb != true and
-   ( mysql_version.stdout is version('5.6','>')) and
+   ( mysql_version.stdout is version('5.7','>=')) and
    (ansible_os_family == 'RedHat' and  ansible_distribution_major_version is version('7','>='))
 
 - block:
