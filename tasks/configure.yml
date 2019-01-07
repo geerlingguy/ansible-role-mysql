@@ -1,19 +1,21 @@
 ---
-- name: Pull down the existing config file for parsing.
-  fetch:
-    src: /etc/my.cnf
-    dest: /tmp/geerlingguy.mysql
-  ignore_errors: true
-
-- name: Get the existing data directory.
-  set_fact:
-    mysql_original_datadir: "{{ lookup('ini', 'datadir section=mysqld file=/tmp/geerlingguy.mysql/{{ inventory_hostname }}/etc/my.cnf', errors='ignore') | default('/var/lib/mysql', true) }}"
-
 - name: Get MySQL version.
   command: 'mysql --version'
   register: mysql_cli_version
   changed_when: false
   check_mode: false
+
+- name: Pull down the existing config file for parsing.
+  fetch:
+    src: /etc/my.cnf
+    dest: /tmp/geerlingguy.mysql
+  ignore_errors: true
+  changed_when: false
+  check_mode: false
+
+- name: Get the existing data directory.
+  set_fact:
+    mysql_original_datadir: "{{ lookup('ini', 'datadir section=mysqld file=/tmp/geerlingguy.mysql/{{ inventory_hostname }}/etc/my.cnf', errors='ignore') | default('/var/lib/mysql', true) }}"
 
 - name: Copy my.cnf global MySQL configuration.
   template:
