@@ -56,8 +56,8 @@
   synchronize:
     src: "{{ mysql_original_datadir }}/"
     dest: "{{ mysql_datadir }}"
-    archive: yes
-    compress: no
+    archive: true
+    compress: false
     rsync_opts:
       - "-AX"
   delegate_to: "{{ inventory_hostname }}"
