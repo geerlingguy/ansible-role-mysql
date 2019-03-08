@@ -50,7 +50,8 @@
     - (mysql_replication_master | length) > 0
 
 - name: Start replication.
-  mysql_replication: mode=startslave
+  mysql_replication:
+    mode: startslave
   when:
     - (slave.Is_Slave is defined and not slave.Is_Slave) or (slave.Is_Slave is not defined and slave is failed)
     - mysql_replication_role == 'slave'
