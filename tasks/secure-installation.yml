@@ -19,6 +19,13 @@
     mysql_user_name != mysql_root_username
     and (mysql_install_packages | bool or mysql_user_password_update)
 
+- name: Enable plugin unix_socket
+  command: mysql --defaults-file=/etc/mysql/debian.cnf -e "INSTALL PLUGIN unix_socket SONAME 'auth_socket'"
+  register: mysql_result
+  changed_when: mysql_result.rc == 0
+  failed_when: mysql_result.rc != 0 and 'already installed' not in mysql_result.stderr
+  when: mysql_packages | select('search','mariadb') | list | count > 0
+
 - name: Disallow root login remotely
   command: 'mysql -NBe "{{ item }}"'
   with_items:
