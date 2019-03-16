@@ -24,7 +24,7 @@
   register: mysql_result
   changed_when: mysql_result.rc == 0
   failed_when: mysql_result.rc != 0 and 'already installed' not in mysql_result.stderr
-  when: mysql_packages | select('search','mariadb') | list | count > 0
+  when: mysql_packages | select('search','mariadb') | list | count > 0 and ansible_os_family == 'Debian'
 
 - name: Disallow root login remotely
   command: 'mysql -NBe "{{ item }}"'
