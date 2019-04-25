@@ -63,6 +63,10 @@
     mode: 0600
   when: mysql_install_packages | bool or mysql_root_password_update
 
+- name: Wait Test
+  pause:
+    minutes: 1
+  
 - name: Get list of hosts for the anonymous user.
   command: mysql -NBe 'SELECT Host FROM mysql.user WHERE User = ""'
   register: mysql_anonymous_hosts
