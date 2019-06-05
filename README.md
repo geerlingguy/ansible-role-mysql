@@ -67,6 +67,7 @@ The MySQL users and their privileges. A user has the values:
   - `name`
   - `host` (defaults to `localhost`)
   - `password` (can be plaintext or encrypted—if encrypted, set `encrypted: yes`)
+  - `update_password`  (default `always`, to only set password on user creation set `update_password: on_create`)
   - `encrypted` (defaults to `no`)
   - `priv` (defaults to `*.*:USAGE`)
   - `append_privs` (defaults to `no`)
