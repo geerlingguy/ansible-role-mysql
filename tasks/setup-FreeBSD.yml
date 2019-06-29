@@ -10,4 +10,3 @@
     name: "{{ mysql_packages }}"
     state: present
   register: fbsd_mysql_install_packages
-
