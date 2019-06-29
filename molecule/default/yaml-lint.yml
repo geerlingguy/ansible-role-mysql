@@ -4,3 +4,6 @@ rules:
   line-length:
     max: 160
     level: warning
+  truthy:
+    ignore: |
+      tasks/setup-FreeBSD.yml
