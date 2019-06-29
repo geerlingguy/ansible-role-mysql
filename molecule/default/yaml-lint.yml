@@ -6,4 +6,4 @@ rules:
     level: warning
   truthy:
     ignore: |
-      tasks/setup-FreeBSD.yml
+      setup-FreeBSD.yml
