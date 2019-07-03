@@ -72,6 +72,8 @@ user = mysql
 # http://dev.mysql.com/doc/refman/5.5/en/performance-schema.html
 ;performance_schema
 
+secure_file_priv = {{ mysql_secure_file_priv }}
+
 # Memory settings.
 key_buffer_size = {{ mysql_key_buffer_size }}
 max_allowed_packet = {{ mysql_max_allowed_packet }}

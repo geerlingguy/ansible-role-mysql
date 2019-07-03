@@ -53,6 +53,8 @@ mysql_slow_query_time: "2"
 # The following variable has a default value depending on operating system.
 # mysql_slow_query_log_file: /var/log/mysql-slow.log
 
+mysql_key_buffer_size:
+
 # Memory settings (default values optimized ~512MB RAM).
 mysql_key_buffer_size: "256M"
 mysql_max_allowed_packet: "64M"
