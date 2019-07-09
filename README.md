@@ -29,7 +29,7 @@ The home directory inside which Python MySQL settings will be stored, which Ansi
 
 The MySQL root user account details.
 
-    mysql_root_password_update: no
+    mysql_root_password_update: false
 
 Whether to force update the MySQL root user's password. By default, this role will only change the root user's password when MySQL is first configured. You can force an update by setting this to `yes`.
 
@@ -37,7 +37,7 @@ Whether to force update the MySQL root user's password. By default, this role wi
 
 > Note: If you get an error like `ERROR 1698 (28000): Access denied for user 'root'@'localhost' (using password: YES)` when trying to log in from the CLI you might need to run as root or sudoer.
 
-    mysql_enabled_on_startup: yes
+    mysql_enabled_on_startup: true
 
 Whether MySQL should be enabled on startup.
 
@@ -46,7 +46,7 @@ Whether MySQL should be enabled on startup.
     
 The main my.cnf configuration file and include directory.
 
-    overwrite_global_mycnf: yes
+    overwrite_global_mycnf: true
 
 Whether the global my.cnf should be overwritten each time this role is run. Setting this to `no` tells Ansible to only create the `my.cnf` file if it doesn't exist. This should be left at its default value (`yes`) if you'd like to use this role's variables to configure MySQL.
 
@@ -99,7 +99,7 @@ Default MySQL connection configuration.
 
 MySQL logging configuration. Setting `mysql_log` (the general query log) or `mysql_log_error` to `syslog` will make MySQL log to syslog using the `mysql_syslog_tag`.
 
-    mysql_slow_query_log_enabled: no
+    mysql_slow_query_log_enabled: false
     mysql_slow_query_log_file: *default value depends on OS*
     mysql_slow_query_time: 2
 
@@ -121,6 +121,8 @@ The rest of the settings in `defaults/main.yml` control MySQL's memory usage and
     mysql_replication_user: []
 
 Replication settings. Set `mysql_server_id` and `mysql_replication_role` by server (e.g. the master would be ID `1`, with the `mysql_replication_role` of `master`, and the slave would be ID `2`, with the `mysql_replication_role` of `slave`). The `mysql_replication_user` uses the same keys as `mysql_users`, and is created on master servers, and used to replicate on all the slaves.
+
+`mysql_replication_master` needs to resolve to an IP or a hostname which is accessable to the Slaves (this could be a `/etc/hosts` injection or some other means), otherwise the slaves cannot communicate to the master.
 
 ### Later versions of MySQL on CentOS 7
 
