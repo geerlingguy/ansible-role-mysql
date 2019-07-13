@@ -1,0 +1,12 @@
+---
+- name: Update pkg cache.
+  command: pkg update -f
+  environment:
+    ASSUME_ALWAYS_YES: yes  # yamllint disable-line
+  tags: ['skip_ansible_lint']
+
+- name: Ensure MySQL packages are installed.
+  pkgng:
+    name: "{{ mysql_packages }}"
+    state: present
+  register: fbsd_mysql_install_packages

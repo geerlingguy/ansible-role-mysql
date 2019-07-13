@@ -57,6 +57,11 @@
     mysql_socket: "{{ __mysql_socket }}"
   when: mysql_socket is not defined
 
+- name: Define root group.
+  set_fact:
+    root_group: "{{ __root_group }}"
+  when: root_group is not defined
+
 - name: Define mysql_supports_innodb_large_prefix.
   set_fact:
     mysql_supports_innodb_large_prefix: "{{ __mysql_supports_innodb_large_prefix }}"
