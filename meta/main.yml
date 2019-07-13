@@ -3,7 +3,7 @@ dependencies: []
 
 galaxy_info:
   author: geerlingguy
-  description: MySQL server for RHEL/CentOS and Debian/Ubuntu.
+  description: MySQL server for RHEL/CentOS, Debian/Ubuntu and FreeBSD.
   company: "Midwestern Mac, LLC"
   license: "license (BSD, MIT)"
   min_ansible_version: 2.4
@@ -21,6 +21,11 @@ galaxy_info:
     - name: Archlinux
       versions:
         - all
+    - name: FreeBSD
+      versions:
+        - 11.2
+        - 12.0
+        - 13-CURRENT
   galaxy_tags:
     - database
     - mysql

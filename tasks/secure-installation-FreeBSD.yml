@@ -1,0 +1,37 @@
+---
+- name: Check if .mysql_secret exists
+  stat:
+    path: /root/.mysql_secret
+  register: stat_mysql_secret
+
+# pipefail will be present in future releases 11.3, 12.1, 13.
+- name: get mysql initial password
+  shell: cat /root/.mysql_secret | grep -v '^#'  # noqa 306
+  register: mysql_default_password
+  when: stat_mysql_secret.stat.exists
+
+- name: Create initial .my.cnf file with root password credentials.
+  copy:
+    dest: "{{ mysql_root_home }}/.my.cnf"
+    owner: root
+    group: "{{ root_group }}"
+    mode: 0600
+    content: |
+      # initial .my.cnf
+      [client]
+      user="root"
+      password="{{ mysql_default_password.stdout }}"
+  when: stat_mysql_secret.stat.exists
+
+- name: Delete .mysql_secret
+  file:
+    state: absent
+    path: /root/.mysql_secret
+  when: stat_mysql_secret.stat.exists
+
+# It will be changed in the next tasks
+- name: change mysql root password to the same password generated
+  command: >
+    /usr/local/bin/mysqladmin -u root -p{{ mysql_default_password.stdout }}
+    password "{{ mysql_default_password.stdout }}"
+  when: stat_mysql_secret.stat.exists

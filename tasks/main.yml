@@ -12,14 +12,22 @@
 - include_tasks: setup-Archlinux.yml
   when: ansible_os_family == 'Archlinux'
 
+- include_tasks: setup-FreeBSD.yml
+  when: ansible_os_family == 'FreeBSD'
+
 - name: Check if MySQL packages were installed.
   set_fact:
     mysql_install_packages: "{{ (rh_mysql_install_packages is defined and rh_mysql_install_packages.changed)
       or (deb_mysql_install_packages is defined and deb_mysql_install_packages.changed)
-      or (arch_mysql_install_packages is defined and arch_mysql_install_packages.changed) }}"
+      or (arch_mysql_install_packages is defined and arch_mysql_install_packages.changed)
+      or (fbsd_mysql_install_packages is defined and fbsd_mysql_install_packages.changed) }}"
 
 # Configure MySQL.
 - include_tasks: configure.yml
+
+- include_tasks: secure-installation-FreeBSD.yml
+  when: ansible_os_family == 'FreeBSD'
+
 - include_tasks: secure-installation.yml
 - include_tasks: databases.yml
 - include_tasks: users.yml
