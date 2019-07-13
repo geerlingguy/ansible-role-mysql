@@ -25,10 +25,7 @@ galaxy_info:
         - all
     - name: FreeBSD
       versions:
-        - 11.2
-        - 11.3
-        - 12.0
-        - 13-CURRENT
+        - 12.1
   galaxy_tags:
     - database
     - mysql
