@@ -153,7 +153,7 @@ This role works with either MySQL or a compatible version of MariaDB. On RHEL/Ce
 
 ### Later versions of MariaDB on CentOS 7
 
-If you want to install MariaDB from the official repository instead of installing the system default MariaDB equivalents, you need add repository (see https://downloads.mariadb.org/mariadb/repositories/) and define variabled
+If you want to install MariaDB from the official repository instead of installing the system default MariaDB equivalents, you need add repository (see https://downloads.mariadb.org/mariadb/repositories/) and define variables
 
 ```yaml
   pre_tasks:
