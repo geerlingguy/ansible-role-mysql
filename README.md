@@ -151,6 +151,28 @@ If you want to install MySQL from the official repository instead of installing 
 
 This role works with either MySQL or a compatible version of MariaDB. On RHEL/CentOS 7+, the mariadb database engine was substituted as the default MySQL replacement package. No modifications are necessary though all of the variables still reference 'mysql' instead of mariadb.
 
+### Later versions of MariaDB on CentOS 7
+
+If you want to install MariaDB from the official repository instead of installing the system default MariaDB equivalents, you need add repository (see https://downloads.mariadb.org/mariadb/repositories/) and define variabled
+
+```yaml
+  pre_tasks:
+    - name: Install the MariaDB repo.
+    ..
+  
+    - name: Override variables for MariaDB (RedHat).
+      set_fact:
+        mysql_packages:
+          - MariaDB-server
+          - MariaDB-backup
+          - MariaDB-client
+          - MySQL-python
+          - perl-DBD-MySQL
+        mysql_log_error: /var/log/mysqld.err
+        mysql_pid_file:
+      when: ansible_os_family == "RedHat"
+```
+
 #### Ubuntu 14.04 and 16.04 MariaDB configuration
 
 On Ubuntu, the package names are named differently, so the `mysql_package` variable needs to be altered. Set the following variables (at a minimum):
