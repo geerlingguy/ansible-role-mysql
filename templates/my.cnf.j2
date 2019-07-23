@@ -111,6 +111,9 @@ innodb_log_buffer_size = {{ mysql_innodb_log_buffer_size }}
 innodb_flush_log_at_trx_commit = {{ mysql_innodb_flush_log_at_trx_commit }}
 innodb_lock_wait_timeout = {{ mysql_innodb_lock_wait_timeout }}
 
+# Extra settings
+{{ mysql_extra_config | to_nice_yaml }}
+
 [mysqldump]
 quick
 max_allowed_packet = {{ mysql_mysqldump_max_allowed_packet }}
