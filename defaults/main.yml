@@ -124,5 +124,6 @@ mysql_binlog_format: "ROW"
 mysql_expire_logs_days: "10"
 mysql_replication_role: ''
 mysql_replication_master: ''
+#mysql_slave_ro: (default 1 for read-only, 0 for read-write) 
 # Same keys as `mysql_users` above.
 mysql_replication_user: []
