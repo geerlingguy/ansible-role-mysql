@@ -90,6 +90,10 @@ mysql_innodb_lock_wait_timeout: "50"
 mysql_innodb_large_prefix: "1"
 mysql_innodb_file_format: "barracuda"
 
+# Fine Tuning
+mysql_character_set_server: 'utf8'
+mysql_collation_server: 'utf8_general_ci'
+
 # mysqldump settings.
 mysql_mysqldump_max_allowed_packet: "64M"
 
