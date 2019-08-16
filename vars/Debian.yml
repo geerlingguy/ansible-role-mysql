@@ -1,7 +1,8 @@
 ---
 __mysql_daemon: mysql
 __mysql_packages:
-  - default-mysql-server
+  - mysql-common
+  - mysql-server
 mysql_log_file_group: adm
 __mysql_slow_query_log_file: /var/log/mysql/mysql-slow.log
 __mysql_log_error: /var/log/mysql/mysql.err
