@@ -2,7 +2,7 @@
 - name: Update pkg cache.
   command: pkg update -f
   environment:
-    ASSUME_ALWAYS_YES: yes  # yamllint disable-line
+    ASSUME_ALWAYS_YES: "yes"
   tags: ['skip_ansible_lint']
 
 - name: Ensure MySQL packages are installed.
