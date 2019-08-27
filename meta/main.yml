@@ -24,6 +24,7 @@ galaxy_info:
     - name: FreeBSD
       versions:
         - 11.2
+        - 11.3
         - 12.0
         - 13-CURRENT
   galaxy_tags:
