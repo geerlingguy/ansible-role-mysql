@@ -27,6 +27,9 @@ overwrite_global_mycnf: true
 # for RedHat systems (and derivatives).
 mysql_enablerepo: ""
 
+# Version of MySQL to install. Used only for Debian/Ubuntu systems.
+mysql_version: "5.7"
+
 # Define a custom list of packages to install; if none provided, the default
 # package list from vars/[OS-family].yml will be used.
 # mysql_packages:
