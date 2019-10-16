@@ -125,6 +125,6 @@ mysql_expire_logs_days: "10"
 mysql_replication_role: ''
 mysql_replication_master: ''
 # if mysql_replicate_all_databases is true, the database "replicate" option in mysql_databases is not used anymore
-mysql_replicate_all_databases: False
+mysql_replicate_all_databases: false
 # Same keys as `mysql_users` above.
 mysql_replication_user: []
