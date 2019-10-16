@@ -3,3 +3,6 @@
 [client]
 user="{{ mysql_user_name }}"
 password="{{ mysql_user_password }}"
+{% if mysql_user_use_socket == True %}
+socket = "{{ mysql_socket }}"
+{% endif %}

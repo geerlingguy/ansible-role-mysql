@@ -20,8 +20,9 @@ Available variables are listed below, along with default values (see `defaults/m
     mysql_user_home: /root
     mysql_user_name: root
     mysql_user_password: root
+    mysql_user_use_socket: False
 
-The home directory inside which Python MySQL settings will be stored, which Ansible will use when connecting to MySQL. This should be the home directory of the user which runs this Ansible role. The `mysql_user_name` and `mysql_user_password` can be set if you are running this role under a non-root user account and want to set a non-root user.
+The home directory inside which Python MySQL settings will be stored, which Ansible will use when connecting to MySQL. This should be the home directory of the user which runs this Ansible role. The `mysql_user_name` and `mysql_user_password` can be set if you are running this role under a non-root user account and want to set a non-root user. If `mysql_user_use_socket` is set to True, it will set socket variable for client in .my.cnf.
 
     mysql_root_home: /root
     mysql_root_username: root
@@ -43,7 +44,7 @@ Whether MySQL should be enabled on startup.
 
     mysql_config_file: *default value depends on OS*
     mysql_config_include_dir: *default value depends on OS*
-    
+
 The main my.cnf configuration file and include directory.
 
     overwrite_global_mycnf: true
@@ -135,7 +136,7 @@ If you want to install MySQL from the official repository instead of installing 
         name: http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
         state: present
       when: ansible_os_family == "RedHat"
-  
+
     - name: Override variables for MySQL (RedHat).
       set_fact:
         mysql_daemon: mysqld
