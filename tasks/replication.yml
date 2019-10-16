@@ -1,5 +1,5 @@
 ---
-- name: Ensure replication user exists on master.
+- name: Ensure replication user exists on master and if needed on slaves.
   mysql_user:
     name: "{{ mysql_replication_user.name }}"
     host: "{{ mysql_replication_user.host | default('%') }}"
@@ -7,7 +7,7 @@
     priv: "{{ mysql_replication_user.priv | default('*.*:REPLICATION SLAVE,REPLICATION CLIENT') }}"
     state: present
   when:
-    - mysql_replication_role == 'master'
+    - (mysql_replication_role == 'master' or mysql_replication_user_on_all_servers == 'True')
     - mysql_replication_user.name is defined
     - mysql_replication_master != ''
   tags: ['skip_ansible_galaxy']
