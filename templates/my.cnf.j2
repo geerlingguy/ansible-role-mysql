@@ -57,6 +57,9 @@ binlog_ignore_db = {{ db.name }}
 {% endif %}
 
 {% if mysql_replication_role == 'slave' %}
+{% if mysql_replication_report_host != "" %}
+report_host = {{ mysql_replication_report_host }}
+{% endif %}
 read_only
 relay-log = relay-bin
 relay-log-index = relay-bin.index
