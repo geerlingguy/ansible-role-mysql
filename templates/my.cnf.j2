@@ -47,6 +47,7 @@ expire_logs_days = {{ mysql_expire_logs_days }}
 max_binlog_size = {{ mysql_max_binlog_size }}
 binlog_format = {{mysql_binlog_format}}
 
+{% if mysql_replicate_all_databases == False %}
 {% for db in mysql_databases %}
 {% if db.replicate|default(1) %}
 binlog_do_db = {{ db.name }}
@@ -54,6 +55,7 @@ binlog_do_db = {{ db.name }}
 binlog_ignore_db = {{ db.name }}
 {% endif %}
 {% endfor %}
+{% endif %}
 {% endif %}
 
 {% if mysql_replication_role == 'slave' %}
