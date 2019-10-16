@@ -43,7 +43,7 @@ Whether MySQL should be enabled on startup.
 
     mysql_config_file: *default value depends on OS*
     mysql_config_include_dir: *default value depends on OS*
-    
+
 The main my.cnf configuration file and include directory.
 
     overwrite_global_mycnf: true
@@ -87,6 +87,7 @@ The formats of these are the same as in the `mysql_user` module.
     mysql_port: "3306"
     mysql_bind_address: '0.0.0.0'
     mysql_datadir: /var/lib/mysql
+    mysql_datadir_mode: "0755"
     mysql_socket: *default value depends on OS*
     mysql_pid_file: *default value depends on OS*
 
@@ -135,7 +136,7 @@ If you want to install MySQL from the official repository instead of installing 
         name: http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
         state: present
       when: ansible_os_family == "RedHat"
-  
+
     - name: Override variables for MySQL (RedHat).
       set_fact:
         mysql_daemon: mysqld
