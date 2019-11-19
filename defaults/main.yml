@@ -103,6 +103,9 @@ mysql_config_include_files: []
 #  - src: path/relative/to/playbook/file.cnf
 #  - { src: path/relative/to/playbook/anotherfile.cnf, force: yes }
 
+# Include mysql_config_include_dir even when mysql_config_include_files is empty
+mysql_enable_config_include_dir: false
+
 # Databases.
 mysql_databases: []
 #   - name: example
