@@ -26,6 +26,7 @@ jobs:
     
     - name: Prepare Role Code
       run: |
+        cd ..
         mv ansible-role-$ROLE_NAME geerlingguy.$ROLE_NAME
         cd geerlingguy.$ROLE_NAME
     - name: Test with Molecule
