@@ -20,15 +20,19 @@ jobs:
       with:
         python-version: 3.6
     
-    - name: Install dependencies
+    - name: Install Ansible & Molecule
       run: |
         pip install molecule docker
+        ansible --version
+        molecule --version
     
-    - name: Prepare Role Code
+    - name: Prepare Role Codebase
       run: |
         cd ..
         mv ansible-role-$ROLE_NAME geerlingguy.$ROLE_NAME
         cd geerlingguy.$ROLE_NAME
+
     - name: Test with Molecule
       run: |
+        cd geerlingguy.$ROLE_NAME
         molecule test
