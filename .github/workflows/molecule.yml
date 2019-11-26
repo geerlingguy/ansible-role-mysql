@@ -10,6 +10,15 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        MOLECULE_DISTRO:
+          - centos7
+          - centos6
+          - ubuntu1804
+          - ubuntu1604
+          - debian10
+
     steps:
     - uses: actions/checkout@v1
 
