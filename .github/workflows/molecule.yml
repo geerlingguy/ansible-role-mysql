@@ -36,7 +36,7 @@ jobs:
 
     - name: Test with Molecule
       run: |
-        cd geerlingguy.$ROLE_NAME
         pwd
         ls -la
+        cd geerlingguy.$ROLE_NAME
         molecule test
