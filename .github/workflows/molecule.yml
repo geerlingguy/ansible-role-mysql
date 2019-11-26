@@ -26,17 +26,9 @@ jobs:
         ansible --version
         molecule --version
     
-    - name: Prepare Role Codebase
+    - name: Test with Molecule
       run: |
         cd ..
         mv ansible-role-$ROLE_NAME geerlingguy.$ROLE_NAME
-        cd geerlingguy.$ROLE_NAME
-        pwd
-        ls -la 
-
-    - name: Test with Molecule
-      run: |
-        pwd
-        ls -la
         cd geerlingguy.$ROLE_NAME
         molecule test
