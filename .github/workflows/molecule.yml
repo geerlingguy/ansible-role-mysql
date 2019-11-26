@@ -12,7 +12,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    
+
     # Using Python 3.6 to match travis-ci default. 
     # See https://docs.travis-ci.com/user/languages/python/#specifying-python-versions
     - name: Set up Python 3.6
@@ -25,7 +25,15 @@ jobs:
         pip install molecule docker
         ansible --version
         molecule --version
-    
+
+    - uses: actions/cache@v1
+      name: Cache Python Libraries
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip--molecule-docker
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
     - name: Test with Molecule
       run: |
         cd ..
