@@ -1,0 +1,33 @@
+name: Ansible
+
+on: [push]
+env:
+  ROLE_NAME: mysql
+
+jobs:
+  molecule:
+    name: Molecule
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    
+    # Using Python 3.6 to match travis-ci default. 
+    # See https://docs.travis-ci.com/user/languages/python/#specifying-python-versions
+    - name: Set up Python 3.6
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.6
+    
+    - name: Install dependencies
+      run: |
+        pip install molecule docker
+    
+    - name: Prepare Role Code
+      run: |
+        mv ansible-role-$ROLE_NAME geerlingguy.$ROLE_NAME
+        cd geerlingguy.$ROLE_NAME
+    - name: Test with Molecule
+      run: |
+        molecule test
