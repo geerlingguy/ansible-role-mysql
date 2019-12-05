@@ -18,4 +18,6 @@ __mysql_pid_file: /var/run/mariadb/mariadb.pid
 __mysql_config_file: /etc/my.cnf
 __mysql_config_include_dir: /etc/my.cnf.d
 __mysql_socket: /var/lib/mysql/mysql.sock
-__mysql_supports_innodb_large_prefix: true
+# The entries controlled by this value should not be used MariaDB >= 10.2.2
+# See https://github.com/frappe/bench/issues/681#issuecomment-398984706
+__mysql_supports_innodb_large_prefix: false
