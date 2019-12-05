@@ -6,8 +6,12 @@
     enablerepo: "{{ mysql_enablerepo | default(omit, true) }}"
   register: rh_mysql_install_packages
 
+- name: Determine required MySQL Python libraries
+  set_fact:
+    rhel_mysql_python_package: "{% if ansible_distribution_major_version|int >= 8 %}['python3-PyMySQL','python2-PyMySQL']{% else %}MySQL-python{% endif %}"
+
 - name: Ensure MySQL Python libraries are installed.
   yum:
-    name: MySQL-python
+    name: "{{ rhel_mysql_python_package }}"
     state: present
     enablerepo: "{{ mysql_enablerepo | default(omit, true) }}"
