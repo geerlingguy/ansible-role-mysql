@@ -66,8 +66,8 @@
     creates: "{{ mysql_log_error }}"
     warn: false
   when:
-    - mysql_log == ""
-    - mysql_log_error != ""
+    - not mysql_log | bool
+    - mysql_log_error | bool
   tags: ['skip_ansible_galaxy']
 
 - name: Set ownership on error log file (if configured).
@@ -78,8 +78,8 @@
     group: "{{ mysql_log_file_group }}"
     mode: 0640
   when:
-    - mysql_log == ""
-    - mysql_log_error != ""
+    - not mysql_log | bool
+    - mysql_log_error | bool
   tags: ['skip_ansible_galaxy']
 
 - name: Ensure MySQL is started and enabled on boot.
