@@ -3,7 +3,7 @@ __mysql_daemon: mysql-server
 # MySQL 5.7 is the current default version in the FreeBSD ports
 __mysql_packages:
   - mysql57-server
-  - py36-mysqlclient
+  - py37-mysqlclient
 __mysql_slow_query_log_file: /var/log/mysql-slow.log
 __mysql_log_error: /var/log/mysqld.log
 __mysql_syslog_tag: mysql
