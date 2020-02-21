@@ -6,6 +6,7 @@ env:
   global:
     - ROLE_NAME: mysql
   matrix:
+    - MOLECULE_DISTRO: centos8
     - MOLECULE_DISTRO: centos7
     - MOLECULE_DISTRO: centos6
     - MOLECULE_DISTRO: ubuntu1804
