@@ -1,14 +1,14 @@
 # Ansible Role: MySQL
-This is a fork of the (https://github.com/geerlingguy/ansible-role-mysql)[geerlingguy.mysql] role which adds the ability to specify the MySQL version to install on Debian/Ubuntu platforms.
+This is a fork of the [geerlingguy.mysql](https://github.com/geerlingguy/ansible-role-mysql) role which adds the ability to specify the MySQL version to install on Debian/Ubuntu platforms.
 
-See (https://github.com/geerlingguy/ansible-role-mysql#ansible-role-mysql)[geerlingguy.mysql] for instruction on how to use this role.
+See [geerlingguy.mysql](https://github.com/geerlingguy/ansible-role-mysql#ansible-role-mysql) for instruction on how to use this role.
 
 ## Requirements
 None.
 
 ## Role Variables
 Available variables are listed below, along with their default values.
-See (https://github.com/geerlingguy/ansible-role-mysql#role-variables)[geerlingguy.mysql role variables] for information on the core variables that this role uses.
+See [geerlingguy.mysql role variables](https://github.com/geerlingguy/ansible-role-mysql#role-variables) for information on the core variables that this role uses.
 
 ```yaml
 mysql_version: "5.7"
