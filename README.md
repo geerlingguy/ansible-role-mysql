@@ -13,8 +13,8 @@ See [geerlingguy.mysql role variables](https://github.com/geerlingguy/ansible-ro
 ```yaml
 mysql_version: "5.7"
 ```
-Security settings for SSH.
-- `mysql_version:string` - Specifies whether ssh-agent forwarding is permitted.
+MySQL installation settings.
+- `mysql_version:string` - Specifies which version of MySQL to install.
 
 ## Dependencies
 None.
@@ -41,9 +41,3 @@ None.
   - import_role:
       name: damianlewis.mysql
 ```
-
-## License
-MIT
-
-## Author
-Damian Lewis
