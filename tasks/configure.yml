@@ -51,6 +51,27 @@
     mode: 0755
     setype: mysqld_db_t
 
+- name: Create parent directory for mysql_pid_file if it does not exist
+  file:
+    path: "{{ mysql_pid_file.split('/')[0:-1]|join('/') }}"
+    state: directory
+    recurse: yes
+    force: no
+    owner: mysql
+    group: mysql
+    mode: 0755
+    setype: mysqld_db_t
+
+- name: Create mysql_pid_file if it does not exist
+  copy:
+    content: ""
+    dest: "{{ mysql_pid_file }}"
+    force: no
+    owner: mysql
+    group: mysql
+    mode: 0755
+    setype: mysqld_db_t
+
 - name: Set ownership on slow query log file (if configured).
   file:
     path: "{{ mysql_slow_query_log_file }}"
