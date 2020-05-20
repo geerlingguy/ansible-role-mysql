@@ -119,6 +119,8 @@ mysql_users: []
 
 # Replication settings (replication is only enabled if master/user have values).
 mysql_server_id: "1"
+mysql_binlog: "mysql-bin"
+mysql_binlog_index: "mysql-bin.index"
 mysql_max_binlog_size: "100M"
 mysql_binlog_format: "ROW"
 mysql_expire_logs_days: "10"
