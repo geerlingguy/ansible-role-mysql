@@ -24,9 +24,14 @@
     - mysql_replication_master | default(false)
   tags: ['skip_ansible_galaxy']
 
+- name: Create group based on replication role.
+  group_by:
+    key: mysql_replication_role_{{ mysql_replication_role }}
+  tags: ['skip_ansible_galaxy']
+
 - name: Check master replication status.
   mysql_replication: mode=getmaster
-  delegate_to: "{{ mysql_replication_master }}"
+  delegate_to: "{{ hostvars[groups['mysql_replication_role_master'][0]]['ansible_user'] }}@{{ hostvars[groups['mysql_replication_role_master'][0]]['ansible_host'] }}"
   register: master
   when:
     - (slave.Is_Slave is defined and not slave.Is_Slave) or (slave.Is_Slave is not defined and slave is failed)
