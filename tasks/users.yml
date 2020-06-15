@@ -1,6 +1,7 @@
 ---
 - name: Ensure MySQL users are present.
   mysql_user:
+    login_unix_socket: "{{ mysql_socket }}"
     name: "{{ item.name }}"
     host: "{{ item.host | default('localhost') }}"
     password: "{{ item.password }}"
