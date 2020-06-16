@@ -16,3 +16,4 @@ __mysql_socket: /var/lib/mysql/mysql.sock
 # The entries controlled by this value should not be used with MariaDB >= 10.2.2
 # See https://github.com/frappe/bench/issues/681#issuecomment-398984706
 __mysql_supports_innodb_large_prefix: false
+__root_group: root
