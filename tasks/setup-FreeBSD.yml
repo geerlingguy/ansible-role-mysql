@@ -4,6 +4,7 @@
   environment:
     ASSUME_ALWAYS_YES: "yes"
   tags: ['skip_ansible_lint']
+  changed_when: false
 
 - name: Ensure MySQL packages are installed.
   pkgng:
