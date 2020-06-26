@@ -9,7 +9,7 @@
 
 - name: Determine required MySQL Python libraries.
   set_fact:
-    mysql_python_package_debian: "{% if 'python3' in ansible_python_interpreter|default('') %}python3-mysqldb{% else %}python-mysqldb{% endif %}"
+    mysql_python_package_debian: "{% if 'python3' in discovered_interpreter_python|default('') %}python3-mysqldb{% else %}python-mysqldb{% endif %}"
   when: mysql_python_package_debian is not defined
 
 - name: Ensure MySQL Python libraries are installed.
