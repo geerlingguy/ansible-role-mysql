@@ -14,6 +14,9 @@ mysql_root_password: root
 mysql_root_password_update: false
 mysql_user_password_update: false
 
+# Set this to `false` to disable _ansible_no_log
+mysql_no_log: true
+
 mysql_enabled_on_startup: true
 
 # Whether my.cnf should be updated on every run.
