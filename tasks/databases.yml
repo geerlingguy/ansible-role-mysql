@@ -4,5 +4,6 @@
     name: "{{ item.name }}"
     collation: "{{ item.collation | default('utf8_general_ci') }}"
     encoding: "{{ item.encoding | default('utf8') }}"
+    login_unix_socket: "{{ login_unix_socket | default(omit) }}"
     state: "{{ item.state | default('present') }}"
   with_items: "{{ mysql_databases }}"

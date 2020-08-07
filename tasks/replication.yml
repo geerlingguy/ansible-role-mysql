@@ -3,6 +3,7 @@
   mysql_user:
     name: "{{ mysql_replication_user.name }}"
     host: "{{ mysql_replication_user.host | default('%') }}"
+    login_unix_socket: "{{ login_unix_socket | default(omit) }}"
     password: "{{ mysql_replication_user.password }}"
     priv: "{{ mysql_replication_user.priv | default('*.*:REPLICATION SLAVE,REPLICATION CLIENT') }}"
     state: present
@@ -17,6 +18,7 @@
     mode: getslave
     login_user: "{{ mysql_replication_user.name }}"
     login_password: "{{ mysql_replication_user.password }}"
+    login_unix_socket: "{{ login_unix_socket | default(omit) }}"
   ignore_errors: true
   register: slave
   when:
@@ -25,7 +27,9 @@
   tags: ['skip_ansible_galaxy']
 
 - name: Check master replication status.
-  mysql_replication: mode=getmaster
+  mysql_replication: 
+    mode: getmaster
+    login_unix_socket: "{{ login_unix_socket | default(omit) }}"
   delegate_to: "{{ mysql_replication_master }}"
   register: master
   when:
@@ -40,6 +44,7 @@
     master_host: "{{ mysql_replication_master }}"
     master_user: "{{ mysql_replication_user.name }}"
     master_password: "{{ mysql_replication_user.password }}"
+    login_unix_socket: "{{ login_unix_socket | default(omit) }}"
     master_log_file: "{{ master.File }}"
     master_log_pos: "{{ master.Position }}"
   ignore_errors: true
@@ -50,7 +55,9 @@
     - (mysql_replication_master | length) > 0
 
 - name: Start replication.
-  mysql_replication: mode=startslave
+  mysql_replication: 
+    mode: startslave
+    login_unix_socket: "{{ login_unix_socket | default(omit) }}"
   when:
     - (slave.Is_Slave is defined and not slave.Is_Slave) or (slave.Is_Slave is not defined and slave is failed)
     - mysql_replication_role == 'slave'

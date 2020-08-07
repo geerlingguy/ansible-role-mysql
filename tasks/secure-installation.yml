@@ -4,6 +4,7 @@
     name: "{{ mysql_user_name }}"
     host: 'localhost'
     password: "{{ mysql_user_password }}"
+    login_unix_socket: "{{ login_unix_socket | default(omit) }}"
     priv: '*.*:ALL,GRANT'
     state: present
   when: mysql_user_name != mysql_root_username
@@ -79,8 +80,12 @@
   mysql_user:
     name: ""
     host: "{{ item }}"
+    login_unix_socket: "{{ login_unix_socket | default(omit) }}"
     state: absent
   with_items: "{{ mysql_anonymous_hosts.stdout_lines|default([]) }}"
 
 - name: Remove MySQL test database.
-  mysql_db: "name='test' state=absent"
+  mysql_db: 
+    name: "test"
+    login_unix_socket: "{{ login_unix_socket | default(omit) }}"
+    state: absent
