@@ -1,5 +1,5 @@
 ---
-__mysql_daemon: mariadb
+__mysql_daemon: mysql
 __mysql_packages:
   - default-mysql-server
 mysql_log_file_group: adm
