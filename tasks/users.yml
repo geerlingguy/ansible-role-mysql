@@ -10,4 +10,3 @@
     append_privs: "{{ item.append_privs | default('no') }}"
     encrypted: "{{ item.encrypted | default('no') }}"
   loop: "{{ mysql_users }}"
-  no_log: true
