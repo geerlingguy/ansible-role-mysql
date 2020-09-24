@@ -5,4 +5,4 @@
     collation: "{{ item.collation | default('utf8_general_ci') }}"
     encoding: "{{ item.encoding | default('utf8') }}"
     state: "{{ item.state | default('present') }}"
-  with_items: "{{ mysql_databases }}"
+  loop: "{{ mysql_databases }}"

@@ -1,6 +1,6 @@
 ---
 - name: Ensure MySQL users are present.
-  mysql_user:
+  community.mysql.mysql_user:
     login_unix_socket: "{{ mysql_socket }}"
     name: "{{ item.name }}"
     host: "{{ item.host | default('localhost') }}"
@@ -9,5 +9,5 @@
     state: "{{ item.state | default('present') }}"
     append_privs: "{{ item.append_privs | default('no') }}"
     encrypted: "{{ item.encrypted | default('no') }}"
-  with_items: "{{ mysql_users }}"
+  loop: "{{ mysql_users }}"
   no_log: true
