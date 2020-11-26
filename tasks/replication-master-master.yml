@@ -1,0 +1,87 @@
+---
+- name: Ensure replication user exists on every host.
+  mysql_user:
+    name: "{{ mysql_replication_user.name }}"
+    host: "{{ mysql_replication_user.host | default('%') }}"
+    password: "{{ mysql_replication_user.password }}"
+    priv: "{{ mysql_replication_user.priv | default('*.*:REPLICATION SLAVE,REPLICATION CLIENT') }}"
+    state: present
+    login_unix_socket: "{{ mysql_socket }}"
+  when:
+    - mysql_replication_user.name is defined
+  tags: ['skip_ansible_galaxy']
+
+- name: Check if the slave user is defined in the remote host.
+  mysql_replication:
+    mode: getmaster
+    login_user: "{{ mysql_replication_user.name }}"
+    login_password: "{{ mysql_replication_user.password }}"
+    login_host: "{{ mysql_replication_master }}"
+  register: master
+  until: master.Is_Master is defined
+  retries: 5
+  delay: 10
+
+- name: Check slave replication status.
+  mysql_replication:
+    mode: getslave
+    login_unix_socket: "{{ mysql_socket }}"
+  ignore_errors: true
+  register: slave
+  tags: ['skip_ansible_galaxy']
+
+- name: Stop slave if replication status is in error.
+  mysql_replication:
+    mode: stopslave
+    login_unix_socket: "{{ mysql_socket }}"
+  register: restart_slave
+  ignore_errors: true
+  when:
+    - (slave.Slave_IO_Running is defined and slave.Slave_IO_Running != 'Yes') or (slave.Slave_IO_Running is defined and slave.Slave_SQL_Running != 'Yes')
+  tags: ['skip_ansible_galaxy']
+
+- name: Check master replication status.
+  mysql_replication:
+    mode: getmaster
+    login_unix_socket: "{{ mysql_socket }}"
+  delegate_to: "{{ mysql_replication_master }}"
+  register: master
+  when:
+    - (slave.Is_Slave is defined and not slave.Is_Slave) or (slave.Is_Slave is not defined and slave is failed) or (slave.Slave_IO_Running != 'Yes') or (slave.Slave_SQL_Running != 'Yes')
+  tags: ['skip_ansible_galaxy']
+
+- name: Configure replication on the slave.
+  mysql_replication:
+    mode: changemaster
+    master_host: "{{ mysql_replication_master }}"
+    master_user: "{{ mysql_replication_user.name }}"
+    master_password: "{{ mysql_replication_user.password }}"
+    master_log_file: "{{ master.File }}"
+    master_log_pos: "{{ master.Position }}"
+    login_unix_socket: "{{ mysql_socket }}"
+  ignore_errors: true
+  when:
+    - (slave.Is_Slave is defined and not slave.Is_Slave) or (slave.Is_Slave is not defined and slave is failed) or (slave.Slave_IO_Running != 'Yes') or (slave.Slave_SQL_Running != 'Yes')
+    - mysql_replication_user.name is defined
+
+- name: Start replication.
+  mysql_replication:
+    mode: startslave
+    login_unix_socket: "{{ mysql_socket }}"
+  when:
+    - (slave.Is_Slave is defined and not slave.Is_Slave) or (slave.Is_Slave is not defined and slave is failed) or (slave.Slave_IO_Running != 'Yes') or (slave.Slave_SQL_Running != 'Yes')
+  tags: ['skip_ansible_galaxy']
+
+- name: Check slave replication status.
+  mysql_replication:
+    mode: getslave
+    login_unix_socket: "{{ mysql_socket }}"
+  register: slave
+  tags: ['skip_ansible_galaxy']
+
+- name: Generate an error if slave status is failed
+  fail:
+    msg: the master master cluster failed because of {{ slave.Last_IO_Error }}
+  ignore_errors: true
+  when:
+    - (slave.Slave_IO_Running != 'Yes') or (slave.Slave_SQL_Running != 'Yes')

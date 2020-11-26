@@ -56,6 +56,14 @@ binlog_ignore_db = {{ db.name }}
 {% endfor %}
 {% endif %}
 
+{% if mysql_replication_role == 'co-master' %}
+log_bin = {{ mysql_logs_bin }}
+expire_logs_days = {{ mysql_expire_logs_days }}
+max_binlog_size = {{ mysql_max_binlog_size }}
+binlog_format = {{mysql_binlog_format}}
+
+{% endif %}
+
 {% if mysql_replication_role == 'slave' %}
 read_only
 relay-log = relay-bin
