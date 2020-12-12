@@ -72,6 +72,12 @@ The MySQL users and their privileges. A user has the values:
   - `append_privs` (defaults to `no`)
   - `state`  (defaults to `present`)
 
+A list of users to ensure exist on the server. Only the name is required; all other properties are optional.
+
+    mysql_users_no_log: true
+
+Whether to output user data (which may contain sensitive information, like passwords) when managing users.
+
 The formats of these are the same as in the `mysql_user` module.
 
     mysql_packages:
