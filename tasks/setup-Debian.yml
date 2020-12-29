@@ -2,7 +2,7 @@
 - name: Check if MySQL is already installed.
   stat: path=/etc/init.d/mysql
   register: mysql_installed
-  
+
 - name: Check if MySQL systemd script is already installed.
   stat: "path=/lib/systemd/system/{{ mysql_daemon }}.service"
   register: mysql_systemd_installed
