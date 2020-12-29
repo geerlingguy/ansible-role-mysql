@@ -2,10 +2,14 @@
 - name: Check if MySQL is already installed.
   stat: path=/etc/init.d/mysql
   register: mysql_installed
+  
+- name: Check if MySQL systemd script is already installed.
+  stat: "path=/lib/systemd/system/{{ mysql_daemon }}.service"
+  register: mysql_systemd_installed
 
 - name: Update apt cache if MySQL is not yet installed.
   apt: update_cache=yes
-  when: not mysql_installed.stat.exists
+  when: not mysql_installed.stat.exists and not mysql_systemd_installed.stat.exists
 
 - name: Ensure MySQL Python libraries are installed.
   apt:
@@ -22,11 +26,11 @@
 # mysql and remove the logfiles in case the user set a custom log file size.
 - name: Ensure MySQL is stopped after initial install.
   service: "name={{ mysql_daemon }} state=stopped"
-  when: not mysql_installed.stat.exists
+  when: not mysql_installed.stat.exists and not mysql_systemd_installed.stat.exists
 
 - name: Delete innodb log files created by apt package after initial install.
   file: path={{ mysql_datadir }}/{{ item }} state=absent
   with_items:
     - ib_logfile0
     - ib_logfile1
-  when: not mysql_installed.stat.exists
+  when: not mysql_installed.stat.exists and not mysql_systemd_installed.stat.exists
