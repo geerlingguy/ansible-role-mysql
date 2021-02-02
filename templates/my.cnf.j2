@@ -96,6 +96,9 @@ join_buffer_size = {{ mysql_join_buffer_size }}
 wait_timeout = {{ mysql_wait_timeout }}
 lower_case_table_names = {{ mysql_lower_case_table_names }}
 event_scheduler = {{ mysql_event_scheduler_state }}
+{% if mysql_time_zone %}
+default-time-zone = {{ mysql_time_zone }}
+{% endif %}
 
 # InnoDB settings.
 {% if mysql_supports_innodb_large_prefix and '8.0.' not in mysql_cli_version.stdout %}
