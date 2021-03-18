@@ -17,6 +17,9 @@ skip-name-resolve
 {% if mysql_sql_mode %}
 sql_mode = {{ mysql_sql_mode }}
 {% endif %}
+{% if mysql_character_set %}
+character-set-server = {{ mysql_character_set }}
+{% endif %}
 
 # Logging configuration.
 {% if mysql_log_error == 'syslog' or mysql_log == 'syslog' %}
