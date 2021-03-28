@@ -2,6 +2,7 @@
 dependencies: []
 
 galaxy_info:
+  role_name: mysql
   author: geerlingguy
   description: MySQL server for RHEL/CentOS and Debian/Ubuntu.
   company: "Midwestern Mac, LLC"
@@ -10,7 +11,6 @@ galaxy_info:
   platforms:
     - name: EL
       versions:
-        - 6
         - 7
         - 8
     - name: Ubuntu

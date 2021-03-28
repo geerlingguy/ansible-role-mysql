@@ -1,6 +1,6 @@
 # Ansible Role: MySQL
 
-[![Build Status](https://travis-ci.org/geerlingguy/ansible-role-mysql.svg?branch=master)](https://travis-ci.org/geerlingguy/ansible-role-mysql)
+[![CI](https://github.com/geerlingguy/ansible-role-mysql/workflows/CI/badge.svg?event=push)](https://github.com/geerlingguy/ansible-role-mysql/actions?query=workflow%3ACI)
 
 Installs and configures MySQL or MariaDB server on RHEL/CentOS or Debian/Ubuntu servers.
 
@@ -84,9 +84,9 @@ The formats of these are the same as in the `mysql_user` module.
 
 (RedHat/CentOS only) If you have enabled any additional repositories (might I suggest geerlingguy.repo-epel or geerlingguy.repo-remi), those repositories can be listed under this variable (e.g. `remi,epel`). This can be handy, as an example, if you want to install later versions of MySQL.
 
-    mysql_python_package_debian: ''
+    mysql_python_package_debian: python3-mysqldb
 
-(Ubuntu/Debian only) If you need to explicitly set the MySQL Python package, you can set it here. If not set, it will default to `python-mysqldb` for Python 2 and `python3-mysqldb` for Python 3.
+(Ubuntu/Debian only) If you need to explicitly override the MySQL Python package, you can set it here. Set this to `python-mysqldb` if using older distributions running Python 2.
 
     mysql_port: "3306"
     mysql_bind_address: '0.0.0.0'
