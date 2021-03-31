@@ -18,11 +18,8 @@ skip-name-resolve
 sql_mode = {{ mysql_sql_mode }}
 {% endif %}
 
+{% if mysql_log_error != 'syslog' and mysql_log != 'syslog' %}
 # Logging configuration.
-{% if mysql_log_error == 'syslog' or mysql_log == 'syslog' %}
-syslog
-syslog-tag = {{ mysql_syslog_tag }}
-{% else %}
 {% if mysql_log %}
 log = {{ mysql_log }}
 {% endif %}
@@ -115,6 +112,12 @@ max_allowed_packet = {{ mysql_mysqldump_max_allowed_packet }}
 
 [mysqld_safe]
 pid-file = {{ mysql_pid_file }}
+
+{% if mysql_log_error == 'syslog' or mysql_log == 'syslog' %}
+# Logging configuration.
+syslog
+syslog-tag = {{ mysql_syslog_tag }}
+{% endif %}
 
 {% if mysql_config_include_files | length %}
 # * IMPORTANT: Additional settings that can override those from this file!
