@@ -70,6 +70,7 @@ The MySQL users and their privileges. A user has the values:
   - `encrypted` (defaults to `no`)
   - `priv` (defaults to `*.*:USAGE`)
   - `append_privs` (defaults to `no`)
+  - `resource_limits` (defaults to `omit`)
   - `state`  (defaults to `present`)
 
 The formats of these are the same as in the `mysql_user` module.
