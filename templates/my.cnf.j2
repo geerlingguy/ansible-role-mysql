@@ -14,7 +14,7 @@ pid-file = {{ mysql_pid_file }}
 {% if mysql_skip_name_resolve %}
 skip-name-resolve
 {% endif %}
-{% if mysql_sql_mode %}
+{% if mysql_sql_mode is defined %}
 sql_mode = {{ mysql_sql_mode }}
 {% endif %}
 
@@ -91,9 +91,15 @@ tmp_table_size = {{ mysql_tmp_table_size }}
 max_heap_table_size = {{ mysql_max_heap_table_size }}
 group_concat_max_len = {{ mysql_group_concat_max_len }}
 join_buffer_size = {{ mysql_join_buffer_size }}
+{% if mysql_bulk_insert_buffer_size %}
+bulk_insert_buffer_size = {{ mysql_bulk_insert_buffer_size }}
+{% endif %}
 
 # Other settings.
 wait_timeout = {{ mysql_wait_timeout }}
+{% if mysql_wait_timeout %}
+wait_timeout = {{ mysql_wait_timeout }}
+{% endif %}
 lower_case_table_names = {{ mysql_lower_case_table_names }}
 event_scheduler = {{ mysql_event_scheduler_state }}
 
