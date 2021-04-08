@@ -97,8 +97,8 @@ bulk_insert_buffer_size = {{ mysql_bulk_insert_buffer_size }}
 
 # Other settings.
 wait_timeout = {{ mysql_wait_timeout }}
-{% if mysql_wait_timeout %}
-wait_timeout = {{ mysql_wait_timeout }}
+{% if mysql_connect_timeout %}
+connect_timeout = {{ mysql_connect_timeout }}
 {% endif %}
 lower_case_table_names = {{ mysql_lower_case_table_names }}
 event_scheduler = {{ mysql_event_scheduler_state }}
