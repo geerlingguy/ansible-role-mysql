@@ -2,6 +2,7 @@
 __mysql_daemon: mariadb
 __mysql_packages:
   - default-mysql-server
+  - python3-pymysql
 mysql_log_file_group: adm
 __mysql_slow_query_log_file: /var/log/mysql/mysql-slow.log
 __mysql_log_error: /var/log/mysql/mysql.log
