@@ -84,3 +84,4 @@
 
 - name: Remove MySQL test database.
   mysql_db: "name='test' state=absent"
+  when: mysql_remove_test_db | default(true)
