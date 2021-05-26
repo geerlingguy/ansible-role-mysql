@@ -18,6 +18,35 @@ skip-name-resolve
 sql_mode = {{ mysql_sql_mode }}
 {% endif %}
 
+# SSL configuration
+{% if mysql_ssl_ca %}
+ssl_ca = {{ mysql_ssl_ca }}
+{% endif %}
+{% if mysql_ssl_capath %}
+ssl_capath = {{ mysql_ssl_capath %}
+{% endif %}
+{% if mysql_ssl_cert %}
+ssl_cert = {{ mysql_ssl_cert }}
+{% endif %}
+{% if mysql_ssl_key %}
+ssl_key = {{ mysql_ssl_key }}
+{% endif %}
+{% if mysql_require_secure_transport %}
+require_secure_transport = {{ mysql_require_secure_transport }}
+{% endif %}
+{% if mysql_ssl_cipher  %}
+ssl_cipher = {{ mysql_ssl_cipher }}
+{% endif %}
+{% if mysql_ssl_crl %}
+ssl_crl = {{ mysql_ssl_crl }}
+{% endif %}
+{% if mysql_ssl_crlpath  %}
+ssl_crlpath = {{ mysql_ssl_crlpath  }}
+{% endif %}
+{% if mysql_tls_version %}
+tls_version = {{ mysql_tls_version }}
+{% endif %}
+
 # Logging configuration.
 {% if mysql_log_error == 'syslog' or mysql_log == 'syslog' %}
 syslog
