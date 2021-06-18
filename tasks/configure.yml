@@ -27,7 +27,7 @@
 - name: Copy my.cnf override files into include directory.
   template:
     src: "{{ item.src }}"
-    dest: "{{ mysql_config_include_dir }}/{{ item.src | basename }}"
+    dest: "{{ mysql_config_include_dir }}/{{ item.src | basename | regex_replace('\\.j2$', '') }}"
     owner: root
     group: root
     mode: 0644
