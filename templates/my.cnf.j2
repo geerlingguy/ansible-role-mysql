@@ -18,6 +18,13 @@ skip-name-resolve
 sql_mode = {{ mysql_sql_mode }}
 {% endif %}
 
+{% if mysql_additional_server_variables %}
+# Server variables
+{% for var_name, var_value in mysql_additional_server_variables.items() %}
+{{ var_name }} = {{ var_value }}
+{% endfor %}
+{% endif %}
+
 # Logging configuration.
 {% if mysql_log_error == 'syslog' or mysql_log == 'syslog' %}
 syslog
