@@ -43,7 +43,11 @@ server-id = {{ mysql_server_id }}
 {% if mysql_replication_role == 'master' %}
 log_bin = mysql-bin
 log-bin-index = mysql-bin.index
+{% if mysql_binlog_expire_logs_seconds %}
+binlog_expire_logs_seconds = {{ mysql_binlog_expire_logs_seconds }}
+{% else %}
 expire_logs_days = {{ mysql_expire_logs_days }}
+{% endif %}
 max_binlog_size = {{ mysql_max_binlog_size }}
 binlog_format = {{mysql_binlog_format}}
 
@@ -75,6 +79,9 @@ user = mysql
 # Memory settings.
 key_buffer_size = {{ mysql_key_buffer_size }}
 max_allowed_packet = {{ mysql_max_allowed_packet }}
+{% if mysql_table_definition_cache %}
+table_definition_cache = {{ mysql_table_definition_cache }}
+{% endif %}
 table_open_cache = {{ mysql_table_open_cache }}
 sort_buffer_size = {{ mysql_sort_buffer_size }}
 read_buffer_size = {{ mysql_read_buffer_size }}
@@ -87,6 +94,9 @@ query_cache_size = {{ mysql_query_cache_size }}
 query_cache_limit = {{ mysql_query_cache_limit }}
 {% endif %}
 max_connections = {{ mysql_max_connections }}
+{% if mysql_temptable_max_ram %}
+temptable_max_ram: {{ mysql_temptable_max_ram }}
+{% endif %}
 tmp_table_size = {{ mysql_tmp_table_size }}
 max_heap_table_size = {{ mysql_max_heap_table_size }}
 group_concat_max_len = {{ mysql_group_concat_max_len }}
