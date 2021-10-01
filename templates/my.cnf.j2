@@ -95,7 +95,7 @@ query_cache_limit = {{ mysql_query_cache_limit }}
 {% endif %}
 max_connections = {{ mysql_max_connections }}
 {% if mysql_temptable_max_ram %}
-temptable_max_ram: {{ mysql_temptable_max_ram }}
+temptable_max_ram = {{ mysql_temptable_max_ram }}
 {% endif %}
 tmp_table_size = {{ mysql_tmp_table_size }}
 max_heap_table_size = {{ mysql_max_heap_table_size }}
