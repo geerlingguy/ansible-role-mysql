@@ -3,7 +3,7 @@
 # or sudo access
 mysql_user_home: /root
 mysql_user_name: root
-mysql_user_password: root
+mysql_user_password: "{{ lookup('password', '/dev/null length=20 chars=ascii_letters') }}"
 
 # The default root user installed by mysql - almost always root
 mysql_root_home: /root
