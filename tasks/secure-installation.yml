@@ -36,6 +36,32 @@
   check_mode: false
   when: mysql_install_packages | bool or mysql_root_password_update
 
+- name: Set the .my.cnf file path.
+  set_fact:
+    mysql_root_cnf_path: "{{ mysql_root_home }}/.my.cnf"
+
+- name: Copy .my.cnf file with root password credentials.
+  template:
+    src: "root-my.cnf.j2"
+    dest: "{{ mysql_root_cnf_path }}"
+    owner: root
+    group: root
+    mode: 0600
+  when: mysql_install_packages | bool or mysql_root_password_update
+  register: mysql_root_password_setting
+
+- name: Fetch the .my.cnf file containing the root password
+  slurp:
+    src: "{{ mysql_root_cnf_path }}"
+  register: mysql_root_cnf_file
+
+# It would be cleaner to use the `ini` lookup plugin, but that only works
+# locally so we'd have to copy the file first, which we'd rather not do because
+# it contains secrets.
+- name: Extract the root password from .my.cnf
+  set_fact:
+    mysql_root_password_generated: "{{ mysql_root_cnf_file['content'] | b64decode | regex_findall('password=\"(.+)\"') | first }}"
+
 # Note: We do not use mysql_user for this operation, as it doesn't always update
 # the root password correctly. See: https://goo.gl/MSOejW
 # Set root password for MySQL >= 5.7.x.
@@ -43,31 +69,23 @@
   shell: >
     mysql -u root -NBe
     'ALTER USER "{{ mysql_root_username }}"@"{{ item }}"
-    IDENTIFIED WITH mysql_native_password BY "{{ mysql_root_password }}"; FLUSH PRIVILEGES;'
+    IDENTIFIED WITH mysql_native_password BY "{{ mysql_root_password_generated }}"; FLUSH PRIVILEGES;'
   with_items: "{{ mysql_root_hosts.stdout_lines|default([]) }}"
   when: >
     ((mysql_install_packages | bool) or mysql_root_password_update)
     and ('5.7.' in mysql_cli_version.stdout or '8.0.' in mysql_cli_version.stdout)
+    and (mysql_root_password_setting.changed is true)
 
 # Set root password for MySQL < 5.7.x.
 - name: Update MySQL root password for localhost root account (< 5.7.x).
   shell: >
     mysql -NBe
-    'SET PASSWORD FOR "{{ mysql_root_username }}"@"{{ item }}" = PASSWORD("{{ mysql_root_password }}"); FLUSH PRIVILEGES;'
+    'SET PASSWORD FOR "{{ mysql_root_username }}"@"{{ item }}" = PASSWORD("{{ mysql_root_password_generated }}"); FLUSH PRIVILEGES;'
   with_items: "{{ mysql_root_hosts.stdout_lines|default([]) }}"
   when: >
     ((mysql_install_packages | bool) or mysql_root_password_update)
     and ('5.7.' not in mysql_cli_version.stdout and '8.0.' not in mysql_cli_version.stdout)
-
-# Has to be after the root password assignment, for idempotency.
-- name: Copy .my.cnf file with root password credentials.
-  template:
-    src: "root-my.cnf.j2"
-    dest: "{{ mysql_root_home }}/.my.cnf"
-    owner: root
-    group: root
-    mode: 0600
-  when: mysql_install_packages | bool or mysql_root_password_update
+    and (mysql_root_password_setting.changed is true)
 
 - name: Get list of hosts for the anonymous user.
   command: mysql -NBe 'SELECT Host FROM mysql.user WHERE User = ""'
