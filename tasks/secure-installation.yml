@@ -1,23 +1,38 @@
 ---
-- name: Ensure default user is present.
-  mysql_user:
-    name: "{{ mysql_user_name }}"
-    host: 'localhost'
-    password: "{{ mysql_user_password }}"
-    priv: '*.*:ALL,GRANT'
-    state: present
-  when: mysql_user_name != mysql_root_username
+- name: Set the user's .my.cnf file path.
+  set_fact:
+    mysql_user_cnf_path: "{{ mysql_user_home }}/.my.cnf"
 
-# Has to be after the password assignment, for idempotency.
-- name: Copy user-my.cnf file with password credentials.
+- name: Write the user's .my.cnf file with password credentials.
   template:
     src: "user-my.cnf.j2"
-    dest: "{{ mysql_user_home }}/.my.cnf"
+    dest: "{{ mysql_user_cnf_path }}"
     owner: "{{ mysql_user_name }}"
     mode: 0600
   when: >
     mysql_user_name != mysql_root_username
     and (mysql_install_packages | bool or mysql_user_password_update)
+
+- name: Fetch contents of the user's .my.cnf file
+  slurp:
+    src: "{{ mysql_user_cnf_path }}"
+  register: mysql_user_cnf_file
+
+# It would be cleaner to use the `ini` lookup plugin, but that only works
+# locally so we'd have to copy the file first, which we'd rather not do because
+# it contains secrets.
+- name: Extract the user password from .my.cnf
+  set_fact:
+    mysql_user_password_written: "{{ mysql_user_cnf_file['content'] | b64decode | regex_findall('password=\"(.+)\"') | first }}"
+
+- name: Ensure default user is present.
+  mysql_user:
+    name: "{{ mysql_user_name }}"
+    host: 'localhost'
+    password: "{{ mysql_user_password_written }}"
+    priv: '*.*:ALL,GRANT'
+    state: present
+  when: mysql_user_name != mysql_root_username
 
 - name: Disallow root login remotely
   command: 'mysql -NBe "{{ item }}"'
@@ -36,11 +51,11 @@
   check_mode: false
   when: mysql_install_packages | bool or mysql_root_password_update
 
-- name: Set the .my.cnf file path.
+- name: Set root's .my.cnf file path.
   set_fact:
     mysql_root_cnf_path: "{{ mysql_root_home }}/.my.cnf"
 
-- name: Copy .my.cnf file with root password credentials.
+- name: Write root's .my.cnf file with password credentials.
   template:
     src: "root-my.cnf.j2"
     dest: "{{ mysql_root_cnf_path }}"
@@ -50,7 +65,7 @@
   when: mysql_install_packages | bool or mysql_root_password_update
   register: mysql_root_password_setting
 
-- name: Fetch the .my.cnf file containing the root password
+- name: Fetch contents of root's .my.cnf file
   slurp:
     src: "{{ mysql_root_cnf_path }}"
   register: mysql_root_cnf_file
@@ -60,7 +75,7 @@
 # it contains secrets.
 - name: Extract the root password from .my.cnf
   set_fact:
-    mysql_root_password_generated: "{{ mysql_root_cnf_file['content'] | b64decode | regex_findall('password=\"(.+)\"') | first }}"
+    mysql_root_password_written: "{{ mysql_root_cnf_file['content'] | b64decode | regex_findall('password=\"(.+)\"') | first }}"
 
 # Note: We do not use mysql_user for this operation, as it doesn't always update
 # the root password correctly. See: https://goo.gl/MSOejW
@@ -69,7 +84,7 @@
   shell: >
     mysql -u root -NBe
     'ALTER USER "{{ mysql_root_username }}"@"{{ item }}"
-    IDENTIFIED WITH mysql_native_password BY "{{ mysql_root_password_generated }}"; FLUSH PRIVILEGES;'
+    IDENTIFIED WITH mysql_native_password BY "{{ mysql_root_password_written }}"; FLUSH PRIVILEGES;'
   with_items: "{{ mysql_root_hosts.stdout_lines|default([]) }}"
   when: >
     ((mysql_install_packages | bool) or mysql_root_password_update)
@@ -80,7 +95,7 @@
 - name: Update MySQL root password for localhost root account (< 5.7.x).
   shell: >
     mysql -NBe
-    'SET PASSWORD FOR "{{ mysql_root_username }}"@"{{ item }}" = PASSWORD("{{ mysql_root_password_generated }}"); FLUSH PRIVILEGES;'
+    'SET PASSWORD FOR "{{ mysql_root_username }}"@"{{ item }}" = PASSWORD("{{ mysql_root_password_written }}"); FLUSH PRIVILEGES;'
   with_items: "{{ mysql_root_hosts.stdout_lines|default([]) }}"
   when: >
     ((mysql_install_packages | bool) or mysql_root_password_update)
