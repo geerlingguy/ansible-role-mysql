@@ -17,6 +17,7 @@
   slurp:
     src: "{{ mysql_user_cnf_path }}"
   register: mysql_user_cnf_file
+  when: mysql_user_name != mysql_root_username
 
 # It would be cleaner to use the `ini` lookup plugin, but that only works
 # locally so we'd have to copy the file first, which we'd rather not do because
@@ -24,6 +25,7 @@
 - name: Extract the user password from .my.cnf
   set_fact:
     mysql_user_password_written: "{{ mysql_user_cnf_file['content'] | b64decode | regex_findall('password=\"(.+)\"') | first }}"
+  when: mysql_user_name != mysql_root_username
 
 - name: Ensure default user is present.
   mysql_user:
