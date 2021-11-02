@@ -88,6 +88,10 @@ The formats of these are the same as in the `mysql_user` module.
 
 (Ubuntu/Debian only) If you need to explicitly override the MySQL Python package, you can set it here. Set this to `python-mysqldb` if using older distributions running Python 2.
 
+    mysql_version: "8.0"
+
+(Ubuntu/Debian only) If you need to explicitly override the MySQL version, you can set it here.
+
     mysql_port: "3306"
     mysql_bind_address: '0.0.0.0'
     mysql_datadir: /var/lib/mysql
