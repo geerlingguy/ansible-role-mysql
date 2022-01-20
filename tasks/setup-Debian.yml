@@ -1,11 +1,27 @@
 ---
-- name: Check if MySQL is already installed.
+- name: Check if MySQL init.d is already installed.
   stat: path=/etc/init.d/mysql
-  register: mysql_installed
+  register: mysql_initd_installed
 
-- name: Update apt cache if MySQL is not yet installed.
-  apt: update_cache=yes
-  when: not mysql_installed.stat.exists
+- name: Check if MySQL systemd is installed.
+  stat: path=/lib/systemd/system/mysql.service
+  register: mysql_systemd_installed
+
+- name: Check if MySQL is already installed.
+  set_fact:
+    mysql_installed: "{{ mysql_initd_installed or mysql_systemd_installed }}"
+
+- name: Add MySQL APT signing key.
+  apt_key:
+    url: https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
+  when: mysql_version != '5.5'
+
+- name: Add APT repository for MySQL.
+  apt_repository:
+    repo: deb http://repo.mysql.com/apt/{{ ansible_distribution | lower }}/ {{ ansible_distribution_release }} mysql-{{ mysql_version }}
+    filename: mysql
+  when: mysql_version != '5.5'
+
 
 - name: Determine required MySQL Python libraries.
   set_fact:
