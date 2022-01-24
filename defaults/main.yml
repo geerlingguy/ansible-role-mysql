@@ -90,7 +90,6 @@ mysql_innodb_lock_wait_timeout: "50"
 
 # These settings require MySQL > 5.5.
 mysql_innodb_large_prefix: "1"
-mysql_innodb_file_format: "barracuda"
 
 # mysqldump settings.
 mysql_mysqldump_max_allowed_packet: "64M"
@@ -123,7 +122,7 @@ mysql_users: []
 mysql_server_id: "1"
 mysql_max_binlog_size: "100M"
 mysql_binlog_format: "ROW"
-mysql_expire_logs_days: "10"
+mysql_binlog_expire_logs_seconds: "2592000"
 mysql_replication_role: ''
 mysql_replication_master: ''
 # Same keys as `mysql_users` above.

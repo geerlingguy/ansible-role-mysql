@@ -43,7 +43,7 @@ server-id = {{ mysql_server_id }}
 {% if mysql_replication_role == 'master' %}
 log_bin = mysql-bin
 log-bin-index = mysql-bin.index
-expire_logs_days = {{ mysql_expire_logs_days }}
+binlog_expire_logs_seconds = {{ mysql_binlog_expire_logs_seconds }}
 max_binlog_size = {{ mysql_max_binlog_size }}
 binlog_format = {{mysql_binlog_format}}
 
@@ -100,7 +100,6 @@ event_scheduler = {{ mysql_event_scheduler_state }}
 # InnoDB settings.
 {% if mysql_supports_innodb_large_prefix and '8.0.' not in mysql_cli_version.stdout %}
 innodb_large_prefix = {{ mysql_innodb_large_prefix }}
-innodb_file_format = {{ mysql_innodb_file_format }}
 {% endif %}
 innodb_file_per_table = {{ mysql_innodb_file_per_table }}
 innodb_buffer_pool_size = {{ mysql_innodb_buffer_pool_size }}

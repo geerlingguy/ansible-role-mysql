@@ -57,3 +57,8 @@
   set_fact:
     mysql_supports_innodb_large_prefix: "{{ __mysql_supports_innodb_large_prefix }}"
   when: mysql_supports_innodb_large_prefix is not defined
+
+- name: Compute mysql_binlog_expire_logs_seconds from mysql_expire_logs_days for backward compatibility
+  set_fact:
+    mysql_binlog_expire_logs_seconds: "{{ mysql_expire_logs_days * 24 * 3600 }}}"
+  when: mysql_expire_logs_days is defined and mysql_binlog_expire_logs_seconds != "2592000"

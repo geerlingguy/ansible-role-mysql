@@ -119,7 +119,7 @@ The rest of the settings in `defaults/main.yml` control MySQL's memory usage and
     mysql_server_id: "1"
     mysql_max_binlog_size: "100M"
     mysql_binlog_format: "ROW"
-    mysql_expire_logs_days: "10"
+    mysql_binlog_expire_logs_seconds: "2592000"  # default: 30 days
     mysql_replication_role: ''
     mysql_replication_master: ''
     mysql_replication_user: {}
