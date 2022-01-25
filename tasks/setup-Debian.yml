@@ -5,6 +5,7 @@
 
 - name: Update apt cache if MySQL is not yet installed.
   apt: update_cache=yes
+  changed_when: False
   when: not mysql_installed.stat.exists
 
 - name: Ensure MySQL Python libraries are installed.
