@@ -113,6 +113,7 @@ innodb_log_buffer_size = {{ mysql_innodb_log_buffer_size }}
 innodb_flush_log_at_trx_commit = {{ mysql_innodb_flush_log_at_trx_commit }}
 innodb_lock_wait_timeout = {{ mysql_innodb_lock_wait_timeout }}
 innodb_stats_on_metadata = {{ mysql_innodb_stats_on_metadata | default('ON') }}
+innodb_strict_mode = {{ mysql_innodb_strict_mode | default('ON') }}
 
 [mysqldump]
 quick
