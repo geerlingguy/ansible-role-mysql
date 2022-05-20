@@ -37,7 +37,7 @@ long_query_time = {{ mysql_slow_query_time }}
 {% endif %}
 
 
-{% if mysql_disable_log_bin and not mysql_replication_master%}
+{% if mysql_disable_log_bin and not mysql_replication_master %}
 # Disable binlog to save disk space
 disable-log-bin
 {% endif %}
