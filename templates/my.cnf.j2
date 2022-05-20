@@ -36,6 +36,12 @@ slow_query_log_file = {{ mysql_slow_query_log_file }}
 long_query_time = {{ mysql_slow_query_time }}
 {% endif %}
 
+
+{% if mysql_disable_log_bin and not mysql_replication_master %}
+# Disable binlog to save disk space
+disable-log-bin
+{% endif %}
+
 {% if mysql_replication_master %}
 # Replication
 server-id = {{ mysql_server_id }}
