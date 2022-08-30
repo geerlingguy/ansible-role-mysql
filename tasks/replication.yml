@@ -15,8 +15,8 @@
 - name: Check slave replication status.
   mysql_replication:
     mode: getreplica
-    login_user: "{{ mysql_replication_user.name }}"
-    login_password: "{{ mysql_replication_user.password }}"
+    login_user: "{{ mysql_root_username}}"
+    login_password: "{{ mysql_root_password }}"
   ignore_errors: true
   register: slave
   when:
