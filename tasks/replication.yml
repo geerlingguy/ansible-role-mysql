@@ -26,7 +26,7 @@
 
 - name: Check master replication status.
   mysql_replication: mode=getprimary
-  delegate_to: "{{ mysql_replication_master }}"
+  delegate_to: "{{ mysql_replication_master_inventory_host }}"
   register: master
   when:
     - (slave.Is_Slave is defined and not slave.Is_Slave) or (slave.Is_Slave is not defined and slave is failed)
