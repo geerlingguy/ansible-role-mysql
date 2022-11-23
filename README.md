@@ -204,7 +204,8 @@ On Ubuntu, the package names are named differently, so the `mysql_package` varia
 
 ## Dependencies
 
-None.
+None for ansible installations.
+Collection `community.mysql` for ansible-core only installations (You need to manually require it in your `collections/requirements.yml`).
 
 ## Example Playbook
 
