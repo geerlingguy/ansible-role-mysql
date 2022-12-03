@@ -39,6 +39,8 @@ mysql_python_package_debian: python3-mysqldb
 # MySQL connection settings.
 mysql_port: "3306"
 mysql_bind_address: '0.0.0.0'
+mysqlx_port: "3306"
+mysqlx_bind_address: '0.0.0.0'
 mysql_skip_name_resolve: false
 mysql_datadir: /var/lib/mysql
 mysql_sql_mode: ~
