@@ -42,8 +42,8 @@
 - name: Update MySQL root password for localhost root account (5.7.x).
   shell: >
     mysql -u root -NBe
-    'ALTER USER "{{ mysql_root_username }}"@"{{ item }}"
-    IDENTIFIED WITH mysql_native_password BY "{{ mysql_root_password }}"; FLUSH PRIVILEGES;'
+    "ALTER USER '{{ mysql_root_username }}'@'{{ item }}'
+     IDENTIFIED WITH mysql_native_password BY '{{ mysql_root_password }}'; FLUSH PRIVILEGES;"
   with_items: "{{ mysql_root_hosts.stdout_lines|default([]) }}"
   when: >
     ((mysql_install_packages | bool) or mysql_root_password_update)
