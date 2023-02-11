@@ -25,7 +25,8 @@
   tags: ['skip_ansible_galaxy']
 
 - name: Check master replication status.
-  mysql_replication: mode=getprimary
+  mysql_replication:
+    mode: getprimary
   delegate_to: "{{ mysql_replication_master_inventory_host }}"
   register: master
   when:
