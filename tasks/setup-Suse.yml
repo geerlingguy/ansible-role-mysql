@@ -1,0 +1,6 @@
+---
+- name: Ensure MySQL packages are installed.
+  ansible.builtin.package:
+    name: "{{ mysql_packages }}"
+    state: present
+  register: suse_mysql_install_packages
