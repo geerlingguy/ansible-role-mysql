@@ -80,6 +80,18 @@
     - mysql_log_error | default(false)
   tags: ['skip_ansible_galaxy']
 
+- name: Initialize mysql when mysql_datadir is customized (MySQL)
+  ansible.builtin.command: mysqld --initialize-insecure --user=mysql --datadir={{ mysql_datadir }}
+  args:
+    creates: "{{ mysql_datadir }}/mysql"
+  when: mysql_datadir != "/var/lib/mysql" and ('5.7.' in mysql_cli_version.stdout or '8.0.' in mysql_cli_version.stdout)
+
+- name: Initialize mysql when mysql_datadir is customized (MariaDB)
+  ansible.builtin.command: mysql_install_db
+  args:
+    creates: "{{ mysql_datadir }}/mysql"
+  when: mysql_datadir != "/var/lib/mysql" and ('5.7.' not in mysql_cli_version.stdout or '8.0.' not in mysql_cli_version.stdout)
+
 - name: Ensure MySQL is started and enabled on boot.
   ansible.builtin.service:
     name: "{{ mysql_daemon }}"
