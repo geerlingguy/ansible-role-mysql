@@ -3,6 +3,9 @@
   hosts: all
   become: true
 
+  vars:
+    mysql_datadir: "/opt/mysql"
+
   roles:
     - role: geerlingguy.mysql
 
