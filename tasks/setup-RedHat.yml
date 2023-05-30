@@ -5,3 +5,15 @@
     state: present
     enablerepo: "{{ mysql_enablerepo | default(omit, true) }}"
   register: rh_mysql_install_packages
+
+- name: Add data path for logs, exec, and db ops in SELinux
+  community.general.sefcontext:
+    target: "{{ item.path }}"
+    setype: "{{ item.type }}"
+    state: present
+  loop:
+    - {path: "{{ mysql_datadir }}(/.*)?", type: "mysqld_db_t"}
+    - {path: "{{ mysql_error_log }}", type: "mysqld_log_t"}
+    - {path: "{{ mysql_pid_file }}", type: "mysqld_var_run_t"}
+    - {path: "{{ mysql_socket }}", type: "mysqld_var_run_t"}
+  when: "'/var/lib/mysql' != mysql_datadir"
