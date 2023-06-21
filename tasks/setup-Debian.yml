@@ -34,4 +34,6 @@
   with_items:
     - ib_logfile0
     - ib_logfile1
-  when: not mysql_installed.stat.exists
+  when: >
+    not mysql_installed.stat.exists
+    and ansible_distribution_major_version | int < 12
