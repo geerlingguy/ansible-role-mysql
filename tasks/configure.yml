@@ -51,6 +51,8 @@
     owner: mysql
     group: "{{ mysql_log_file_group }}"
     mode: 0640
+    access_time: preserve
+    modification_time: preserve
   when: mysql_slow_query_log_enabled
 
 - name: Create error log file (if configured).
@@ -60,9 +62,9 @@
     owner: mysql
     group: "{{ mysql_log_file_group }}"
     mode: 0640
-  when:
-    - mysql_log | default(true)
-    - mysql_log_error | default(false)
+    access_time: preserve
+    modification_time: preserve
+  when: mysql_log_error_enabled
   tags: ['skip_ansible_galaxy']
 
 - name: Ensure MySQL is started and enabled on boot.
