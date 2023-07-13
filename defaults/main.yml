@@ -98,6 +98,7 @@ mysql_mysqldump_max_allowed_packet: "64M"
 # Logging settings.
 mysql_log: ""
 # The following variables have a default value depending on operating system.
+mysql_error_log_enabled: false
 # mysql_log_error: /var/log/mysql/mysql.err
 # mysql_syslog_tag: mysql
 
