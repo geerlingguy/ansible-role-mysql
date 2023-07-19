@@ -1,12 +1,12 @@
 ---
 - name: Get MySQL version.
-  ansible.builtin.command: 'mysql --version'
+  command: 'mysql --version'
   register: mysql_cli_version
   changed_when: false
   check_mode: false
 
 - name: Copy my.cnf global MySQL configuration.
-  ansible.builtin.template:
+  template:
     src: my.cnf.j2
     dest: "{{ mysql_config_file }}"
     owner: root
@@ -16,7 +16,7 @@
   notify: restart mysql
 
 - name: Verify mysql include directory exists.
-  ansible.builtin.file:
+  file:
     path: "{{ mysql_config_include_dir }}"
     state: directory
     owner: root
@@ -25,7 +25,7 @@
   when: mysql_config_include_files | length
 
 - name: Copy my.cnf override files into include directory.
-  ansible.builtin.template:
+  template:
     src: "{{ item.src }}"
     dest: "{{ mysql_config_include_dir }}/{{ item.src | basename }}"
     owner: root
@@ -36,13 +36,13 @@
   notify: restart mysql
 
 - name: Create slow query log file (if configured).
-  ansible.builtin.command: "touch {{ mysql_slow_query_log_file }}"
+  command: "touch {{ mysql_slow_query_log_file }}"
   args:
     creates: "{{ mysql_slow_query_log_file }}"
   when: mysql_slow_query_log_enabled
 
 - name: Create datadir if it does not exist
-  ansible.builtin.file:
+  file:
     path: "{{ mysql_datadir }}"
     state: directory
     owner: mysql
@@ -51,7 +51,7 @@
     setype: mysqld_db_t
 
 - name: Set ownership on slow query log file (if configured).
-  ansible.builtin.file:
+  file:
     path: "{{ mysql_slow_query_log_file }}"
     state: file
     owner: mysql
@@ -60,7 +60,7 @@
   when: mysql_slow_query_log_enabled
 
 - name: Create error log file (if configured).
-  ansible.builtin.command: "touch {{ mysql_log_error }}"
+  command: "touch {{ mysql_log_error }}"
   args:
     creates: "{{ mysql_log_error }}"
   when:
@@ -69,7 +69,7 @@
   tags: ['skip_ansible_galaxy']
 
 - name: Set ownership on error log file (if configured).
-  ansible.builtin.file:
+  file:
     path: "{{ mysql_log_error }}"
     state: file
     owner: mysql
@@ -81,7 +81,7 @@
   tags: ['skip_ansible_galaxy']
 
 - name: Ensure MySQL is started and enabled on boot.
-  ansible.builtin.service:
+  service:
     name: "{{ mysql_daemon }}"
     state: started
     enabled: "{{ mysql_enabled_on_startup }}"
