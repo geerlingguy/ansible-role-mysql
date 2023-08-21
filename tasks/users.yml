@@ -8,5 +8,6 @@
     state: "{{ item.state | default('present') }}"
     append_privs: "{{ item.append_privs | default('no') }}"
     encrypted: "{{ item.encrypted | default('no') }}"
+    tls_requires: "{{ item.tls_requires | default({}) }}"
   with_items: "{{ mysql_users }}"
   no_log: true
