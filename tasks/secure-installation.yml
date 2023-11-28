@@ -6,6 +6,7 @@
     password: "{{ mysql_user_password }}"
     priv: '*.*:ALL,GRANT'
     state: present
+  no_log: "{{ mysql_hide_passwords }}"
   when: mysql_user_name != mysql_root_username
 
 # Has to be after the password assignment, for idempotency.
@@ -15,6 +16,7 @@
     dest: "{{ mysql_user_home }}/.my.cnf"
     owner: "{{ mysql_user_name }}"
     mode: 0600
+  no_log: "{{ mysql_hide_passwords }}"
   when: >
     mysql_user_name != mysql_root_username
     and (mysql_install_packages | bool or mysql_user_password_update)
@@ -44,6 +46,7 @@
     mysql -u root -NBe
     "ALTER USER '{{ mysql_root_username }}'@'{{ item }}'
      IDENTIFIED WITH mysql_native_password BY '{{ mysql_root_password }}'; FLUSH PRIVILEGES;"
+  no_log: "{{ mysql_hide_passwords }}"
   with_items: "{{ mysql_root_hosts.stdout_lines|default([]) }}"
   when: >
     ((mysql_install_packages | bool) or mysql_root_password_update)
@@ -54,6 +57,7 @@
   ansible.builtin.shell: >
     mysql -NBe
     'SET PASSWORD FOR "{{ mysql_root_username }}"@"{{ item }}" = PASSWORD("{{ mysql_root_password }}"); FLUSH PRIVILEGES;'
+  no_log: "{{ mysql_hide_passwords }}"
   with_items: "{{ mysql_root_hosts.stdout_lines|default([]) }}"
   when: >
     ((mysql_install_packages | bool) or mysql_root_password_update)
@@ -67,6 +71,7 @@
     owner: root
     group: root
     mode: 0600
+  no_log: "{{ mysql_hide_passwords }}"
   when: mysql_install_packages | bool or mysql_root_password_update
 
 - name: Get list of hosts for the anonymous user.
