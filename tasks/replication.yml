@@ -6,6 +6,7 @@
     password: "{{ mysql_replication_user.password }}"
     priv: "{{ mysql_replication_user.priv | default('*.*:REPLICATION SLAVE,REPLICATION CLIENT') }}"
     state: present
+  no_log: "{{ mysql_hide_passwords }}"
   when:
     - mysql_replication_role == 'master'
     - mysql_replication_user.name is defined
@@ -17,6 +18,7 @@
     mode: getreplica
     login_user: "{{ mysql_root_username }}"
     login_password: "{{ mysql_root_password }}"
+  no_log: "{{ mysql_hide_passwords }}"
   ignore_errors: true
   register: slave
   when:
@@ -24,10 +26,11 @@
     - (mysql_replication_master | length) > 0
   tags: ['skip_ansible_galaxy']
 
+# https://github.com/ansible/ansible/issues/82264
 - name: Check master replication status.
   mysql_replication:
     mode: getprimary
-  delegate_to: "{{ mysql_replication_master_inventory_host }}"
+  delegate_to: "{{ mysql_replication_master_inventory_host | default(omit, true) }}"
   register: master
   when:
     - (slave.Is_Slave is defined and not slave.Is_Slave) or (slave.Is_Replica is defined and not slave.Is_Replica) or (slave.Is_Slave is not defined and slave.Is_Replica is not defined and slave is failed)
@@ -43,6 +46,7 @@
     master_password: "{{ mysql_replication_user.password }}"
     master_log_file: "{{ master.File }}"
     master_log_pos: "{{ master.Position }}"
+  no_log: "{{ mysql_hide_passwords }}"
   ignore_errors: true
   when:
     - (slave.Is_Slave is defined and not slave.Is_Slave) or (slave.Is_Replica is defined and not slave.Is_Replica) or (slave.Is_Slave is not defined and slave.Is_Replica is not defined and slave is failed)
