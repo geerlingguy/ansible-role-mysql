@@ -166,6 +166,12 @@ Replication settings. Set `mysql_server_id` and `mysql_replication_role` by serv
 
 If the replication master has different IP addresses where you are running ansible and where the mysql replica is running, you can *optionally* specify a `mysql_replication_master_inventory_host` to access the machine (e.g. you run ansible on your local machine, but the mysql master and replica need to communicate on a different network)
 
+```yaml
+mysql_hide_passwords: false
+```
+
+Do you need to hide tasks' output which contain passwords during the execution ?
+
 ### Later versions of MySQL on CentOS 7
 
 If you want to install MySQL from the official repository instead of installing the system default MariaDB equivalents, you can add the following `pre_tasks` task in your playbook:
