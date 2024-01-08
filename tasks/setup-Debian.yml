@@ -13,7 +13,7 @@
 
 - name: Add MySQL APT signing key.
   apt_key:
-    url: https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
+    url: https://repo.mysql.com/RPM-GPG-KEY-mysql-2023
   when: mysql_version != '5.5'
 
 - name: Add APT repository for MySQL.
