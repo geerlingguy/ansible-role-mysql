@@ -13,7 +13,7 @@
     group: root
     mode: 0644
     force: "{{ overwrite_global_mycnf }}"
-  notify: restart mysql
+  notify: Restart mysql
 
 - name: Verify mysql include directory exists.
   ansible.builtin.file:
@@ -33,7 +33,7 @@
     mode: 0644
     force: "{{ item.force | default(False) }}"
   with_items: "{{ mysql_config_include_files }}"
-  notify: restart mysql
+  notify: Restart mysql
 
 - name: Create slow query log file (if configured).
   ansible.builtin.command: "touch {{ mysql_slow_query_log_file }}"

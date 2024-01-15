@@ -120,6 +120,11 @@ mysql_bind_address: '0.0.0.0'
 mysql_datadir: /var/lib/mysql
 mysql_socket: *default value depends on OS*
 mysql_pid_file: *default value depends on OS*
+
+mysql_login_host: ""
+mysql_login_user: ""
+mysql_login_password: ""
+mysql_ca_cert: ""
 ```
 
 Default MySQL connection configuration.

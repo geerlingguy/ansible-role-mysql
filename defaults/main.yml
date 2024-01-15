@@ -42,6 +42,16 @@ mysql_bind_address: '0.0.0.0'
 mysql_skip_name_resolve: false
 mysql_datadir: /var/lib/mysql
 mysql_sql_mode: ~
+
+# Host running the database
+mysql_login_host: ""
+# The username and password used to authenticate with
+mysql_login_user: ""
+mysql_login_password: ""
+# The path to a Certificate Authority (CA) certificate.
+# This option, if used, must specify the same certificate as used by the server
+mysql_ca_cert: ""
+
 # The following variables have a default value depending on operating system.
 # mysql_pid_file: /var/run/mysqld/mysqld.pid
 # mysql_socket: /var/lib/mysql/mysql.sock

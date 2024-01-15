@@ -1,9 +1,13 @@
 ---
 - name: Ensure MySQL databases are present.
-  mysql_db:
+  community.mysql.mysql_db:
     name: "{{ item.name }}"
     collation: "{{ item.collation | default('utf8_general_ci') }}"
     encoding: "{{ item.encoding | default('utf8') }}"
     state: "{{ item.state | default('present') }}"
     target: "{{ item.target | default(omit) }}"
+    login_user: "{{ mysql_login_user | default(omit) }}"
+    login_password: "{{ mysql_login_password | default(omit) }}"
+    login_host: "{{ mysql_login_host | default(omit) }}"
+    ca_cert: "{{ mysql_ca_cert | default(omit) }}"
   with_items: "{{ mysql_databases }}"

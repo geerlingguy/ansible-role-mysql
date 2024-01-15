@@ -1,6 +1,6 @@
 ---
 - name: Ensure MySQL users are present.
-  mysql_user:
+  community.mysql.mysql_user:
     name: "{{ item.name }}"
     host: "{{ item.host | default('localhost') }}"
     password: "{{ item.password }}"
@@ -8,5 +8,9 @@
     state: "{{ item.state | default('present') }}"
     append_privs: "{{ item.append_privs | default('no') }}"
     encrypted: "{{ item.encrypted | default('no') }}"
+    login_user: "{{ mysql_login_user | default(omit) }}"
+    login_password: "{{ mysql_login_password | default(omit) }}"
+    login_host: "{{ mysql_login_host | default(omit) }}"
+    ca_cert: "{{ mysql_ca_cert | default(omit) }}"
   with_items: "{{ mysql_users }}"
   no_log: "{{ mysql_hide_passwords }}"
