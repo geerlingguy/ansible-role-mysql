@@ -50,6 +50,12 @@
     mode: 0755
     setype: mysqld_db_t
 
+- name: Initialize mysql when mysql_datadir is customized (MariaDB)
+  ansible.builtin.command: mysql_install_db
+  args:
+    creates: "{{ mysql_datadir }}/mysql"
+  when: mysql_datadir != "/var/lib/mysql"
+
 - name: Set ownership on slow query log file (if configured).
   ansible.builtin.file:
     path: "{{ mysql_slow_query_log_file }}"
