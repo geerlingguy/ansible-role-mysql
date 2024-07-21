@@ -91,6 +91,7 @@ The MySQL users and their privileges. A user has the values:
   - `priv` (defaults to `*.*:USAGE`)
   - `append_privs` (defaults to `no`)
   - `state`  (defaults to `present`)
+  - `column_case_sensitive` (defaults to `no`, set `yes` to not uppercase the field names in the privileges)
 
 The formats of these are the same as in the `mysql_user` module.
 
