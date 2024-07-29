@@ -5,7 +5,7 @@
     dest: "{{ mysql_config_file }}"
     owner: root
     group: root
-    mode: 0644
+    mode: 0600
     force: "{{ overwrite_global_mycnf }}"
   notify: restart mysql
 
@@ -28,6 +28,14 @@
     force: "{{ item.force | default(False) }}"
   with_items: "{{ mysql_config_include_files }}"
   notify: restart mysql
+
+- name: Create log dir if missing
+  file:
+    path: "{{mysql_log_dir}}"
+    state: directory
+    owner: mysql
+    group: mysql
+    mode: 0750
 
 - name: Create slow query log file (if configured).
   command: "touch {{ mysql_slow_query_log_file }}"
@@ -67,8 +75,11 @@
     state: file
     owner: mysql
     group: "{{ mysql_log_file_group }}"
-    mode: 0640
+    mode: 0755
   when: mysql_log == "" and mysql_log_error != ""
+
+- name: Startingg the MySQL service
+  action: service name=mysql state=started
 
 - name: Ensure MySQL is started and enabled on boot.
   service: "name={{ mysql_daemon }} state=started enabled={{ mysql_enabled_on_startup }}"

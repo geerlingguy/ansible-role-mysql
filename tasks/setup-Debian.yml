@@ -4,7 +4,7 @@
   register: mysql_installed
 
 - name: Add repo.mysql.com apt key
-  apt_key: url=http://repo.mysql.com/RPM-GPG-KEY-mysql
+  apt_key: url=http://repo.mysql.com/RPM-GPG-KEY-mysql-2023
   when: mysql_apt_repo_version is defined
 
 - name: Add repo.mysql.com apt repo
