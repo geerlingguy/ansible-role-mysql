@@ -39,7 +39,6 @@
   command: "touch {{ mysql_slow_query_log_file }}"
   args:
     creates: "{{ mysql_slow_query_log_file }}"
-    warn: false
   when: mysql_slow_query_log_enabled
 
 - name: Create datadir if it does not exist
@@ -64,7 +63,6 @@
   command: "touch {{ mysql_log_error }}"
   args:
     creates: "{{ mysql_log_error }}"
-    warn: false
   when:
     - mysql_log == ""
     - mysql_log_error != ""
