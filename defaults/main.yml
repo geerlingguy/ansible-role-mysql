@@ -107,6 +107,9 @@ mysql_log: ""
 mysql_config_include_files: []
 #  - src: path/relative/to/playbook/file.cnf
 #  - { src: path/relative/to/playbook/anotherfile.cnf, force: true }
+#  - content: |
+#      # some included configuration here
+#    dst: yetanotherfile.cnf
 
 # Databases.
 mysql_databases: []

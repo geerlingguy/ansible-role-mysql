@@ -68,7 +68,7 @@ Whether the global my.cnf should be overwritten each time this role is run. Sett
 mysql_config_include_files: []
 ```
 
-A list of files that should override the default global my.cnf. Each item in the array requires a "src" parameter which is a path to a file. An optional "force" parameter can force the file to be updated each time ansible runs.
+A list of files that should override the default global my.cnf. Each item in the array requires either a "src" parameter which is a path to a file, or both a "content" (file contents) and a "dst" (file name) parameter. An optional "force" parameter can force the file to be updated each time ansible runs.
 
 ```yaml
 mysql_databases: []

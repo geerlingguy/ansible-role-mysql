@@ -31,7 +31,7 @@
     mode: 0755
   when: mysql_config_include_files | length
 
-- name: Copy my.cnf override files into include directory.
+- name: Template my.cnf override files into include directory.
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ mysql_config_include_dir }}/{{ item.src | basename }}"
@@ -39,7 +39,22 @@
     group: root
     mode: 0644
     force: "{{ item.force | default(false) }}"
-  with_items: "{{ mysql_config_include_files }}"
+  with_items: "{{ mysql_config_include_files | selectattr('src', 'defined') }}"
+  loop_control:
+    label: "{{ item.src | basename }}"
+  notify: restart mysql
+
+- name: Copy my.cnf override files into include directory.
+  ansible.builtin.copy:
+    content: "{{ item.content }}"
+    dest: "{{ mysql_config_include_dir }}/{{ item.dst }}"
+    owner: root
+    group: root
+    mode: 0644
+    force: "{{ item.force | default(false) }}"
+  with_items: "{{ mysql_config_include_files | selectattr('content', 'defined') }}"
+  loop_control:
+    label: "{{ item.dst }}"
   notify: restart mysql
 
 - name: Create slow query log file (if configured).
