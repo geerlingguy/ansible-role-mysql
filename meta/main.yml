@@ -18,6 +18,9 @@ galaxy_info:
     - name: Archlinux
       versions:
         - all
+    - name: Rocky
+      versions:
+        - 9
   galaxy_tags:
     - database
     - mysql
