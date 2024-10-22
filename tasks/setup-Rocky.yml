@@ -1,0 +1,7 @@
+---
+- name: Ensure MySQL packages are installed.
+  ansible.builtin.dnf:
+    name: "{{ mysql_packages }}"
+    state: present
+    enablerepo: "{{ mysql_enablerepo | default(omit, true) }}"
+  register: rocky_mysql_install_packages
