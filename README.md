@@ -91,6 +91,7 @@ The MySQL users and their privileges. A user has the values:
   - `priv` (defaults to `*.*:USAGE`)
   - `append_privs` (defaults to `no`)
   - `state`  (defaults to `present`)
+  - `case_sensitive` (defaults to `no`)
 
 The formats of these are the same as in the `mysql_user` module.
 
@@ -183,7 +184,7 @@ If you want to install MySQL from the official repository instead of installing 
         name: http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
         state: present
       when: ansible_os_family == "RedHat"
-  
+
     - name: Override variables for MySQL (RedHat).
       set_fact:
         mysql_daemon: mysqld
