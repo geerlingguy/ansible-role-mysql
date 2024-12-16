@@ -34,7 +34,7 @@ mysql_enablerepo: ""
 #   - mysql-server
 #   - MySQL-python
 
-mysql_python_package_debian: python3-mysqldb
+mysql_python_package_debian: python3-pymysql
 
 # MySQL connection settings.
 mysql_port: "3306"
