@@ -151,10 +151,15 @@ mysql_table_open_cache: "256"
 The rest of the settings in `defaults/main.yml` control MySQL's memory usage and some other common settings. The default values are tuned for a server where MySQL can consume 512 MB RAM, so you should consider adjusting them to suit your particular server better.
 
 ```yaml
+mysql_disable_log_bin: false
+```
+
+This variable should be set to `true` if you don't need replication, or otherwise don't need a log of all MySQL's activity. If you leave it at the default value, disk space may be consumed at an alarming rate on highly-utlilized database servers!
+
+```yaml
 mysql_server_id: "1"
 mysql_max_binlog_size: "100M"
 mysql_binlog_format: "ROW"
-mysql_disable_log_bin: false
 mysql_expire_logs_days: "10"
 mysql_replication_role: ''
 mysql_replication_master: ''
