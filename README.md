@@ -154,6 +154,7 @@ The rest of the settings in `defaults/main.yml` control MySQL's memory usage and
 mysql_server_id: "1"
 mysql_max_binlog_size: "100M"
 mysql_binlog_format: "ROW"
+mysql_disable_log_bin: false
 mysql_expire_logs_days: "10"
 mysql_replication_role: ''
 mysql_replication_master: ''
