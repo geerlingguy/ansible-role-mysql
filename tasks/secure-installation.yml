@@ -40,17 +40,23 @@
 
 # Note: We do not use mysql_user for this operation, as it doesn't always update
 # the root password correctly. See: https://goo.gl/MSOejW
-# Set root password for MySQL >= 5.7.x.
-- name: Update MySQL root password for localhost root account (5.7.x).
+# Set root password for 5.7.x. ≤ MySQL < 8.4 and MariaDB ≥ 10.4
+- name: Update MySQL root password for localhost root account (5.7.x ≤ MySQL < 8.4)
   ansible.builtin.shell: >
     mysql -u root -NBe
     "ALTER USER '{{ mysql_root_username }}'@'{{ item }}'
      IDENTIFIED WITH mysql_native_password BY '{{ mysql_root_password }}'; FLUSH PRIVILEGES;"
   no_log: "{{ mysql_hide_passwords }}"
   with_items: "{{ mysql_root_hosts.stdout_lines|default([]) }}"
-  when: >
-    ((mysql_install_packages | bool) or mysql_root_password_update)
-    and ('5.7.' in mysql_cli_version or '8.0.' in mysql_cli_version)
+  when:
+    - (mysql_install_packages | bool) or mysql_root_password_update
+    - (
+        mysql_daemon == 'mysql' and (
+          mysql_cli_version is version('5.7', '>=') and
+          mysql_cli_version is version('8.4', '<')
+        )
+      ) or
+      (mysql_daemon == 'mariadb' and mysql_cli_version is version('10.4', '<'))
 
 # Set root password for MySQL < 5.7.x.
 - name: Update MySQL root password for localhost root account (< 5.7.x).
@@ -59,9 +65,9 @@
     'SET PASSWORD FOR "{{ mysql_root_username }}"@"{{ item }}" = PASSWORD("{{ mysql_root_password }}"); FLUSH PRIVILEGES;'
   no_log: "{{ mysql_hide_passwords }}"
   with_items: "{{ mysql_root_hosts.stdout_lines|default([]) }}"
-  when: >
-    ((mysql_install_packages | bool) or mysql_root_password_update)
-    and ('5.7.' not in mysql_cli_version and '8.0.' not in mysql_cli_version)
+  when:
+    - (mysql_install_packages | bool) or mysql_root_password_update
+    - (mysql_daemon == 'mysql' and mysql_cli_version is version('5.7', '<'))
 
 # Has to be after the root password assignment, for idempotency.
 - name: Copy .my.cnf file with root password credentials.
