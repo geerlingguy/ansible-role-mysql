@@ -1,9 +1,16 @@
 ---
-- name: Get MySQL version.
-  ansible.builtin.command: 'mysql --version'
-  register: mysql_cli_version
-  changed_when: false
-  check_mode: false
+- name: Get MySQL version
+  block:
+    - name: Run mysql --version
+      ansible.builtin.command: '{{ mysql_daemon }} --version'
+      register: mysql_cli_version
+      changed_when: false
+      check_mode: false
+
+    - name: Extract MySQL version
+      ansible.builtin.set_fact:
+        mysql_cli_version: >-
+          {{ (mysql_cli_version.stdout | split(' '))[('mariadb' in (mysql_cli_version.stdout | lower)) | ternary(5, 3)][:-1] }}
 
 - name: Copy my.cnf global MySQL configuration.
   ansible.builtin.template:
