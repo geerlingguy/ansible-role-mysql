@@ -33,7 +33,10 @@
   delegate_to: "{{ mysql_replication_master_inventory_host | default(omit, true) }}"
   register: master
   when:
-    - (slave.Is_Slave is defined and not slave.Is_Slave) or (slave.Is_Replica is defined and not slave.Is_Replica) or (slave.Is_Slave is not defined and slave.Is_Replica is not defined and slave is failed)
+    - >
+      (slave.Is_Slave is defined and not slave.Is_Slave) or
+      (slave.Is_Replica is defined and not slave.Is_Replica) or
+      (slave.Is_Slave is not defined and slave.Is_Replica is not defined and slave is failed)
     - mysql_replication_role == 'slave'
     - (mysql_replication_master | length) > 0
   tags: ['skip_ansible_galaxy']
@@ -49,7 +52,10 @@
   no_log: "{{ mysql_hide_passwords }}"
   ignore_errors: true
   when:
-    - (slave.Is_Slave is defined and not slave.Is_Slave) or (slave.Is_Replica is defined and not slave.Is_Replica) or (slave.Is_Slave is not defined and slave.Is_Replica is not defined and slave is failed)
+    - >
+      (slave.Is_Slave is defined and not slave.Is_Slave) or
+      (slave.Is_Replica is defined and not slave.Is_Replica) or
+      (slave.Is_Slave is not defined and slave.Is_Replica is not defined and slave is failed)
     - mysql_replication_role == 'slave'
     - mysql_replication_user.name is defined
     - (mysql_replication_master | length) > 0
@@ -58,7 +64,10 @@
   mysql_replication:
     mode: startreplica
   when:
-    - (slave.Is_Slave is defined and slave.Is_Slave) or (slave.Is_Replica is defined and slave.Is_Replica) or (slave.Is_Slave is not defined and slave.Is_Replica is not defined and slave is failed)
+    - >
+      (slave.Is_Slave is defined and slave.Is_Slave) or
+      (slave.Is_Replica is defined and slave.Is_Replica) or
+      (slave.Is_Slave is not defined and slave.Is_Replica is not defined and slave is failed)
     - mysql_replication_role == 'slave'
     - (mysql_replication_master | length) > 0
   tags: ['skip_ansible_galaxy']
