@@ -38,7 +38,7 @@
     owner: root
     group: root
     mode: 0644
-    force: "{{ item.force | default(False) }}"
+    force: "{{ item.force | default(false) }}"
   with_items: "{{ mysql_config_include_files }}"
   notify: restart mysql
 

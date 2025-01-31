@@ -103,7 +103,7 @@ mysql_log: ""
 
 mysql_config_include_files: []
 #  - src: path/relative/to/playbook/file.cnf
-#  - { src: path/relative/to/playbook/anotherfile.cnf, force: yes }
+#  - { src: path/relative/to/playbook/anotherfile.cnf, force: true }
 
 # Databases.
 mysql_databases: []
