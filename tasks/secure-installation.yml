@@ -72,7 +72,9 @@
     group: root
     mode: 0600
   no_log: "{{ mysql_hide_passwords }}"
-  when: mysql_install_packages | bool or mysql_root_password_update
+  when:
+    - mysql_install_packages | bool or mysql_root_password_update
+    - mysql_copy_root_user_mycnf
 
 - name: Get list of hosts for the anonymous user.
   ansible.builtin.command: mysql -NBe "SELECT Host FROM mysql.user WHERE User = ''"
