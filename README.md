@@ -92,6 +92,7 @@ The MySQL users and their privileges. A user has the values:
   - `append_privs` (defaults to `false`)
   - `state`  (defaults to `present`)
   - `case_sensitive` (defaults to `false`)
+  - `update_password` (defaults to `always`)
 
 The formats of these are the same as in the `mysql_user` module.
 

@@ -5,6 +5,7 @@
     host: "{{ mysql_replication_user.host | default('%') }}"
     password: "{{ mysql_replication_user.password }}"
     priv: "{{ mysql_replication_user.priv | default('*.*:REPLICATION SLAVE,REPLICATION CLIENT') }}"
+    update_password: "{{ mysql_replication_user.update_password | default('always') }}"
     state: present
   no_log: "{{ mysql_hide_passwords }}"
   when:
