@@ -1,11 +1,24 @@
 ---
-- name: Ensure MySQL users are present.
+- name: Get MySQL version
+  block:
+    - name: Run mysql --version
+      ansible.builtin.command: "{{ mysql_daemon }} --version"
+      register: mysql_cli_version
+      changed_when: false
+      check_mode: false
+
+    - name: Extract MySQL version
+      ansible.builtin.set_fact:
+        mysql_cli_version: >-
+          {{ (mysql_cli_version.stdout | split(' '))[('mariadb' in (mysql_cli_version.stdout | lower)) | ternary(5, 3)][:-1] }}
+
+- name: Ensure MySQL users are present (Linux, MySQL => 8.0).
   community.mysql.mysql_user:
     name: "{{ item.name }}"
     host: "{{ item.host | default('localhost') }}"
     plugin: "caching_sha2_password"
     plugin_auth_string: "{{ item.password }}"
-    salt: "{{ lookup('password', '/dev/null length=25 chars=ascii_letters,digits') }}"
+    salt: "{{ lookup('password', '/dev/null length=20 chars=ascii_letters,digits') }}"
     priv: "{{ item.priv | default('*.*:USAGE') }}"
     state: "{{ item.state | default('present') }}"
     append_privs: "{{ item.append_privs | default(false) }}"
@@ -14,3 +27,19 @@
     update_password: "{{ item.update_password | default('always') }}"
   with_items: "{{ mysql_users }}"
   no_log: "{{ mysql_hide_passwords }}"
+  when: mysql_cli_version is version('8.0', '>=')
+
+- name: Ensure MySQL users are present (Linux, MySQL == 5.7).
+  community.mysql.mysql_user:
+    name: "{{ item.name }}"
+    host: "{{ item.host | default('localhost') }}"
+    password: "{{ item.password }}"
+    priv: "{{ item.priv | default('*.*:USAGE') }}"
+    state: "{{ item.state | default('present') }}"
+    append_privs: "{{ item.append_privs | default(false) }}"
+    encrypted: "{{ item.encrypted | default(false) }}"
+    column_case_sensitive: "{{ item.case_sensitive | default(false) }}"
+    update_password: "{{ item.update_password | default('always') }}"
+  with_items: "{{ mysql_users }}"
+  no_log: "{{ mysql_hide_passwords }}"
+  when: mysql_cli_version is version('5.7', '==')
