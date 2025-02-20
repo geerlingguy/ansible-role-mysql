@@ -22,6 +22,8 @@ overwrite_global_mycnf: true
 # The following variables have a default value depending on operating system.
 # mysql_config_file: /etc/my.cnf
 # mysql_config_include_dir: /etc/my.cnf.d
+
+# Whether to copy root user's config file with credentials to their homedir
 mysql_copy_root_user_mycnf: true
 
 # Pass in a comma-separated list of repos to use (e.g. "remi,epel"). Used only
