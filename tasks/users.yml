@@ -12,7 +12,7 @@
         mysql_cli_version: >-
           {{ (mysql_cli_version.stdout | split(' '))[('mariadb' in (mysql_cli_version.stdout | lower)) | ternary(5, 3)][:-1] }}
 
-- name: Ensure MySQL users are present (Linux, MySQL => 8.0).
+- name: Ensure MySQL users are present (Linux, MySQL >= 8.0).
   community.mysql.mysql_user:
     name: "{{ item.name }}"
     host: "{{ item.host | default('localhost') }}"
