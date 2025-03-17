@@ -10,7 +10,7 @@
     - name: Extract MySQL version
       ansible.builtin.set_fact:
         mysql_cli_version: >-
-          {{ (mysql_cli_version.stdout | split(' '))[('mariadb' in (mysql_cli_version.stdout | lower)) | ternary(5, 3)][:-1] }}
+          {{ mysql_cli_version.stdout | regex_search('\d+\.\d+\.\d+(-[a-zA-Z]+)?') }}
 
 - name: Copy my.cnf global MySQL configuration.
   ansible.builtin.template:
