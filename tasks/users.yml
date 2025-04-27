@@ -10,5 +10,6 @@
     encrypted: "{{ item.encrypted | default(false) }}"
     column_case_sensitive: "{{ item.case_sensitive | default(false) }}"
     update_password: "{{ item.update_password | default('always') }}"
+    resource_limits: "{{ item.resource_limits | default({}) }}"
   with_items: "{{ mysql_users }}"
   no_log: "{{ mysql_hide_passwords }}"
