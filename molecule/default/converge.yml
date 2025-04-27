@@ -1,7 +1,7 @@
 ---
 - name: Converge
   hosts: all
-  become: true
+  # become: true
 
   roles:
     - role: geerlingguy.mysql
@@ -11,6 +11,38 @@
       ansible.builtin.command: "mysql -u root -proot -e 'show databases;'"
       changed_when: false
 
-    - name: Make sure we can connect to MySQL via TCP.
+    - name: Make sure we can connect to MySQL via TCP on old MySQL version.
       ansible.builtin.command: "mysql -u root -proot -h 127.0.0.1 -e 'show databases;'"
+      register: result
       changed_when: false
+      failed_when:
+        - result.rc != 0 and not (
+            ansible_system == "Linux" and (
+              (mysql_cli_version is version('8.0.34', '>=') and mysql_daemon == 'mysql') or
+              (mysql_cli_version is version('10.4', '>=') and mysql_daemon == 'mariadb')
+            )
+          )
+        - result.rc == 0 and (
+            ansible_system == "Linux" and (
+              (mysql_cli_version is version('8.0.34', '>=') and mysql_daemon == 'mysql') or
+              (mysql_cli_version is version('10.4', '>=') and mysql_daemon == 'mariadb')
+            )
+          )
+
+    - name: Make sure we can connect to MySQL via socket on modern MySQL version.
+      ansible.builtin.command: "mysql -u root -e 'show databases;'"
+      register: result
+      changed_when: false
+      failed_when:
+        - result.rc == 0 and (
+            ansible_system == "Linux" and (
+              (mysql_cli_version is version('8.0.34', '>=') and mysql_daemon == 'mysql') or
+              (mysql_cli_version is version('10.4', '>=') and mysql_daemon == 'mariadb')
+            )
+          )
+        - result.rc != 0 and not (
+            ansible_system == "Linux" and (
+              (mysql_cli_version is version('8.0.34', '>=') and mysql_daemon == 'mysql') or
+              (mysql_cli_version is version('10.4', '>=') and mysql_daemon == 'mariadb')
+            )
+          )

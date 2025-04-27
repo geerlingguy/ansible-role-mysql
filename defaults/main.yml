@@ -23,6 +23,9 @@ overwrite_global_mycnf: true
 # mysql_config_file: /etc/my.cnf
 # mysql_config_include_dir: /etc/my.cnf.d
 
+# Whether to copy root user's config file with credentials to their homedir
+mysql_copy_root_user_mycnf: true
+
 # Pass in a comma-separated list of repos to use (e.g. "remi,epel"). Used only
 # for RedHat systems (and derivatives).
 mysql_enablerepo: ""
@@ -64,9 +67,20 @@ mysql_read_buffer_size: "1M"
 mysql_read_rnd_buffer_size: "4M"
 mysql_myisam_sort_buffer_size: "64M"
 mysql_thread_cache_size: "8"
+
+# Query caching not available on Mysql version ≥ 8.0
+# On MariaDB, behavior changed on version ≥ 10.1.7:
+# * even if query cache usage (`query_cache_type`) is configured, it depends on the configured cache size
+#   (`query_cache_size`), cf. https://mariadb.com/kb/en/server-system-variables/#query_cache_type:
+#   * if you set size to 0, query caching is disabled
+#   * if you set size to non-zero, query caching is enabled
+# * we are unsure of `query_cache_type = 2/DEMAND` behavior
+# * `query_cache_size` and `query_cache_limit` can still be configured and have the same semantics and default values as
+#   their previous MySQL counterparts
 mysql_query_cache_type: "0"
 mysql_query_cache_size: "16M"
 mysql_query_cache_limit: "1M"
+
 mysql_max_connections: "151"
 mysql_tmp_table_size: "16M"
 mysql_max_heap_table_size: "16M"
@@ -103,7 +117,7 @@ mysql_log: ""
 
 mysql_config_include_files: []
 #  - src: path/relative/to/playbook/file.cnf
-#  - { src: path/relative/to/playbook/anotherfile.cnf, force: yes }
+#  - { src: path/relative/to/playbook/anotherfile.cnf, force: true }
 
 # Databases.
 mysql_databases: []
