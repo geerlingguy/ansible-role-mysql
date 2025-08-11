@@ -43,8 +43,10 @@ jobs:
         distro:
           - rockylinux8
           - rockylinux9
+          - rockylinux10
           - ubuntu2204
           - ubuntu2004
+          - debian13
           - debian12
           - debian11
 
