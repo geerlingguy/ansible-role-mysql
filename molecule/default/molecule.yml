@@ -4,6 +4,7 @@ dependency:
   name: galaxy
   options:
     ignore-errors: true
+    requirements-file: collections.yml
 driver:
   name: docker
 platforms:

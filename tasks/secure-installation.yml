@@ -1,6 +1,6 @@
 ---
 - name: Ensure default user is present.
-  mysql_user:
+  community.mysql.mysql_user:
     name: "{{ mysql_user_name }}"
     host: 'localhost'
     password: "{{ mysql_user_password }}"
@@ -108,13 +108,13 @@
   check_mode: false
 
 - name: Remove anonymous MySQL users.
-  mysql_user:
+  community.mysql.mysql_user:
     name: ""
     host: "{{ item }}"
     state: absent
   with_items: "{{ mysql_anonymous_hosts.stdout_lines|default([]) }}"
 
 - name: Remove MySQL test database.
-  mysql_db:
+  community.mysql.mysql_db:
     name: 'test'
     state: absent

@@ -195,8 +195,6 @@ On Ubuntu, the package names are named differently, so the `mysql_package` varia
 
 ## Dependencies
 
-If you have `ansible` installed (e.g. `pip3 install ansible`), none.
-
 If you have only installed `ansible-core`, be sure to require `community.mysql` in your `collections/requirements.yml` or install it manually with `ansible-galaxy collection install community.mysql`.
 
 ## Example Playbook

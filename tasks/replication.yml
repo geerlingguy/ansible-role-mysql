@@ -1,6 +1,6 @@
 ---
 - name: Ensure replication user exists on master.
-  mysql_user:
+  community.mysql.mysql_user:
     name: "{{ mysql_replication_user.name }}"
     host: "{{ mysql_replication_user.host | default('%') }}"
     password: "{{ mysql_replication_user.password }}"
@@ -15,7 +15,7 @@
   tags: ['skip_ansible_galaxy']
 
 - name: Check slave replication status.
-  mysql_replication:
+  community.mysql.mysql_replication:
     mode: getreplica
     login_user: "{{ mysql_root_username }}"
     login_password: "{{ mysql_root_password }}"
@@ -29,7 +29,7 @@
 
 # https://github.com/ansible/ansible/issues/82264
 - name: Check master replication status.
-  mysql_replication:
+  community.mysql.mysql_replication:
     mode: getprimary
   delegate_to: "{{ mysql_replication_master_inventory_host | default(omit, true) }}"
   register: master
@@ -43,7 +43,7 @@
   tags: ['skip_ansible_galaxy']
 
 - name: Configure replication on the slave.
-  mysql_replication:
+  community.mysql.mysql_replication:
     mode: changeprimary
     master_host: "{{ mysql_replication_master }}"
     master_user: "{{ mysql_replication_user.name }}"
@@ -62,7 +62,7 @@
     - (mysql_replication_master | length) > 0
 
 - name: Start replication.
-  mysql_replication:
+  community.mysql.mysql_replication:
     mode: startreplica
   when:
     - >
