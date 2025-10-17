@@ -29,7 +29,7 @@
     owner: root
     group: root
     mode: 0755
-  when: mysql_config_include_files | length
+  when: mysql_config_include_files | length | bool
 
 - name: Copy my.cnf override files into include directory.
   ansible.builtin.template:
@@ -71,8 +71,10 @@
   args:
     creates: "{{ mysql_log_error }}"
   when:
-    - mysql_log | default(true)
-    - mysql_log_error | default(false)
+    - mysql_log is defined
+    - mysql_log | length > 0
+    - mysql_log_error is defined
+    - mysql_log_error | length > 0
   tags: ['skip_ansible_galaxy']
 
 - name: Set ownership on error log file (if configured).
@@ -83,8 +85,10 @@
     group: "{{ mysql_log_file_group }}"
     mode: 0640
   when:
-    - mysql_log | default(true)
-    - mysql_log_error | default(false)
+    - mysql_log is defined
+    - mysql_log | length > 0
+    - mysql_log_error is defined
+    - mysql_log_error | length > 0
   tags: ['skip_ansible_galaxy']
 
 - name: Ensure MySQL is started and enabled on boot.
