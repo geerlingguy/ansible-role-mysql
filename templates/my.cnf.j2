@@ -18,13 +18,22 @@ skip-name-resolve
 sql_mode = {{ mysql_sql_mode }}
 {% endif %}
 
+{% if (mysql_cli_version is version('8.0.34', '>=') and mysql_daemon == 'mysql') %}
+plugin-load-add = auth_socket.so
+{% endif %}
+
 # Logging configuration.
 {% if mysql_log_error == 'syslog' or mysql_log == 'syslog' %}
 syslog
 syslog-tag = {{ mysql_syslog_tag }}
 {% else %}
 {% if mysql_log %}
+{% if mysql_cli_version is version('5.6', '>=') %}
+general_log = ON
+general_log_file = {{ mysql_log }}
+{% else %}
 log = {{ mysql_log }}
+{% endif %}
 {% endif %}
 log-error = {{ mysql_log_error }}
 {% endif %}
