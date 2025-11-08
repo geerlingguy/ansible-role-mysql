@@ -93,6 +93,7 @@ The MySQL users and their privileges. A user has the values:
   - `state`  (defaults to `present`)
   - `case_sensitive` (defaults to `false`)
   - `update_password` (defaults to `always`)
+  - `resource_limits`  (defaults to `{}`)
 
 The formats of these are the same as in the `mysql_user` module.
 
