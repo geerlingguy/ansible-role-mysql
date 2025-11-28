@@ -39,4 +39,4 @@
     - ib_logfile1
   when: >
     not mysql_installed.stat.exists
-    and ansible_distribution_major_version | int < 12
+    and ansible_facts.distribution_major_version | int < 12
