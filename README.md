@@ -131,7 +131,7 @@ mysql_log_file_group: mysql *adm on Debian*
 mysql_log: ""
 mysql_log_error: *default value depends on OS*
 mysql_syslog_tag: *default value depends on OS*
-```yaml
+```
 
 MySQL logging configuration. Setting `mysql_log` (the general query log) or `mysql_log_error` to `syslog` will make MySQL log to syslog using the `mysql_syslog_tag`.
 
