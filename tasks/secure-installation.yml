@@ -51,7 +51,7 @@
   with_items: "{{ mysql_root_hosts.stdout_lines|default([]) }}"
   when:
     - (mysql_install_packages | bool) or mysql_root_password_update
-    - ansible_system == "Linux"
+    - ansible_facts.system == "Linux"
     - (mysql_cli_version is version('8.0.34', '>=') and mysql_daemon == 'mysql') or
       (mysql_cli_version is version('10.4', '>=') and mysql_daemon == 'mariadb')
 
