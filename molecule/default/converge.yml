@@ -17,13 +17,13 @@
       changed_when: false
       failed_when:
         - result.rc != 0 and not (
-            ansible_system == "Linux" and (
+            ansible_facts.system == "Linux" and (
               (mysql_cli_version is version('8.0.34', '>=') and mysql_daemon == 'mysql') or
               (mysql_cli_version is version('10.4', '>=') and mysql_daemon == 'mariadb')
             )
           )
         - result.rc == 0 and (
-            ansible_system == "Linux" and (
+            ansible_facts.system == "Linux" and (
               (mysql_cli_version is version('8.0.34', '>=') and mysql_daemon == 'mysql') or
               (mysql_cli_version is version('10.4', '>=') and mysql_daemon == 'mariadb')
             )
@@ -35,13 +35,13 @@
       changed_when: false
       failed_when:
         - result.rc == 0 and (
-            ansible_system == "Linux" and (
+            ansible_facts.system == "Linux" and (
               (mysql_cli_version is version('8.0.34', '>=') and mysql_daemon == 'mysql') or
               (mysql_cli_version is version('10.4', '>=') and mysql_daemon == 'mariadb')
             )
           )
         - result.rc != 0 and not (
-            ansible_system == "Linux" and (
+            ansible_facts.system == "Linux" and (
               (mysql_cli_version is version('8.0.34', '>=') and mysql_daemon == 'mysql') or
               (mysql_cli_version is version('10.4', '>=') and mysql_daemon == 'mariadb')
             )

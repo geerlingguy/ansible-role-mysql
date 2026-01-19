@@ -2,7 +2,7 @@
 
 [client]
 user="{{ mysql_root_username }}"
-{% if ansible_system == "Linux" and (
+{% if ansible_facts.system == "Linux" and (
         (mysql_cli_version is version('8.4', '>=') and mysql_daemon == 'mysql') or
         (mysql_cli_version is version('10.4', '>=') and mysql_daemon == 'mariadb')
       ) %}
