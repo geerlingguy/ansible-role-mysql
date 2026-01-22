@@ -22,7 +22,7 @@
     owner: root
     group: root
     mode: 0755
-  when: mysql_config_include_files | length
+  when: mysql_config_include_files | length | bool
 
 - name: Copy my.cnf override files into include directory.
   template:
