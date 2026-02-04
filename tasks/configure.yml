@@ -42,12 +42,6 @@
   with_items: "{{ mysql_config_include_files }}"
   notify: restart mysql
 
-- name: Create slow query log file (if configured).
-  ansible.builtin.command: "touch {{ mysql_slow_query_log_file }}"
-  args:
-    creates: "{{ mysql_slow_query_log_file }}"
-  when: mysql_slow_query_log_enabled
-
 - name: Create datadir if it does not exist
   ansible.builtin.file:
     path: "{{ mysql_datadir }}"
@@ -56,6 +50,21 @@
     group: mysql
     mode: 0755
     setype: mysqld_db_t
+
+- name: Ensure error log directory exists
+  ansible.builtin.file:
+    path: "{{ mysql_log_error | dirname }}"
+    state: directory
+    owner: mysql
+    group: "{{ mysql_log_file_group }}"
+    mode: 0755
+  when: mysql_log_error is defined and mysql_log_error | length > 0
+
+- name: Create slow query log file (if configured).
+  ansible.builtin.command: "touch {{ mysql_slow_query_log_file }}"
+  args:
+    creates: "{{ mysql_slow_query_log_file }}"
+  when: mysql_slow_query_log_enabled
 
 - name: Set ownership on slow query log file (if configured).
   ansible.builtin.file:
