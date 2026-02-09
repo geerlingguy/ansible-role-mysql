@@ -1,0 +1,32 @@
+---
+# Equivalent of mysql_secure_installation: remove anonymous users, disable remote root, remove test DB, flush privileges.
+
+- name: Disallow root login remotely
+  ansible.builtin.command: "{{ mysql_daemon }} -NBe \"{{ item }}\""
+  with_items:
+    - DELETE FROM mysql.user WHERE User='{{ mysql_root_username }}' AND Host NOT IN ('localhost', '127.0.0.1', '::1')
+  changed_when: false
+
+- name: Get list of hosts for the anonymous user
+  ansible.builtin.command: >
+    {{ mysql_daemon }} -NBe "SELECT Host FROM mysql.user WHERE User = ''"
+  register: mysql_anonymous_hosts
+  changed_when: false
+  check_mode: false
+
+- name: Remove anonymous MySQL users
+  mysql_user:
+    name: ""
+    host: "{{ item }}"
+    state: absent
+  with_items: "{{ mysql_anonymous_hosts.stdout_lines|default([]) }}"
+
+- name: Remove MySQL test database
+  mysql_db:
+    name: 'test'
+    state: absent
+
+- name: Flush MySQL privileges
+  ansible.builtin.command: >
+    {{ mysql_daemon }} -NBe "FLUSH PRIVILEGES"
+  changed_when: false
