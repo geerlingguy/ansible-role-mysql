@@ -1,4 +1,10 @@
 ---
+- name: Get list of hosts for the anonymous user
+  ansible.builtin.command: "{{ mysql_daemon }} -NBe \"SELECT Host FROM mysql.user WHERE User = ''\""
+  register: mysql_anonymous_hosts
+  changed_when: false
+  check_mode: false
+
 - name: Remove anonymous MySQL users
   mysql_user:
     name: ""
