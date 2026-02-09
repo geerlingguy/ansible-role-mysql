@@ -20,6 +20,15 @@
 
 # Configure MySQL.
 - ansible.builtin.include_tasks: configure.yml
+
+- name: Include secure installation tasks
+  include_tasks: secure-install.yml
+  when: mysql_secure_installation | bool
+
+- name: Include slow query log configuration
+  include_tasks: slow-query-log.yml
+  when: mysql_slow_query_log_enabled | bool
+
 - ansible.builtin.include_tasks: secure-installation.yml
 - ansible.builtin.include_tasks: databases.yml
 - ansible.builtin.include_tasks: users.yml
