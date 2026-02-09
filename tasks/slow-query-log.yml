@@ -1,0 +1,21 @@
+---
+- name: Ensure slow query log directory exists
+  ansible.builtin.file:
+    path: /var/log/mysql
+    state: directory
+    owner: mysql
+    group: "{{ mysql_log_file_group }}"
+    mode: 0755
+
+- name: Configure slow query log
+  ansible.builtin.copy:
+    dest: /etc/mysql/conf.d/slow-query.cnf
+    owner: root
+    group: root
+    mode: 0644
+    content: |
+      [mysqld]
+      slow_query_log = {{ 'ON' if mysql_slow_query_log_enabled else 'OFF' }}
+      long_query_time = {{ mysql_slow_query_time | default(2) }}
+      slow_query_log_file = /var/log/mysql/slow.log
+  notify: restart mysql
