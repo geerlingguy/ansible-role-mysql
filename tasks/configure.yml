@@ -57,43 +57,35 @@
     state: directory
     owner: mysql
     group: "{{ mysql_log_file_group }}"
-    mode: 0755
-  when: mysql_log_error is defined and mysql_log_error | length > 0
+    mode: "0755"
+  when:
+    - mysql_log_error | default('') | length > 0
+    - mysql_log_error != 'syslog'
 
-- name: Create slow query log file (if configured).
-  ansible.builtin.command: "touch {{ mysql_slow_query_log_file }}"
-  args:
-    creates: "{{ mysql_slow_query_log_file }}"
-  when: mysql_slow_query_log_enabled
-
-- name: Set ownership on slow query log file (if configured).
+- name: Ensure slow query log file exists and has correct permissions
   ansible.builtin.file:
     path: "{{ mysql_slow_query_log_file }}"
-    state: file
+    state: touch
     owner: mysql
     group: "{{ mysql_log_file_group }}"
-    mode: 0640
-  when: mysql_slow_query_log_enabled
+    mode: "0640"
+    modification_time: preserve
+    access_time: preserve
+  when: mysql_slow_query_log_enabled | bool
 
-- name: Create error log file (if configured).
-  ansible.builtin.command: "touch {{ mysql_log_error }}"
-  args:
-    creates: "{{ mysql_log_error }}"
-  when:
-    - ((mysql_log is defined) and (mysql_log | length > 0)) | default(true)
-    - ((mysql_log_error is defined) and (mysql_log_error | length > 0)) | default(true)
-  tags: ['skip_ansible_galaxy']
-
-- name: Set ownership on error log file (if configured).
+- name: Ensure error log file exists and has correct permissions
   ansible.builtin.file:
     path: "{{ mysql_log_error }}"
-    state: file
+    state: touch
     owner: mysql
     group: "{{ mysql_log_file_group }}"
-    mode: 0640
+    mode: "0640"
+    modification_time: preserve
+    access_time: preserve
   when:
-    - ((mysql_log is defined) and (mysql_log | length > 0)) | default(true)
-    - ((mysql_log_error is defined) and (mysql_log_error | length > 0)) | default(true)
+    - mysql_log | default('') | length > 0
+    - mysql_log_error | default('') | length > 0
+    - mysql_log_error != 'syslog'
   tags: ['skip_ansible_galaxy']
 
 - name: Ensure MySQL is started and enabled on boot.
