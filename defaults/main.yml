@@ -16,6 +16,9 @@ mysql_user_password_update: false
 
 mysql_enabled_on_startup: true
 
+# Security settings.
+mysql_secure_installation: true
+
 # Whether my.cnf should be updated on every run.
 overwrite_global_mycnf: true
 
@@ -54,7 +57,7 @@ mysql_log_file_group: mysql
 
 # Slow query log settings.
 mysql_slow_query_log_enabled: false
-mysql_slow_query_time: "2"
+mysql_slow_query_time: 2
 # The following variable has a default value depending on operating system.
 # mysql_slow_query_log_file: /var/log/mysql-slow.log
 
@@ -117,7 +120,7 @@ mysql_log: ""
 
 mysql_config_include_files: []
 #  - src: path/relative/to/playbook/file.cnf
-#  - { src: path/relative/to/playbook/anotherfile.cnf, force: true }
+#  - { src: path/relative/to.playbook/anotherfile.cnf, force: true }
 
 # Databases.
 mysql_databases: []
