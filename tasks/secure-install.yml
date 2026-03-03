@@ -1,0 +1,22 @@
+---
+- name: Get list of hosts for the anonymous user
+  ansible.builtin.command: "{{ mysql_daemon }} -NBe \"SELECT Host FROM mysql.user WHERE User = ''\""
+  register: mysql_anonymous_hosts
+  changed_when: false
+  check_mode: false
+
+- name: Remove anonymous MySQL users
+  mysql_user:
+    name: ""
+    host: "{{ item }}"
+    state: absent
+  with_items: "{{ mysql_anonymous_hosts.stdout_lines | default([]) }}"
+
+- name: Disallow root login remotely
+  ansible.builtin.command: "{{ mysql_daemon }} -NBe \"DELETE FROM mysql.user WHERE User='{{ mysql_root_username }}' AND Host NOT IN ('localhost', '127.0.0.1', '::1')\""
+  changed_when: false
+
+- name: Remove MySQL test database
+  mysql_db:
+    name: test
+    state: absent

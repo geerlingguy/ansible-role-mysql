@@ -54,9 +54,12 @@ mysql_log_file_group: mysql
 
 # Slow query log settings.
 mysql_slow_query_log_enabled: false
-mysql_slow_query_time: "2"
+mysql_slow_query_time: 2
 # The following variable has a default value depending on operating system.
 # mysql_slow_query_log_file: /var/log/mysql-slow.log
+
+# Security hardening settings.
+mysql_secure_installation: true
 
 # Memory settings (default values optimized ~512MB RAM).
 mysql_key_buffer_size: "256M"
