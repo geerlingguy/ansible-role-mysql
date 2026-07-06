@@ -15,6 +15,12 @@ No special requirements; note that this role requires root access, so either run
       become: true
 ```
 
+If `mysql_enabled_on_startup` is `true`, make sure the configured `mysql_port`
+is available before the role starts MySQL or MariaDB. The default port is
+`3306`. Stop or reconfigure any existing MySQL/MariaDB instance or other local
+service using that port first, or set `mysql_port` to an available port before
+startup.
+
 ## Role Variables
 
 Available variables are listed below, along with default values (see `defaults/main.yml`):
