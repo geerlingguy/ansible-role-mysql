@@ -1,0 +1,2 @@
+[mysqld]
+innodb_page_size = 32K

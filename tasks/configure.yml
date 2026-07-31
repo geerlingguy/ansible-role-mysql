@@ -2,10 +2,14 @@
 - name: Get MySQL version
   block:
     - name: Run mysql --version
-      ansible.builtin.command: '{{ mysql_daemon }} --version'
+      ansible.builtin.command: "{{ mysql_daemon }} --version"
       register: mysql_cli_version
       changed_when: false
       check_mode: false
+
+    - name: Set MariaDB flag.
+      ansible.builtin.set_fact:
+        mysql_is_mariadb: "{{ 'MariaDB' in mysql_cli_version.stdout }}"
 
     - name: Extract MySQL version
       ansible.builtin.set_fact:
@@ -42,14 +46,20 @@
   with_items: "{{ mysql_config_include_files }}"
   notify: restart mysql
 
+- name: Check if datadir exists.
+  ansible.builtin.stat:
+    path: "{{ mysql_datadir }}"
+  register: mysql_datadir_stat
+
 - name: Create datadir if it does not exist
   ansible.builtin.file:
     path: "{{ mysql_datadir }}"
     state: directory
     owner: mysql
     group: mysql
-    mode: 0755
+    mode: "0750"
     setype: mysqld_db_t
+  when: not mysql_datadir_stat.stat.exists
 
 - name: Ensure error log directory exists
   ansible.builtin.file:
@@ -61,6 +71,14 @@
   when:
     - mysql_log_error | default('') | length > 0
     - mysql_log_error != 'syslog'
+
+- name: Initialize MySQL datadir.
+  ansible.builtin.command: >-
+    {{ 'mariadb-install-db --user=mysql --datadir=' + mysql_datadir
+       if mysql_is_mariadb | default(false)
+       else 'mysqld --initialize-insecure --user=mysql' }}
+  when: mysql_initialize_datadir | default(false)
+  changed_when: true
 
 - name: Ensure slow query log file exists and has correct permissions
   ansible.builtin.file:
@@ -86,7 +104,7 @@
     - mysql_log | default('') | length > 0
     - mysql_log_error | default('') | length > 0
     - mysql_log_error != 'syslog'
-  tags: ['skip_ansible_galaxy']
+  tags: ["skip_ansible_galaxy"]
 
 - name: Ensure MySQL is started and enabled on boot.
   ansible.builtin.service:
