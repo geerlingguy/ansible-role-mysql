@@ -58,6 +58,16 @@ jobs:
             playbook: converge-mariadb.yml
           - distro: debian13
             playbook: converge-mariadb.yml
+        include:
+          # Regression test that sets a non-root default user. Targets MariaDB
+          # 10.4+. Only test a selection of recent distros since it is overkill
+          # to test this on all versions.
+          - distro: rockylinux10
+            playbook: converge-mariadb-nonroot.yml
+          - distro: ubuntu2604
+            playbook: converge-mariadb-nonroot.yml
+          - distro: debian13
+            playbook: converge-mariadb-nonroot.yml
 
     steps:
       - name: Check out the codebase.

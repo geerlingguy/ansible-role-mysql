@@ -6,6 +6,17 @@
     password: "{{ mysql_user_password }}"
     priv: '*.*:ALL,GRANT'
     state: present
+    # On MariaDB >= 10.4 on Linux, root@localhost authenticates via the
+    # unix_socket plugin rather than a password. This task needs to run before
+    # /root/.my.cnf is written, so there are no stored credentials to fall back
+    # on. But we can connect via the Unix socket as the OS root user.
+    # See: https://mariadb.org/authentication-in-mariadb-10-4/
+    login_unix_socket: >-
+      {{ mysql_socket
+         if (ansible_facts.system == 'Linux' and
+             mysql_daemon == 'mariadb' and
+             mysql_cli_version is version('10.4', '>='))
+         else omit }}
   no_log: "{{ mysql_hide_passwords }}"
   when: mysql_user_name != mysql_root_username
 

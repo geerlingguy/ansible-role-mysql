@@ -1,0 +1,37 @@
+---
+- name: Converge (MariaDB, non-root user)
+  hosts: all
+  vars:
+    # Use a non-root management user to exercise the "Ensure default user is
+    # present" code path in secure-installation.yml, which requires the role to
+    # connect to MariaDB as root to create the user.
+    mysql_user_name: ansible
+    mysql_user_password: ansible
+    mysql_user_home: /home/ansible
+
+  pre_tasks:
+    - name: Create the management user that mysql_user_name refers to.
+      ansible.builtin.user:
+        name: "{{ mysql_user_name }}"
+        create_home: true
+
+    # On Debian/Ubuntu the role defaults to Oracle MySQL (vars/Debian.yml).
+    # Override here to install MariaDB instead. RedHat-based distros and newer
+    # Debian versions already default to MariaDB in their OS-specific vars files
+    # and are excluded from the CI matrix for this playbook.
+    - name: Set MariaDB packages for Debian/Ubuntu.
+      ansible.builtin.set_fact:
+        mysql_daemon: mariadb
+        mysql_packages:
+          - mariadb-server
+          - mariadb-client
+          - python3-pymysql
+      when: ansible_facts.os_family == 'Debian'
+
+  roles:
+    - role: geerlingguy.mysql
+
+  post_tasks:
+    - name: Make sure we can connect to MariaDB via Unix socket.
+      ansible.builtin.command: "mysql -u root -e 'show databases;'"
+      changed_when: false
