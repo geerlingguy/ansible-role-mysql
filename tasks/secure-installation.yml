@@ -22,14 +22,14 @@
     and (mysql_install_packages | bool or mysql_user_password_update)
 
 - name: Disallow root login remotely
-  ansible.builtin.command: '{{ mysql_daemon }} -NBe "{{ item }}"'
+  ansible.builtin.command: '{{ mysql_client }} -NBe "{{ item }}"'
   with_items:
     - DELETE FROM mysql.user WHERE User='{{ mysql_root_username }}' AND Host NOT IN ('localhost', '127.0.0.1', '::1')
   changed_when: false
 
 - name: Get list of hosts for the root user.
   ansible.builtin.command: >
-    {{ mysql_daemon }} -NBe
+    {{ mysql_client }} -NBe
     "SELECT Host
     FROM mysql.user
     WHERE User = '{{ mysql_root_username }}'
@@ -44,48 +44,48 @@
 # Set root password for MySQL >= 8.4 and MariaDB ≥ 10.4
 - name: Update MySQL root authentication via socket for localhost (Linux, MySQL ≥ 8.4)
   ansible.builtin.shell: >
-    {{ mysql_daemon }} -u root -NBe
+    {{ mysql_client }} -u root -NBe
     "ALTER USER '{{ mysql_root_username }}'@'{{ item }}'
-     IDENTIFIED {{ (mysql_daemon == 'mariadb') | ternary('VIA unix_socket', 'WITH auth_socket') }}; FLUSH PRIVILEGES;"
+     IDENTIFIED {{ (mysql_flavour == 'mariadb') | ternary('VIA unix_socket', 'WITH auth_socket') }}; FLUSH PRIVILEGES;"
   no_log: "{{ mysql_hide_passwords }}"
   with_items: "{{ mysql_root_hosts.stdout_lines|default([]) }}"
   when:
     - (mysql_install_packages | bool) or mysql_root_password_update
     - ansible_facts.system == "Linux"
-    - (mysql_cli_version is version('8.0.34', '>=') and mysql_daemon == 'mysql') or
-      (mysql_cli_version is version('10.4', '>=') and mysql_daemon == 'mariadb')
+    - (mysql_cli_version is version('8.0.34', '>=') and mysql_flavour == 'mysql') or
+      (mysql_cli_version is version('10.4', '>=') and mysql_flavour == 'mariadb')
 
 # Note: We do not use mysql_user for this operation, as it doesn't always update
 # the root password correctly. See: https://goo.gl/MSOejW
 # Set root password for 5.7.x. ≤ MySQL < 8.4 and MariaDB ≥ 10.4
 - name: Update MySQL root password for localhost root account (5.7.x ≤ MySQL < 8.4)
   ansible.builtin.shell: >
-    {{ mysql_daemon }} -u root -NBe
+    {{ mysql_client }} -u root -NBe
     "ALTER USER '{{ mysql_root_username }}'@'{{ item }}'
-     IDENTIFIED {{ (mysql_daemon == 'mariadb') | ternary('VIA', 'WITH') }} mysql_native_password
+     IDENTIFIED {{ (mysql_flavour == 'mariadb') | ternary('VIA', 'WITH') }} mysql_native_password
      BY '{{ mysql_root_password }}'; FLUSH PRIVILEGES;"
   no_log: "{{ mysql_hide_passwords }}"
   with_items: "{{ mysql_root_hosts.stdout_lines|default([]) }}"
   when:
     - (mysql_install_packages | bool) or mysql_root_password_update
     - (
-        mysql_daemon == 'mysql' and (
+        mysql_flavour == 'mysql' and (
           mysql_cli_version is version('5.7', '>=') and
           mysql_cli_version is version('8.4', '<')
         )
       ) or
-      (mysql_daemon == 'mariadb' and mysql_cli_version is version('10.4', '<'))
+      (mysql_flavour == 'mariadb' and mysql_cli_version is version('10.4', '<'))
 
 # Set root password for MySQL < 5.7.x.
 - name: Update MySQL root password for localhost root account (< 5.7.x).
   ansible.builtin.shell: >
-    {{ mysql_daemon }} -NBe
+    {{ mysql_client }} -NBe
     'SET PASSWORD FOR "{{ mysql_root_username }}"@"{{ item }}" = PASSWORD("{{ mysql_root_password }}"); FLUSH PRIVILEGES;'
   no_log: "{{ mysql_hide_passwords }}"
   with_items: "{{ mysql_root_hosts.stdout_lines|default([]) }}"
   when:
     - (mysql_install_packages | bool) or mysql_root_password_update
-    - (mysql_daemon == 'mysql' and mysql_cli_version is version('5.7', '<'))
+    - (mysql_flavour == 'mysql' and mysql_cli_version is version('5.7', '<'))
 
 # Has to be after the root password assignment, for idempotency.
 - name: Copy .my.cnf file with root password credentials.
@@ -102,7 +102,7 @@
 
 - name: Get list of hosts for the anonymous user.
   ansible.builtin.command: >
-    {{ mysql_daemon }} -NBe "SELECT Host FROM mysql.user WHERE User = ''"
+    {{ mysql_client }} -NBe "SELECT Host FROM mysql.user WHERE User = ''"
   register: mysql_anonymous_hosts
   changed_when: false
   check_mode: false

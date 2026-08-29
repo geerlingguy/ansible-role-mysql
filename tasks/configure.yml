@@ -2,7 +2,7 @@
 - name: Get MySQL version
   block:
     - name: Run mysql --version
-      ansible.builtin.command: '{{ mysql_daemon }} --version'
+      ansible.builtin.command: '{{ mysql_client }} --version'
       register: mysql_cli_version
       changed_when: false
       check_mode: false

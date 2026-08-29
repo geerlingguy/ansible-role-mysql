@@ -153,3 +153,21 @@ mysql_replication_master_inventory_host: "{{ mysql_replication_master }}"
 mysql_replication_user: []
 
 mysql_hide_passwords: false
+
+# mysql_daemon has historically meant three things at once: the systemd unit,
+# the client binary, and the engine flavour. That is coherent wherever the
+# three share a name -- MariaDB everywhere, and MySQL on Debian, where the
+# unit really is `mysql`.
+#
+# It is not coherent for MySQL on Enterprise Linux, where the unit is `mysqld`
+# and the client is `mysql`. No single value works there:
+#
+#   mariadb  wrong on all three (the EL default, so MySQL-on-EL fails outright)
+#   mysqld   correct unit, but runs the SERVER binary with client flags and
+#            matches neither flavour test
+#   mysql    correct client and flavour, wrong unit
+#
+# These default to mysql_daemon, so nothing changes for any existing caller.
+# Set them only where the three genuinely differ.
+mysql_client: "{{ mysql_daemon }}"
+mysql_flavour: "{{ mysql_daemon }}"
